@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Heart, Briefcase, MessageSquare, Zap, ShieldCheck } from 'lucide-react';
+import { Briefcase, MessageSquare, Zap, ShieldCheck, UserCheck } from 'lucide-react';
 import { useApplications } from '../../app/context/application-context';
 import { AuroraBackground } from '@/components/ui/aurora-background';
 import { motion } from 'framer-motion';
@@ -16,7 +16,7 @@ export function LandingPage() {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="flex items-center space-x-2 cursor-pointer group"
         >
-          <Heart className="w-8 h-8 text-pink-500 transition-transform group-hover:scale-110" fill="currentColor" />
+          <Briefcase className="w-8 h-8 text-pink-500 transition-transform group-hover:scale-110" fill="currentColor" />
           <span className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">
             InternMatch
           </span>
@@ -63,7 +63,7 @@ export function LandingPage() {
           className="flex flex-col items-center justify-center text-center space-y-8 mt-10"
         >
           <div className="flex items-center justify-center space-x-4 mb-4">
-            <Heart className="w-14 h-14 text-pink-500 hover:scale-110 transition-transform" fill="currentColor" />
+            <Briefcase className="w-14 h-14 text-pink-500 hover:scale-110 transition-transform" fill="currentColor" />
             <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 drop-shadow-sm pb-2">
               InternMatch
             </h1>
@@ -126,7 +126,7 @@ export function LandingPage() {
               <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" alt="Handshake agreement" className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" />
             </div>
             <div className="p-5 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-900/80 dark:to-amber-900/80 rounded-2xl text-orange-600 dark:text-orange-300 shadow-inner">
-              <Heart size={36} fill="currentColor" className="transform group-hover:scale-110 transition-transform" />
+              <UserCheck size={36} className="transform group-hover:scale-110 transition-transform" />
             </div>
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Match & Connect</h3>
             <p className="text-slate-600 dark:text-slate-300 font-medium">

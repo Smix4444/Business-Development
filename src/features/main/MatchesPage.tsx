@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Home, Heart, MapPin, Clock, CheckCircle2 } from 'lucide-react';
+import { Home, Briefcase, MapPin, Clock, CheckCircle2 } from 'lucide-react';
 import { useApplications } from '../../app/context/application-context';
 import './MatchesPage.css';
 
@@ -31,7 +31,7 @@ export function MatchesPage() {
 
         {applications.length === 0 ? (
           <div className="empty-state">
-            <Heart size={64} className="mx-auto mb-4 text-pink-200" />
+            <Briefcase size={64} className="mx-auto mb-4 text-pink-200" />
             <h2>No applications yet!</h2>
             <p>Go back to swiping to find your dream internship.</p>
             <Link to="/swipe" className="login-btn" style={{ textDecoration: 'none', display: 'inline-block', marginTop: '2rem' }}>

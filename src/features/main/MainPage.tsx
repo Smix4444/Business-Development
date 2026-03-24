@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
-import { Heart, X, Briefcase, MapPin, Clock, RotateCcw, CheckCircle2, Filter, UserCircle2, Settings, LogOut } from 'lucide-react';
+import { X, Briefcase, MapPin, Clock, RotateCcw, CheckCircle2, Filter, UserCircle2, Settings, LogOut, UserCheck } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import { mockInternships, Internship } from '../../app/data/internships';
@@ -277,7 +277,7 @@ export function MainPage() {
                 className="action-btn btn-like" 
                 onClick={() => handleSwipe('right')}
               >
-                <Heart size={32} fill="white" />
+                <Briefcase size={32} fill="white" />
               </button>
             </div>
           </>
