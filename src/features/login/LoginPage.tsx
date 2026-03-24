@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Briefcase, User } from 'lucide-react';
 import { useAuth } from '../../app/context/auth-context';
+import { AuroraBackground } from '@/components/ui/aurora-background';
 import { OnboardingModal } from './OnboardingModal';
 import './LoginPage.css';
 
@@ -32,11 +33,11 @@ export function LoginPage() {
   };
 
   return (
-    <>
+    <AuroraBackground>
       <div className="login-page">
         <div className="login-card">
           <div className="login-header">
-            <Heart className="mx-auto mb-4 text-purple-600" size={48} fill="currentColor" />
+            <Heart className="mx-auto mb-4 text-pink-500 hover:scale-110 transition-transform" size={48} fill="currentColor" />
             <h2 className="login-title">Welcome to InternMatch</h2>
             <p className="login-subtitle">Sign in to continue</p>
           </div>
@@ -112,13 +113,13 @@ export function LoginPage() {
             </motion.form>
           </AnimatePresence>
 
-          <Link to="/" className="back-home">
+          <Link to="/" className="back-home hover:text-pink-500 transition-colors">
             ← Back to landing page
           </Link>
         </div>
       </div>
 
       {showOnboarding && <OnboardingModal onComplete={handleOnboardingComplete} />}
-    </>
+    </AuroraBackground>
   );
 }
