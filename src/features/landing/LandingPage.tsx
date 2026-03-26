@@ -270,11 +270,8 @@ export function LandingPage() {
                 <span className="text-sm font-bold">View Cited Studies & References</span>
               </button>
               <div id="references" className="hidden mt-6 text-[10px] md:text-xs text-slate-500 dark:text-slate-500 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 font-mono uppercase tracking-widest leading-loose">
-                <p>Gault, J., Leach, E., & Duey, M. (2010). Effects of Business Internships on Job Marketability.</p>
                 <p>Hora, M. T., Chen, Z., Parrott, E., & Her, P. (2019). WCER Working Paper No. 2019-1.</p>
                 <p>Kapoor, A., & Gardner-McCune, C. (2020). Barriers to Securing Industry Internships.</p>
-                <p>Lara, M., Cunningham, K., & Su, B. (2019). IEEE Frontiers in Education Conference.</p>
-                <p>Shaw, T., & Bergson, L. (2022). Access Delayed is Access Denied.</p>
               </div>
             </div>
           </div>
