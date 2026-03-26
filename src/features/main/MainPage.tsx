@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
-import { X, Briefcase, MapPin, Clock, RotateCcw, CheckCircle2, Filter, UserCircle2, Settings, LogOut, UserCheck } from 'lucide-react';
+import { X, Briefcase, MapPin, Clock, RotateCcw, CheckCircle2, Filter, UserCircle2, Settings, LogOut, UserCheck, Lightbulb } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import { mockInternships, Internship } from '../../app/data/internships';
@@ -175,6 +175,10 @@ export function MainPage() {
         <div className="app-title">InternMatch</div>
         <nav className="header-nav">
           <Link to="/" className="nav-link">Home</Link>
+          <Link to="/tips" className="nav-link">
+            <Lightbulb size={18} />
+            <span>Tips</span>
+          </Link>
           <Link to="/matches" className="nav-link">
             <CheckCircle2 size={18} />
             <span>{applications.length} Applied</span>
@@ -324,6 +328,13 @@ export function MainPage() {
             <div className="text-right text-sm mb-4" style={{ color: message.length < 20 ? '#ef4444' : '#10b981', fontWeight: 600 }}>
               {message.length} / 20 chars min
             </div>
+
+            <div className="mb-5 text-center bg-purple-50 p-2 rounded-lg border border-purple-100">
+              <Link to="/tips" target="_blank" className="text-purple-700 hover:text-purple-900 text-sm font-semibold inline-flex items-center gap-1.5" style={{ textDecoration: 'none' }}>
+                <Lightbulb size={16} className="text-purple-600" /> Need tips on what to say? Click here
+              </Link>
+            </div>
+
             <div style={{ display: 'flex', gap: '1rem' }}>
               <button 
                 className="input" 

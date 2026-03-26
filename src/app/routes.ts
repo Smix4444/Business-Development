@@ -5,6 +5,7 @@ import { MainPage } from "../features/main/MainPage";
 import { MatchesPage } from "../features/main/MatchesPage";
 import { CompanyDashboard } from "../features/company/CompanyDashboard";
 import { SettingsPage } from "../features/settings/SettingsPage";
+import { TipsPage } from "../features/tips/TipsPage";
 
 export const router = createBrowserRouter([
   {
@@ -30,5 +31,9 @@ export const router = createBrowserRouter([
   {
     path: "/settings",
     Component: SettingsPage,
+  },
+  {
+    path: "/tips",
+    Component: TipsPage,
   },
 ]);
