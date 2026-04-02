@@ -19,6 +19,7 @@ export function MainPage() {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
   const [message, setMessage] = useState('');
   const [exitDirection, setExitDirection] = useState<number | null>(null);
 
@@ -269,6 +270,7 @@ export function MainPage() {
                   onSwipe={handleSwipe}
                   exitDirection={exitDirection}
                   profile={profile}
+                  onTap={() => setShowDetail(true)}
                 />
               </AnimatePresence>
             </div>
@@ -358,20 +360,85 @@ export function MainPage() {
           </motion.div>
         </div>
       )}
+
+      {/* Detail Modal */}
+      {showDetail && currentInternship && (
+        <div className="modal-overlay" onClick={() => setShowDetail(false)}>
+          <motion.div
+            className="modal-content"
+            style={{ maxHeight: '85vh', overflowY: 'auto', maxWidth: 560, width: '100%' }}
+            initial={{ scale: 0.92, opacity: 0, y: 30 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div
+              className="rounded-2xl mb-5 overflow-hidden"
+              style={{ height: 200, backgroundImage: `url(${currentInternship.logo})`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}
+            >
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.75), transparent)', padding: '1.25rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                <p style={{ fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.8)', marginBottom: '0.2rem' }}>{currentInternship.company}</p>
+                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'white', margin: 0 }}>{currentInternship.role}</h2>
+              </div>
+              <button
+                onClick={() => setShowDetail(false)}
+                style={{ position: 'absolute', top: '0.75rem', right: '0.75rem', background: 'rgba(0,0,0,0.4)', border: 'none', borderRadius: '50%', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white' }}
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className="card-tags mb-4">
+              <span className="tag text-xs"><MapPin size={12} style={{ marginRight: 4 }} />{currentInternship.location}</span>
+              <span className="tag text-xs"><Clock size={12} style={{ marginRight: 4 }} />{currentInternship.duration}</span>
+              {currentInternship.tags.map(tag => <span key={tag} className="tag text-xs">{tag}</span>)}
+            </div>
+
+            <h4 style={{ fontWeight: 700, marginBottom: '0.5rem', color: '#1f2937' }}>About this Internship</h4>
+            <p style={{ color: '#4b5563', lineHeight: 1.75, marginBottom: '1.5rem', fontSize: '0.95rem' }}>{currentInternship.description}</p>
+
+            <h4 style={{ fontWeight: 700, marginBottom: '0.5rem', color: '#1f2937' }}>Requirements</h4>
+            <div className="card-tags mb-5">
+              {currentInternship.requirements.map(req => (
+                <span key={req} className="tag text-sm" style={{ background: '#e0e7ff', color: '#4338ca' }}>{req}</span>
+              ))}
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <button
+                className="action-btn btn-dislike"
+                style={{ flex: 1, width: 'auto', height: 'auto', borderRadius: '1rem', padding: '0.75rem' }}
+                onClick={() => { setShowDetail(false); handleSwipe('left'); }}
+              >
+                <X size={20} style={{ marginRight: 6, display: 'inline-block', verticalAlign: 'middle' }} />
+                Pass
+              </button>
+              <button
+                className="submit-app-btn"
+                style={{ flex: 2 }}
+                onClick={() => { setShowDetail(false); handleSwipe('right'); }}
+              >
+                Apply Now
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
       </div>
     </AuroraBackground>
   );
 }
 
-function InternCard({ internship, onSwipe, exitDirection, profile }: { 
+function InternCard({ internship, onSwipe, exitDirection, profile, onTap }: { 
   internship: Internship, 
   onSwipe: (dir: 'left' | 'right') => void,
   exitDirection: number | null,
-  profile: UserProfile | null
+  profile: UserProfile | null,
+  onTap: () => void
 }) {
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
   const opacity = useTransform(x, [-200, -150, 0, 150, 200], [0, 1, 1, 1, 0]);
+  const dragDistanceRef = React.useRef(0);
 
   const score = useMemo(() => {
     // --- Per-vacancy base variance using a hash of role + company ---
@@ -443,6 +510,16 @@ function InternCard({ internship, onSwipe, exitDirection, profile }: {
     }
   };
 
+  const handlePointerDown = () => {
+    dragDistanceRef.current = 0;
+  };
+
+  const handlePointerUp = () => {
+    if (dragDistanceRef.current < 8) {
+      onTap();
+    }
+  };
+
   return (
     <motion.div
       className="intern-card"
@@ -450,6 +527,9 @@ function InternCard({ internship, onSwipe, exitDirection, profile }: {
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       onDragEnd={handleDragEnd}
+      onDrag={(_, info) => { dragDistanceRef.current = Math.max(dragDistanceRef.current, Math.abs(info.offset.x)); }}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       exit={exitDirection ? { x: exitDirection * 500, opacity: 0 } : undefined}
