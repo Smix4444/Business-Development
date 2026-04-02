@@ -1,0 +1,108 @@
+/* Tips Page Styles */
+
+.tips-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f9fafb;
+}
+
+.tips-main-layout {
+  flex: 1;
+}
+
+/* Tab triggers custom styling to look like pills */
+.tips-tab-trigger {
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  background-color: white;
+  color: #4b5563;
+  border: 1px solid #f3f4f6;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.tips-tab-trigger[data-state="active"] {
+  background-color: #9333ea; /* bg-purple-600 */
+  color: white;
+  border-color: #9333ea;
+}
+
+/* Example Message Cards */
+.msg-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.msg-header {
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 0.5rem;
+}
+
+/* iMessage style bubbles */
+.msg-bubble {
+  position: relative;
+  padding: 1rem 1.25rem;
+  border-radius: 1.25rem;
+  max-width: 85%;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.you-bubble {
+  background-color: #9333ea;
+  color: white;
+  border-bottom-left-radius: 0.25rem;
+  margin-right: auto;
+}
+
+.you-bubble::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -0.5rem;
+  height: 1rem;
+  width: 1rem;
+  background-color: #9333ea;
+  border-bottom-right-radius: 1rem;
+  z-index: -1;
+}
+
+.you-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -1rem;
+  height: 1rem;
+  width: 1rem;
+  background-color: white;
+  border-bottom-right-radius: 1rem;
+  z-index: 0;
+}
+
+/* Checkboxes */
+[data-state="checked"].bg-purple-600 {
+  background-color: #9333ea;
+}
+
+/* Animations */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tips-container > * {
+  animation: slideUp 0.4s ease-out forwards;
+}

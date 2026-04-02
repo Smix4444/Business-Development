@@ -1,0 +1,168 @@
+.settings-page {
+  min-height: 100vh;
+  background: #fdfcff;
+  font-family: 'Outfit', sans-serif;
+  color: #1f2937;
+}
+
+.settings-header {
+  background: white;
+  border-bottom: 1px solid #f3f4f6;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: hsl(270, 70%, 60%);
+}
+
+.settings-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.settings-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.settings-card {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.settings-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.settings-input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  border: 2px solid #e5e7eb;
+  font-size: 0.95rem;
+  font-family: 'Outfit', sans-serif;
+  transition: border-color 0.2s;
+  background: #f9fafb;
+}
+
+.settings-input:focus {
+  outline: none;
+  border-color: hsl(270, 70%, 60%);
+  background: white;
+}
+
+.photo-upload-area-settings {
+  border: 2px dashed #d1d5db;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.photo-upload-area-settings:hover {
+  border-color: hsl(270, 70%, 60%);
+  background: #faf5ff;
+  color: hsl(270, 70%, 50%);
+}
+
+.photo-preview-settings {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid hsl(270, 70%, 60%);
+}
+
+.cv-upload-area-settings {
+  border: 2px dashed #d1d5db;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.cv-upload-area-settings span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.cv-upload-area-settings:hover {
+  border-color: hsl(270, 70%, 60%);
+  background: #faf5ff;
+}
+
+.cv-uploaded-settings {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.settings-save-btn {
+  background: linear-gradient(to right, hsl(270, 70%, 60%), hsl(330, 80%, 60%));
+  color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+  font-family: 'Outfit', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.settings-save-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
