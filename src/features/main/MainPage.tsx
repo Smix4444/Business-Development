@@ -461,9 +461,9 @@ function InternCard({ internship, onSwipe, exitDirection, profile }: {
           <h2 className="card-title" style={{ fontSize: '1.5rem' }}>{internship.role}</h2>
         </div>
       </div>
-      <div className="card-details flex flex-col justify-between h-[40%] p-4">
+      <div className="card-details flex flex-col justify-between p-4" style={{ minHeight: '40%' }}>
         <div>
-          <div className={`flex items-center gap-3 p-3 rounded-2xl mb-4 ${bgClass} border border-black/5 dark:border-white/5`}>
+          <div className={`flex items-center gap-3 p-3 rounded-2xl mb-3 ${bgClass} border border-black/5 dark:border-white/5`}>
             <div className={`p-2 rounded-full hidden sm:block bg-white dark:bg-black/50 shadow-sm delay-100`}>
               <Sparkles className={`w-5 h-5 ${textColorClass}`} />
             </div>
@@ -482,21 +482,21 @@ function InternCard({ internship, onSwipe, exitDirection, profile }: {
               </div>
             </div>
           </div>
-          <div className="card-tags mb-3">
+          <div className="card-tags mb-2">
             <span className="tag text-xs py-1"><MapPin size={12} style={{ marginRight: '4px' }} /> {internship.location}</span>
             <span className="tag text-xs py-1"><Clock size={12} style={{ marginRight: '4px' }} /> {internship.duration}</span>
             {internship.tags.map(tag => (
               <span key={tag} className="tag text-xs py-1">{tag}</span>
             ))}
           </div>
-          <p className="card-description line-clamp-2 text-sm" style={{ marginBottom: '1rem' }}>{internship.description}</p>
+          <p className="card-description line-clamp-1 text-sm" style={{ marginBottom: '0.5rem' }}>{internship.description}</p>
         </div>
-        <div className="requirements mt-auto">
-          <h4 style={{ marginBottom: '0.25rem', fontSize: '0.8rem', fontWeight: 600 }}>Requirements:</h4>
+        <div className="requirements mt-2">
+          <h4 style={{ marginBottom: '0.35rem', fontSize: '0.8rem', fontWeight: 600 }}>Requirements:</h4>
           <div className="card-tags mb-0 gap-1.5">
-            {internship.requirements.map(req => (
+            {internship.requirements.length > 0 ? internship.requirements.map(req => (
               <span key={req} className="tag text-xs py-0.5" style={{ background: '#e0e7ff', color: '#4338ca' }}>{req}</span>
-            ))}
+            )) : <span className="text-xs text-gray-400 italic">None specified</span>}
           </div>
         </div>
       </div>
