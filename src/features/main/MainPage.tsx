@@ -374,14 +374,52 @@ function InternCard({ internship, onSwipe, exitDirection, profile }: {
   const opacity = useTransform(x, [-200, -150, 0, 150, 200], [0, 1, 1, 1, 0]);
 
   const score = useMemo(() => {
-    let seed = 0;
-    for (let i = 0; i < internship.id.length; i++) seed += internship.id.charCodeAt(i);
-    let base = 40 + (seed % 35);
-    if (profile?.bio) {
-      base += Math.min(20, Math.floor(profile.bio.length / 50));
+    // --- Per-vacancy base variance using a hash of role + company ---
+    // Ensures each vacancy gets a unique, stable "difficulty score" spread across 28-72
+    const hashStr = `${internship.role}|${internship.company}`;
+    let hash = 0;
+    for (let i = 0; i < hashStr.length; i++) {
+      hash = (hash * 31 + hashStr.charCodeAt(i)) & 0xffffffff;
     }
-    return Math.max(25, Math.min(98, base));
-  }, [internship.id, profile?.bio]);
+    const base = 28 + Math.abs(hash % 45); // 28–72 base spread per vacancy
+
+    if (!profile?.bio && !profile?.cvFile) {
+      // No profile info: return the base score directly (will vary per card)
+      return Math.max(25, Math.min(72, base));
+    }
+
+    // --- Keyword matching against student's text ---
+    const profileText = [
+      profile?.bio || '',
+      profile?.cvFile || '',
+      profile?.name || '',
+    ].join(' ').toLowerCase();
+
+    const vacancyKeywords = [
+      ...internship.requirements,
+      ...internship.tags,
+      internship.role,
+    ].map(k => k.toLowerCase());
+
+    // Count how many vacancy keywords appear in the student's text
+    const matched = vacancyKeywords.filter(kw =>
+      kw.split(/[\s/]+/).some(word => word.length > 2 && profileText.includes(word))
+    ).length;
+
+    const total = vacancyKeywords.length;
+    const matchRatio = total > 0 ? matched / total : 0;
+
+    // Boost: up to +26 for keyword matches
+    const boost = Math.round(matchRatio * 26);
+
+    // Bio richness bonus: up to +8 for a detailed bio
+    const bioBonus = profile?.bio ? Math.min(8, Math.floor(profile.bio.length / 60)) : 0;
+
+    // CV uploaded bonus: +4 just for having a CV
+    const cvBonus = profile?.cvFile ? 4 : 0;
+
+    return Math.max(25, Math.min(98, base + boost + bioBonus + cvBonus));
+  }, [internship.id, internship.role, internship.company, internship.requirements, internship.tags, profile?.bio, profile?.cvFile, profile?.name]);
 
   let colorClass = "bg-green-500";
   let textColorClass = "text-green-700 dark:text-green-400";
