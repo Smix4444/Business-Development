@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
-import { X, Briefcase, MapPin, Clock, RotateCcw, CheckCircle2, Filter, UserCircle2, Settings, LogOut, UserCheck, Lightbulb } from 'lucide-react';
+import { X, Briefcase, MapPin, Clock, RotateCcw, CheckCircle2, Filter, UserCircle2, Settings, LogOut, UserCheck, Lightbulb, Sparkles } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import { mockInternships, Internship } from '../../app/data/internships';
 import { useApplications } from '../../app/context/application-context';
-import { useAuth } from '../../app/context/auth-context';
+import { useAuth, UserProfile } from '../../app/context/auth-context';
 import { Popover, PopoverContent, PopoverTrigger } from "../../app/components/ui/popover";
 import { Checkbox } from "../../app/components/ui/checkbox";
 import { Label } from "../../app/components/ui/label";
@@ -268,6 +268,7 @@ export function MainPage() {
                   internship={currentInternship}
                   onSwipe={handleSwipe}
                   exitDirection={exitDirection}
+                  profile={profile}
                 />
               </AnimatePresence>
             </div>
@@ -362,14 +363,39 @@ export function MainPage() {
   );
 }
 
-function InternCard({ internship, onSwipe, exitDirection }: { 
+function InternCard({ internship, onSwipe, exitDirection, profile }: { 
   internship: Internship, 
   onSwipe: (dir: 'left' | 'right') => void,
-  exitDirection: number | null
+  exitDirection: number | null,
+  profile: UserProfile | null
 }) {
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-25, 25]);
   const opacity = useTransform(x, [-200, -150, 0, 150, 200], [0, 1, 1, 1, 0]);
+
+  const score = useMemo(() => {
+    let seed = 0;
+    for (let i = 0; i < internship.id.length; i++) seed += internship.id.charCodeAt(i);
+    let base = 40 + (seed % 35);
+    if (profile?.bio) {
+      base += Math.min(20, Math.floor(profile.bio.length / 50));
+    }
+    return Math.max(25, Math.min(98, base));
+  }, [internship.id, profile?.bio]);
+
+  let colorClass = "bg-green-500";
+  let textColorClass = "text-green-700 dark:text-green-400";
+  let bgClass = "bg-green-50 dark:bg-green-900/10";
+  
+  if (score < 50) {
+    colorClass = "bg-red-500";
+    textColorClass = "text-red-700 dark:text-red-400";
+    bgClass = "bg-red-50 dark:bg-red-900/10";
+  } else if (score < 75) {
+    colorClass = "bg-orange-500";
+    textColorClass = "text-orange-700 dark:text-orange-400";
+    bgClass = "bg-orange-50 dark:bg-orange-900/10";
+  }
 
   const handleDragEnd = (_: any, info: any) => {
     if (info.offset.x > 100) {
@@ -399,6 +425,25 @@ function InternCard({ internship, onSwipe, exitDirection }: {
       </div>
       <div className="card-details flex flex-col justify-between h-[40%] p-4">
         <div>
+          <div className={`flex items-center gap-3 p-3 rounded-2xl mb-4 ${bgClass} border border-black/5 dark:border-white/5`}>
+            <div className={`p-2 rounded-full hidden sm:block bg-white dark:bg-black/50 shadow-sm delay-100`}>
+              <Sparkles className={`w-5 h-5 ${textColorClass}`} />
+            </div>
+            <div className="flex-1">
+              <div className="flex justify-between items-center mb-1.5">
+                <span className={`text-[10px] sm:text-xs font-black uppercase tracking-widest ${textColorClass}`}>AI Match Analysis</span>
+                <span className={`text-xs sm:text-sm font-black ${textColorClass}`}>{score}% Match</span>
+              </div>
+              <div className="h-2 w-full bg-black/10 dark:bg-white/10 rounded-full overflow-hidden">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: `${score}%` }}
+                  transition={{ duration: 1.5, ease: "easeOut" }}
+                  className={`h-full ${colorClass} rounded-full`}
+                />
+              </div>
+            </div>
+          </div>
           <div className="card-tags mb-3">
             <span className="tag text-xs py-1"><MapPin size={12} style={{ marginRight: '4px' }} /> {internship.location}</span>
             <span className="tag text-xs py-1"><Clock size={12} style={{ marginRight: '4px' }} /> {internship.duration}</span>
