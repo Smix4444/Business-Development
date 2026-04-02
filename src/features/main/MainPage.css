@@ -110,7 +110,7 @@
 
 .swipe-card-container {
   position: relative;
-  height: 600px;
+  height: 680px;
   margin-bottom: 2rem;
   perspective: 1000px;
 }
@@ -132,7 +132,7 @@
 }
 
 .card-image {
-  height: 60%;
+  height: 42%;
   background-size: cover;
   background-position: center;
   position: relative;

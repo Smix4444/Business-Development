@@ -489,7 +489,7 @@ function InternCard({ internship, onSwipe, exitDirection, profile }: {
               <span key={tag} className="tag text-xs py-1">{tag}</span>
             ))}
           </div>
-          <p className="card-description line-clamp-1 text-sm" style={{ marginBottom: '0.5rem' }}>{internship.description}</p>
+          <p className="card-description line-clamp-2 text-sm" style={{ marginBottom: '0.5rem' }}>{internship.description}</p>
         </div>
         <div className="requirements mt-2">
           <h4 style={{ marginBottom: '0.35rem', fontSize: '0.8rem', fontWeight: 600 }}>Requirements:</h4>
