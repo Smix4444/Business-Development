@@ -82,7 +82,7 @@ export function TipsPage() {
               {[
                 {
                   label: 'First Introduction',
-                  msg: '"Hi [Name/Team], I'm a 2nd-year computer science student, and I loved what your team built with [Product Name]. I'm extremely interested in your Software Engineering internship because it aligns with my experience in React and Node.js. Are there specific skills you\'re prioritising for this year\'s cohort?"',
+                  msg: '"Hi [Name/Team], I\'m a 2nd-year computer science student, and I loved what your team built with [Product Name]. I\'m extremely interested in your Software Engineering internship because it aligns with my experience in React and Node.js. Are there specific skills you\'re prioritising for this year\'s cohort?"',
                   tip: 'Keeps it short, mentions a specific product, highlights relevant skills, ends with a question.',
                   tipColor: '#22C55E',
                   tipBg: 'rgba(34,197,94,0.07)',
