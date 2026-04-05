@@ -1,0 +1,71 @@
+/* ─── Tips Page ──────────────────────────────────────────────────── */
+.tips-page {
+  min-height: 100vh;
+  background: #060606;
+  color: #F2F2F2;
+  font-family: 'Inter', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.tips-main-layout { flex: 1; }
+
+/* Message Cards */
+.msg-card {
+  background: #0F0F0F;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 1.15rem;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.msg-header {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #888888;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 0.6rem;
+}
+
+.msg-bubble {
+  position: relative;
+  padding: 0.9rem 1.1rem;
+  border-radius: 1.1rem;
+  max-width: 85%;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.you-bubble {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.09);
+  color: #CCCCCC;
+  border-bottom-left-radius: 0.3rem;
+  margin-right: auto;
+}
+
+.msg-tip {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin-top: 0.85rem;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+/* Tabs custom overrides for dark theme */
+[data-slot="tabs-list"] {
+  background: rgba(255,255,255,0.03) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+}
+
+[data-slot="tabs-trigger"] {
+  color: #555555 !important;
+}
+
+[data-slot="tabs-trigger"][data-state="active"] {
+  background: #F2F2F2 !important;
+  color: #060606 !important;
+}
