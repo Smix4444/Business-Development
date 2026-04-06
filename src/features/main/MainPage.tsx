@@ -1,16 +1,17 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
-import { X, Briefcase, MapPin, Clock, RotateCcw, CheckCircle2, Filter, UserCircle2, Settings, LogOut, Lightbulb } from 'lucide-react';
+import { X, Briefcase, MapPin, Clock, RotateCcw, CheckCircle2, Filter, UserCircle2,
+         Settings, LogOut, Lightbulb, ChevronRight, Sparkles, Info } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import { api } from '../../lib/api';
-import { Internship } from '../../app/context/application-context';
-import { useApplications } from '../../app/context/application-context';
+import { Internship, useApplications } from '../../app/context/application-context';
 import { useAuth } from '../../app/context/auth-context';
 import { Popover, PopoverContent, PopoverTrigger } from '../../app/components/ui/popover';
 import { Checkbox } from '../../app/components/ui/checkbox';
 import { Label } from '../../app/components/ui/label';
 import { Separator } from '../../app/components/ui/separator';
+import { computeMatchScore, scoreLabel } from '../../lib/matchScore';
 import './MainPage.css';
 
 export function MainPage() {
@@ -21,6 +22,7 @@ export function MainPage() {
   const [internships, setInternships] = useState<Internship[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
   const [message, setMessage] = useState('');
   const [exitDirection, setExitDirection] = useState<number | null>(null);
 
@@ -34,29 +36,24 @@ export function MainPage() {
   }, [refreshApplications]);
 
   const locations = useMemo(() => Array.from(new Set(internships.map(i => i.location))).sort(), [internships]);
-  const tags = useMemo(() => Array.from(new Set(internships.flatMap(i => i.tags))).sort(), [internships]);
+  const tags      = useMemo(() => Array.from(new Set(internships.flatMap(i => i.tags))).sort(), [internships]);
   const durations = useMemo(() => Array.from(new Set(internships.map(i => i.duration))).sort(), [internships]);
 
-  const filteredInternships = useMemo(() => {
-    return internships.filter(i => {
-      if (selectedLocations.length > 0 && !selectedLocations.includes(i.location)) return false;
-      if (selectedTags.length > 0 && !i.tags.some(t => selectedTags.includes(t))) return false;
-      if (selectedDurations.length > 0 && !selectedDurations.includes(i.duration)) return false;
-      return true;
-    });
-  }, [internships, selectedLocations, selectedTags, selectedDurations]);
+  const filteredInternships = useMemo(() => internships.filter(i => {
+    if (selectedLocations.length > 0 && !selectedLocations.includes(i.location)) return false;
+    if (selectedTags.length > 0 && !i.tags.some(t => selectedTags.includes(t))) return false;
+    if (selectedDurations.length > 0 && !selectedDurations.includes(i.duration)) return false;
+    return true;
+  }), [internships, selectedLocations, selectedTags, selectedDurations]);
 
   const currentInternship = filteredInternships[currentIndex];
   const hasMore = currentIndex < filteredInternships.length;
 
   const handleSwipe = (direction: 'left' | 'right') => {
-    if (direction === 'right') {
-      setShowModal(true);
-    } else {
-      setExitDirection(-1);
-      setTimeout(() => { setCurrentIndex(p => p + 1); setExitDirection(null); }, 200);
-      toast.info('Passed', { style: { background: '#111', border: '1px solid rgba(255,255,255,0.1)', color: '#888' } });
-    }
+    if (direction === 'right') { setShowModal(true); return; }
+    setExitDirection(-1);
+    setTimeout(() => { setCurrentIndex(p => p + 1); setExitDirection(null); }, 200);
+    toast.info('Passed', { style: { background: '#111', border: '1px solid rgba(255,255,255,0.1)', color: '#888' } });
   };
 
   const handleLogout = () => { logout(); navigate('/'); };
@@ -75,13 +72,11 @@ export function MainPage() {
     }
   };
 
-  const resetDeck = () => { setCurrentIndex(0); toast.success('Deck reset'); };
-
+  const resetDeck    = () => { setCurrentIndex(0); toast.success('Deck reset'); };
   const toggleFilter = (value: string, selected: string[], setter: (v: string[]) => void) => {
     setter(selected.includes(value) ? selected.filter(v => v !== value) : [...selected, value]);
     setCurrentIndex(0);
   };
-
   const clearFilters = () => { setSelectedLocations([]); setSelectedTags([]); setSelectedDurations([]); setCurrentIndex(0); };
   const activeFilterCount = selectedLocations.length + selectedTags.length + selectedDurations.length;
 
@@ -95,7 +90,7 @@ export function MainPage() {
       </div>
 
       <div style={{ marginBottom: '1rem' }}>
-        <Label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.72rem', color: '#555', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Location</Label>
+        <Label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.72rem', color: '#555', textTransform: 'uppercase', letterSpacing: '0.05em' }}>City</Label>
         <div className="space-y-2 max-h-40 overflow-y-auto custom-scrollbar">
           {locations.map(loc => (
             <div key={loc} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
@@ -124,14 +119,12 @@ export function MainPage() {
 
       <div>
         <Label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.72rem', color: '#555', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Duration</Label>
-        <div>
-          {durations.map(dur => (
-            <div key={dur} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
-              <Checkbox checked={selectedDurations.includes(dur)} onCheckedChange={() => toggleFilter(dur, selectedDurations, setSelectedDurations)} />
-              <Label style={{ fontSize: '0.8rem', color: '#666', cursor: 'pointer' }}>{dur}</Label>
-            </div>
-          ))}
-        </div>
+        {durations.map(dur => (
+          <div key={dur} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
+            <Checkbox checked={selectedDurations.includes(dur)} onCheckedChange={() => toggleFilter(dur, selectedDurations, setSelectedDurations)} />
+            <Label style={{ fontSize: '0.8rem', color: '#666', cursor: 'pointer' }}>{dur}</Label>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -157,7 +150,7 @@ export function MainPage() {
                 <p style={{ fontWeight: 700, fontSize: '0.82rem', color: '#DDD', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{profile?.name || 'Student'}</p>
                 <p style={{ fontSize: '0.72rem', color: '#444', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{profile?.email}</p>
               </div>
-              <Link to="/settings" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: '#888', textDecoration: 'none', borderRadius: '0.5rem', transition: 'background 0.15s' }}>
+              <Link to="/settings" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: '#888', textDecoration: 'none', borderRadius: '0.5rem' }}>
                 <Settings size={14} /> Settings
               </Link>
               <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: '#EF4444', background: 'transparent', border: 'none', cursor: 'pointer', borderRadius: '0.5rem', width: '100%', fontFamily: 'inherit' }}>
@@ -191,7 +184,10 @@ export function MainPage() {
                   </Popover>
                 </div>
 
-                <div style={{ fontSize: '0.78rem', color: '#3A3A3A', marginLeft: 'auto' }}>
+                <div style={{ fontSize: '0.78rem', color: '#3A3A3A', marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <Info size={12} style={{ color: '#2A2A2A' }} />
+                  <span>tap card for details</span>
+                  <span style={{ color: '#222', margin: '0 0.25rem' }}>·</span>
                   {filteredInternships.length - currentIndex} remaining
                 </div>
               </div>
@@ -211,17 +207,22 @@ export function MainPage() {
                       key={currentInternship.id}
                       internship={currentInternship}
                       onSwipe={handleSwipe}
+                      onTap={() => setShowDetail(true)}
                       exitDirection={exitDirection}
+                      profile={profile}
                     />
                   )}
                 </AnimatePresence>
               </div>
 
               <div className="action-buttons">
-                <button className="action-btn btn-dislike" onClick={() => handleSwipe('left')}>
+                <button className="action-btn btn-dislike" onClick={() => handleSwipe('left')} title="Pass">
                   <X size={24} />
                 </button>
-                <button className="action-btn btn-like" onClick={() => handleSwipe('right')}>
+                <button className="action-btn btn-detail" onClick={() => setShowDetail(true)} title="See details">
+                  <ChevronRight size={20} />
+                </button>
+                <button className="action-btn btn-like" onClick={() => handleSwipe('right')} title="Apply">
                   <Briefcase size={24} fill="currentColor" />
                 </button>
               </div>
@@ -230,11 +231,9 @@ export function MainPage() {
             <div className="empty-state">
               <Briefcase size={48} style={{ margin: '0 auto 1rem', color: '#2A2A2A', display: 'block' }} />
               <h2>All caught up</h2>
-              <p style={{ marginBottom: '1.5rem' }}>You've seen all available internships matching your filters.</p>
+              <p style={{ marginBottom: '1.5rem' }}>You&apos;ve seen all available internships matching your filters.</p>
               <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                {activeFilterCount > 0 && (
-                  <button className="login-btn" onClick={clearFilters}>Clear Filters</button>
-                )}
+                {activeFilterCount > 0 && <button className="login-btn" onClick={clearFilters}>Clear Filters</button>}
                 <button className="login-btn" onClick={resetDeck} style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: '#666' }}>
                   <RotateCcw size={15} /> Reset Deck
                 </button>
@@ -244,13 +243,26 @@ export function MainPage() {
         </div>
       </main>
 
-      {/* Application modal */}
+      {/* ── Detail Drawer ── */}
+      <AnimatePresence>
+        {showDetail && currentInternship && (
+          <DetailDrawer
+            internship={currentInternship}
+            profile={profile}
+            onClose={() => setShowDetail(false)}
+            onApply={() => { setShowDetail(false); setShowModal(true); }}
+            onPass={() => { setShowDetail(false); handleSwipe('left'); }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* ── Application Modal ── */}
       {showModal && currentInternship && (
         <div className="modal-overlay">
           <motion.div className="modal-content" initial={{ scale: 0.92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.22 }}>
             <h3 className="modal-title">Why {currentInternship.company}?</h3>
             <p className="modal-description">
-              Write a personalised message explaining why you're the right fit for this role at {currentInternship.company}.
+              Write a personalised message explaining why you&apos;re the right fit for this role at {currentInternship.company}.
             </p>
             <textarea
               className="message-area"
@@ -261,13 +273,11 @@ export function MainPage() {
             <div style={{ fontSize: '0.78rem', marginBottom: '0.75rem', textAlign: 'right', color: message.length < 20 ? '#555' : '#22C55E', fontWeight: 600 }}>
               {message.length} / 20 min
             </div>
-
             <div style={{ marginBottom: '1rem', textAlign: 'center' }}>
               <Link to="/tips" target="_blank" style={{ fontSize: '0.78rem', color: '#555', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
                 <Lightbulb size={13} /> Need inspiration? Check our tips guide
               </Link>
             </div>
-
             <div style={{ display: 'flex', gap: '0.75rem' }}>
               <button onClick={() => setShowModal(false)} style={{ flex: 1, padding: '0.82rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.09)', color: '#666', borderRadius: '0.75rem', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600, fontSize: '0.88rem' }}>
                 Cancel
@@ -283,14 +293,22 @@ export function MainPage() {
   );
 }
 
-function InternCard({ internship, onSwipe, exitDirection }: {
+// ─────────────────────────────────────────────────────────────────────────────
+// InternCard
+// ─────────────────────────────────────────────────────────────────────────────
+function InternCard({ internship, onSwipe, onTap, exitDirection, profile }: {
   internship: Internship;
   onSwipe: (dir: 'left' | 'right') => void;
+  onTap: () => void;
   exitDirection: number | null;
+  profile: any;
 }) {
-  const x = useMotionValue(0);
-  const rotate = useTransform(x, [-200, 200], [-22, 22]);
+  const x       = useMotionValue(0);
+  const rotate  = useTransform(x, [-200, 200], [-22, 22]);
   const opacity = useTransform(x, [-200, -150, 0, 150, 200], [0, 1, 1, 1, 0]);
+
+  const score = computeMatchScore(profile?.bio, profile?.cvFile, internship);
+  const meta  = score !== null ? scoreLabel(score) : null;
 
   const handleDragEnd = (_: any, info: any) => {
     if (info.offset.x > 100) onSwipe('right');
@@ -304,17 +322,32 @@ function InternCard({ internship, onSwipe, exitDirection }: {
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       onDragEnd={handleDragEnd}
+      onTap={onTap}
       initial={{ scale: 0.94, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       exit={exitDirection ? { x: exitDirection * 500, opacity: 0, transition: { duration: 0.2 } } : undefined}
       transition={{ type: 'spring', stiffness: 320, damping: 30 }}
     >
       <div className="card-image" style={{ backgroundImage: `url(${internship.logo})` }}>
+        {/* AI match badge */}
+        {meta && (
+          <div className="card-match-badge" style={{ background: meta.bg, color: meta.color, border: `1px solid ${meta.color}33` }}>
+            <Sparkles size={10} />
+            <span>{score}% match</span>
+          </div>
+        )}
+        {!meta && (
+          <div className="card-match-badge card-match-badge--empty">
+            <Sparkles size={10} />
+            <span>Add bio for AI match</span>
+          </div>
+        )}
         <div className="card-overlay">
           <div className="card-company">{internship.company}</div>
           <h2 className="card-title">{internship.role}</h2>
         </div>
       </div>
+
       <div className="card-details">
         <div>
           <div className="card-tags" style={{ marginBottom: '0.65rem' }}>
@@ -322,17 +355,145 @@ function InternCard({ internship, onSwipe, exitDirection }: {
             <span className="tag"><Clock size={11} /> {internship.duration}</span>
             {internship.tags.map(tag => <span key={tag} className="tag">{tag}</span>)}
           </div>
-          <p className="card-description" style={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{internship.description}</p>
+          <p className="card-description" style={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as any }}>
+            {internship.description}
+          </p>
         </div>
-        <div className="requirements">
-          <h4>Requirements</h4>
-          <div className="card-tags">
-            {internship.requirements.map(req => (
-              <span key={req} className="tag" style={{ background: 'rgba(255,255,255,0.04)', color: '#555' }}>{req}</span>
-            ))}
+
+        <div>
+          {/* Match bar */}
+          {meta && score !== null && (
+            <div className="card-match-bar-wrap">
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
+                <span style={{ fontSize: '0.67rem', color: '#444', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                  <Sparkles size={9} /> AI Match
+                </span>
+                <span style={{ fontSize: '0.67rem', fontWeight: 700, color: meta.color }}>{meta.label}</span>
+              </div>
+              <div className="card-match-track">
+                <motion.div
+                  className="card-match-fill"
+                  style={{ background: meta.color }}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${score}%` }}
+                  transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="requirements">
+            <h4>Requirements</h4>
+            <div className="card-tags">
+              {internship.requirements.map(req => (
+                <span key={req} className="tag" style={{ background: 'rgba(255,255,255,0.04)', color: '#555' }}>{req}</span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
     </motion.div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DetailDrawer
+// ─────────────────────────────────────────────────────────────────────────────
+function DetailDrawer({ internship, profile, onClose, onApply, onPass }: {
+  internship: Internship;
+  profile: any;
+  onClose: () => void;
+  onApply: () => void;
+  onPass: () => void;
+}) {
+  const score = computeMatchScore(profile?.bio, profile?.cvFile, internship);
+  const meta  = score !== null ? scoreLabel(score) : null;
+
+  return (
+    <div className="drawer-overlay" onClick={onClose}>
+      <motion.div
+        className="drawer-sheet"
+        initial={{ y: '100%' }}
+        animate={{ y: 0 }}
+        exit={{ y: '100%' }}
+        transition={{ type: 'spring', stiffness: 340, damping: 38 }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Drag handle */}
+        <div className="drawer-handle" />
+
+        {/* Header */}
+        <div className="drawer-header">
+          <div className="drawer-logo" style={{ backgroundImage: `url(${internship.logo})` }} />
+          <div>
+            <p className="drawer-company">{internship.company}</p>
+            <h2 className="drawer-role">{internship.role}</h2>
+            <div className="card-tags" style={{ marginTop: '0.5rem' }}>
+              <span className="tag"><MapPin size={11} /> {internship.location}</span>
+              <span className="tag"><Clock size={11} /> {internship.duration}</span>
+              {internship.tags.map(t => <span key={t} className="tag">{t}</span>)}
+            </div>
+          </div>
+        </div>
+
+        {/* AI Match section */}
+        {meta && score !== null ? (
+          <div className="drawer-match-section" style={{ background: meta.bg, borderColor: `${meta.color}33` }}>
+            <div className="drawer-match-header">
+              <Sparkles size={14} style={{ color: meta.color }} />
+              <span style={{ color: meta.color, fontWeight: 700, fontSize: '0.88rem' }}>AI Match Score — {score}%</span>
+              <span className="drawer-match-label" style={{ background: `${meta.color}22`, color: meta.color }}>{meta.label}</span>
+            </div>
+            <div className="drawer-match-track">
+              <motion.div
+                className="drawer-match-fill"
+                style={{ background: `linear-gradient(90deg, ${meta.color}88, ${meta.color})` }}
+                initial={{ width: 0 }}
+                animate={{ width: `${score}%` }}
+                transition={{ delay: 0.2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+              />
+            </div>
+            <p className="drawer-match-hint">
+              Based on keywords in your bio and CV compared to the vacancy requirements and description.
+              {score < 40 && ' Consider updating your profile to improve match accuracy.'}
+              {score >= 80 && ' Your profile aligns strongly with what this role requires.'}
+            </p>
+          </div>
+        ) : (
+          <div className="drawer-match-section drawer-match-empty">
+            <Sparkles size={14} style={{ color: '#444' }} />
+            <p style={{ margin: 0, fontSize: '0.82rem', color: '#444' }}>
+              <Link to="/settings" style={{ color: '#666', textDecoration: 'underline' }}>Add a bio or CV</Link> to see your AI match score for this vacancy.
+            </p>
+          </div>
+        )}
+
+        {/* Description */}
+        <div className="drawer-section">
+          <h4 className="drawer-section-title">About the role</h4>
+          <p className="drawer-description">{internship.description}</p>
+        </div>
+
+        {/* Requirements */}
+        <div className="drawer-section">
+          <h4 className="drawer-section-title">Requirements</h4>
+          <div className="card-tags" style={{ gap: '0.45rem' }}>
+            {internship.requirements.map(req => (
+              <span key={req} className="drawer-req-tag">{req}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="drawer-actions">
+          <button className="drawer-btn-pass" onClick={onPass}>
+            <X size={16} /> Pass
+          </button>
+          <button className="drawer-btn-apply" onClick={onApply}>
+            <Briefcase size={16} /> Apply Now
+          </button>
+        </div>
+      </motion.div>
+    </div>
   );
 }

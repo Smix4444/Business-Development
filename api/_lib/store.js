@@ -47,14 +47,46 @@ const companyUser = {
 users.push(studentUser, companyUser);
 
 const internshipSeed = [
-  { company: 'TechCorp Solutions', role: 'Software Engineering Intern', location: 'San Francisco, CA', duration: '3 months', description: "Join our innovative team to work on cutting-edge web applications. You'll collaborate with senior engineers on real-world projects that impact millions of users.", requirements: ['React', 'TypeScript', 'Node.js'], tags: ['Remote', 'Paid', 'Full-time'], logo: 'https://images.unsplash.com/photo-1549924231-f129b911e442?w=400&h=400&fit=crop' },
-  { company: 'Design Studio Pro', role: 'UX/UI Design Intern', location: 'New York, NY', duration: '6 months', description: 'Work alongside our award-winning design team creating beautiful, user-centered digital experiences for Fortune 500 clients.', requirements: ['Figma', 'Adobe Creative Suite', 'User Research'], tags: ['On-site', 'Paid', 'Part-time'], logo: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&h=400&fit=crop' },
-  { company: 'DataViz Analytics', role: 'Data Science Intern', location: 'Boston, MA', duration: '4 months', description: 'Dive into big data and machine learning projects. Help us build predictive models and create insightful visualisations.', requirements: ['Python', 'SQL', 'Machine Learning'], tags: ['Hybrid', 'Paid', 'Full-time'], logo: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop' },
-  { company: 'GreenTech Innovations', role: 'Sustainability Analyst Intern', location: 'Seattle, WA', duration: '3 months', description: "Help us develop sustainable solutions for tomorrow's challenges. Research renewable energy technologies and environmental impact strategies.", requirements: ['Environmental Science', 'Data Analysis', 'Research'], tags: ['Remote', 'Paid', 'Full-time'], logo: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=400&h=400&fit=crop' },
-  { company: 'FinanceFlow', role: 'Financial Analyst Intern', location: 'Chicago, IL', duration: '6 months', description: 'Gain hands-on experience in financial modelling, market analysis, and investment research at a leading fintech company.', requirements: ['Finance', 'Excel', 'Financial Modeling'], tags: ['On-site', 'Paid', 'Full-time'], logo: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=400&fit=crop' },
-  { company: 'Marketing Minds', role: 'Digital Marketing Intern', location: 'Los Angeles, CA', duration: '3 months', description: 'Create compelling campaigns across social media, email, and digital advertising. Learn from industry experts.', requirements: ['Social Media', 'Content Creation', 'Analytics'], tags: ['Hybrid', 'Paid', 'Part-time'], logo: 'https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?w=400&h=400&fit=crop' },
-  { company: 'HealthTech Labs', role: 'Product Management Intern', location: 'Austin, TX', duration: '4 months', description: 'Help shape the future of healthcare technology. Work with cross-functional teams to define product roadmaps.', requirements: ['Product Strategy', 'User Stories', 'Agile'], tags: ['Remote', 'Paid', 'Full-time'], logo: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=400&fit=crop' },
-  { company: 'Creative Content Co', role: 'Content Writing Intern', location: 'Portland, OR', duration: '3 months', description: 'Write engaging content for blogs, websites, and marketing materials. Develop your voice while learning SEO.', requirements: ['Writing', 'SEO', 'Research'], tags: ['Remote', 'Paid', 'Part-time'], logo: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=400&fit=crop' },
+  {
+    company: 'TechCorp Solutions', role: 'Software Engineering Intern', location: 'Antwerpen', duration: '3 months',
+    description: 'Join our Antwerp engineering hub and contribute to large-scale React and Node.js applications used by over two million users across the Benelux. You will work directly within a cross-functional squad alongside senior engineers, picking up tickets from our Jira board, attending sprint planning and daily standups, and shipping real features to production. Expect deep dives into TypeScript, REST API design, CI/CD pipelines, and cloud infrastructure on AWS. We run pair-programming sessions every Friday and a dedicated learning budget of €500 for any course or conference you choose.',
+    requirements: ['React', 'TypeScript', 'Node.js', 'Git', 'REST APIs'], tags: ['Hybrid', 'Paid', 'Full-time'], logo: 'https://images.unsplash.com/photo-1549924231-f129b911e442?w=400&h=400&fit=crop'
+  },
+  {
+    company: 'Studio Brussel Design', role: 'UX/UI Design Intern', location: 'Brussel', duration: '6 months',
+    description: 'Work alongside our award-winning Brussels design team to craft digital products for Belgian government clients and fast-growing startups. You will run usability tests, build Figma prototypes, participate in stakeholder workshops, and contribute to our in-house design system. The role is bilingual (NL/FR) and you will get exposure to accessibility auditing, motion design in After Effects, and brand identity work. Our studio is located in the heart of Ixelles — expect a creative, candid team with flat hierarchy and honest feedback.',
+    requirements: ['Figma', 'Adobe Creative Suite', 'User Research', 'Prototyping', 'Accessibility'], tags: ['On-site', 'Paid', 'Part-time'], logo: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&h=400&fit=crop'
+  },
+  {
+    company: 'DataViz Analytics', role: 'Data Science Intern', location: 'Leuven', duration: '4 months',
+    description: 'Based in Leuven\'s tech district, DataViz Analytics partners with KU Leuven research groups to turn academic datasets into actionable business intelligence. As an intern you will clean and explore datasets using Python and pandas, build predictive models with scikit-learn, and create interactive dashboards in Tableau and Plotly. You will attend weekly data reviews with our chief analyst and co-author internal research notes. A strong mathematical foundation and curiosity about statistics are more important to us than years of experience.',
+    requirements: ['Python', 'SQL', 'Machine Learning', 'pandas', 'Data Visualisation'], tags: ['Hybrid', 'Paid', 'Full-time'], logo: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=400&fit=crop'
+  },
+  {
+    company: 'GreenTech Innovations', role: 'Sustainability Analyst Intern', location: 'Gent', duration: '3 months',
+    description: 'GreenTech Innovations is a Ghent-based cleantech consultancy advising Belgian municipalities and industrial players on decarbonisation roadmaps. Your internship will focus on life-cycle analysis (LCA) of renewable energy projects, compiling ESG reports aligned with the EU Taxonomy Regulation, and researching policy incentives available under the Belgian energy transition plan. You will attend client meetings, draft policy briefs, and present findings to our sustainability board. We are a small team of 12 — every contribution is visible and valued.',
+    requirements: ['Environmental Science', 'Data Analysis', 'Research', 'Excel', 'Report Writing'], tags: ['On-site', 'Paid', 'Full-time'], logo: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=400&h=400&fit=crop'
+  },
+  {
+    company: 'FinanceFlow', role: 'Financial Analyst Intern', location: 'Brussel', duration: '6 months',
+    description: 'FinanceFlow is a fintech scale-up headquartered in Brussels offering automated treasury solutions to Belgian SMEs. During this internship you will support the finance team with financial modelling in Excel and Python, assist in producing monthly management accounts, conduct sector benchmarking, and help prepare investor materials for our Series B fundraise. You will sit in on board presentations and gain exposure to IFRS accounting standards and Belgian corporate tax frameworks. Fluency in either Dutch or French is a plus.',
+    requirements: ['Finance', 'Excel', 'Financial Modeling', 'Python', 'IFRS'], tags: ['On-site', 'Paid', 'Full-time'], logo: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=400&fit=crop'
+  },
+  {
+    company: 'Marketing Minds', role: 'Digital Marketing Intern', location: 'Gent', duration: '3 months',
+    description: 'Marketing Minds is a growth marketing agency in Ghent managing paid and organic campaigns for 30+ Belgian e-commerce brands. As an intern you will manage Meta and Google Ads campaigns (with real budgets), write SEO-optimised blog content in Dutch and English, analyse campaign performance in Google Analytics 4, and build weekly performance reports for clients. You will attend client calls and strategy sessions from day one. We value proactivity and creativity — if you have a good idea, we will test it.',
+    requirements: ['Social Media', 'Content Creation', 'Google Analytics', 'SEO', 'Copywriting'], tags: ['Hybrid', 'Paid', 'Part-time'], logo: 'https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?w=400&h=400&fit=crop'
+  },
+  {
+    company: 'HealthTech Labs', role: 'Product Management Intern', location: 'Leuven', duration: '4 months',
+    description: 'HealthTech Labs builds clinical decision-support software used by Belgian hospitals and GP practices. This PM internship is one of the most hands-on in our company — you will write user stories and acceptance criteria, facilitate sprint reviews, conduct interviews with clinical users, and help prioritise the product backlog using data from Mixpanel. You will work closely with our CTO and lead designer. Prior knowledge of healthcare or medical informatics is a strong advantage, but not required. Expect to be challenged and to grow fast.',
+    requirements: ['Product Strategy', 'User Stories', 'Agile', 'Jira', 'Stakeholder Management'], tags: ['Hybrid', 'Paid', 'Full-time'], logo: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=400&fit=crop'
+  },
+  {
+    company: 'Creative Content Co', role: 'Content Writing Intern', location: 'Brugge', duration: '3 months',
+    description: 'Creative Content Co is a Bruges-based content agency producing long-form editorial, product copy, and video scripts for Belgian and Dutch brands. As a content writing intern you will research and draft blog articles (1,000–2,000 words), optimise existing content for SEO using SemRush, write social media captions in both Dutch and English, and assist the editorial team with tone-of-voice guidelines. Strong written communication in at least one of NL or EN is required. Remote-friendly with biweekly in-person team days in Bruges.',
+    requirements: ['Writing', 'SEO', 'Research', 'SemRush', 'Social Media'], tags: ['Remote', 'Paid', 'Part-time'], logo: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=400&fit=crop'
+  },
 ];
 
 internshipSeed.forEach(i => {
