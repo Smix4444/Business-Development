@@ -1,7 +1,7 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { X, Briefcase, MapPin, Clock, RotateCcw, CheckCircle2, Filter, UserCircle2,
-         Settings, LogOut, Lightbulb, ChevronRight, Sparkles, Info } from 'lucide-react';
+         Settings, LogOut, Lightbulb, ChevronRight, Sparkles, Info, Bookmark, BookmarkCheck } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import { api } from '../../lib/api';
@@ -307,22 +307,79 @@ function InternCard({ internship, onSwipe, onTap, exitDirection, profile }: {
   const rotate  = useTransform(x, [-200, 200], [-22, 22]);
   const opacity = useTransform(x, [-200, -150, 0, 150, 200], [0, 1, 1, 1, 0]);
 
+  // ── 3D tilt ──────────────────────────────────────────────────────────────
+  const cardRef = React.useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = React.useState({ rx: 0, ry: 0, gx: 50, gy: 50 });
+  const [isDragging, setIsDragging] = React.useState(false);
+
+  const handleMouseMove = React.useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (isDragging) return;
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const cx = (e.clientX - rect.left) / rect.width;   // 0–1
+    const cy = (e.clientY - rect.top)  / rect.height;  // 0–1
+    setTilt({
+      rx: (cy - 0.5) * -14,  // rotateX
+      ry: (cx - 0.5) * 14,   // rotateY
+      gx: cx * 100,
+      gy: cy * 100,
+    });
+  }, [isDragging]);
+
+  const resetTilt = () => setTilt({ rx: 0, ry: 0, gx: 50, gy: 50 });
+
   const score = computeMatchScore(profile?.bio, profile?.cvFile, internship);
   const meta  = score !== null ? scoreLabel(score) : null;
 
+  // ── Bookmark (localStorage) ──────────────────────────────────────────────
+  const BOOKMARK_KEY = 'internmatch_bookmarks';
+  const [bookmarked, setBookmarked] = React.useState(() => {
+    try {
+      const saved: number[] = JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]');
+      return saved.includes(internship.id);
+    } catch { return false; }
+  });
+
+  const toggleBookmark = React.useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setBookmarked(prev => {
+      const next = !prev;
+      try {
+        const saved: number[] = JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]');
+        const updated = next ? [...saved, internship.id] : saved.filter(id => id !== internship.id);
+        localStorage.setItem(BOOKMARK_KEY, JSON.stringify(updated));
+      } catch {}
+      return next;
+    });
+  }, [internship.id]);
+
   const handleDragEnd = (_: any, info: any) => {
+    setIsDragging(false);
+    resetTilt();
     if (info.offset.x > 100) onSwipe('right');
     else if (info.offset.x < -100) onSwipe('left');
   };
 
   return (
     <motion.div
+      ref={cardRef}
       className="intern-card"
-      style={{ x, rotate, opacity }}
+      style={{
+        x, rotate, opacity,
+        transformStyle: 'preserve-3d',
+        rotateX: tilt.rx,
+        rotateY: tilt.ry,
+        '--gx': `${tilt.gx}%`,
+        '--gy': `${tilt.gy}%`,
+      } as any}
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
+      onDragStart={() => { setIsDragging(true); resetTilt(); }}
       onDragEnd={handleDragEnd}
       onTap={onTap}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={resetTilt}
       initial={{ scale: 0.94, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       exit={exitDirection ? { x: exitDirection * 500, opacity: 0, transition: { duration: 0.2 } } : undefined}
@@ -342,6 +399,17 @@ function InternCard({ internship, onSwipe, onTap, exitDirection, profile }: {
             <span>Add bio for AI match</span>
           </div>
         )}
+
+        {/* Bookmark button */}
+        <motion.button
+          className={`card-bookmark-btn${bookmarked ? ' is-bookmarked' : ''}`}
+          onClick={toggleBookmark}
+          whileTap={{ scale: 0.85 }}
+          title={bookmarked ? 'Remove bookmark' : 'Save for later'}
+        >
+          {bookmarked ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
+        </motion.button>
+
         <div className="card-overlay">
           <div className="card-company">{internship.company}</div>
           <h2 className="card-title">{internship.role}</h2>

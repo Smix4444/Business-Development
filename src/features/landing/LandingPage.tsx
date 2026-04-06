@@ -1,14 +1,76 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import { Briefcase, CheckCircle2, Shield, FileSearch, Zap, MessageSquare, UserCheck, TrendingUp, AlertCircle } from 'lucide-react';
 import { useApplications } from '../../app/context/application-context';
 import './LandingPage.css';
 
+// ─── Text Scramble Hook ───────────────────────────────────────────────────────
+const SCRAMBLE_CHARS = '!<>-_\\/[]{}—=+*^?#@$%&';
+
+function useTextScramble(text: string, active: boolean, speed = 28) {
+  const [output, setOutput] = useState('');
+  const frameRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (frameRef.current) clearInterval(frameRef.current);
+
+    if (!active) {
+      setOutput('');
+      return;
+    }
+
+    let iteration = 0;
+    frameRef.current = setInterval(() => {
+      setOutput(
+        text.split('').map((char, i) => {
+          if (i < Math.floor(iteration)) return char;
+          return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+        }).join('')
+      );
+      iteration += 0.38;
+      if (iteration > text.length) {
+        if (frameRef.current) clearInterval(frameRef.current);
+        setOutput(text);
+      }
+    }, speed);
+
+    return () => { if (frameRef.current) clearInterval(frameRef.current); };
+  }, [active, text]);
+
+  return output;
+}
+
+// ─── Cursor Orb ──────────────────────────────────────────────────────────────
+function CursorOrb() {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 60, damping: 20 });
+  const springY = useSpring(y, { stiffness: 60, damping: 20 });
+
+  useEffect(() => {
+    const move = (e: MouseEvent) => { x.set(e.clientX); y.set(e.clientY); };
+    window.addEventListener('mousemove', move);
+    return () => window.removeEventListener('mousemove', move);
+  }, [x, y]);
+
+  return (
+    <motion.div
+      className="cursor-orb"
+      style={{ left: springX, top: springY }}
+    />
+  );
+}
+
+// ─── Component ───────────────────────────────────────────────────────────────
 export function LandingPage() {
   const { applications } = useApplications();
   const [showRefs, setShowRefs] = useState(false);
+  const [isInternHovered, setIsInternHovered] = useState(false);
   const featuresRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
+
+  const scrambledMatch = useTextScramble('match', isInternHovered);
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -24,7 +86,6 @@ export function LandingPage() {
         ScrollTrigger = stModule.ScrollTrigger;
         gsap.registerPlugin(ScrollTrigger);
 
-        // Hero entrance
         if (heroRef.current) {
           gsap.from(heroRef.current.querySelectorAll('.hero-eyebrow, .hero-headline, .hero-sub, .hero-actions'), {
             y: 40,
@@ -35,25 +96,16 @@ export function LandingPage() {
           });
         }
 
-        // Staggered feature cards
         if (featuresRef.current) {
           const cards = featuresRef.current.querySelectorAll('.feature-card');
           ScrollTrigger.batch(cards, {
             onEnter: (batch: Element[]) =>
-              gsap.to(batch, {
-                y: 0,
-                opacity: 1,
-                duration: 0.75,
-                stagger: 0.1,
-                ease: 'power3.out',
-              }),
+              gsap.to(batch, { y: 0, opacity: 1, duration: 0.75, stagger: 0.1, ease: 'power3.out' }),
             start: 'top 85%',
           });
-
           gsap.set(cards, { y: 50, opacity: 0 });
         }
 
-        // Section headings fade-in
         gsap.utils.toArray('.section-heading, .market-stat, .privacy-item').forEach((el: any) => {
           gsap.from(el, {
             scrollTrigger: { trigger: el, start: 'top 88%', once: true },
@@ -63,8 +115,7 @@ export function LandingPage() {
             ease: 'power2.out',
           });
         });
-      } catch (e) {
-        // GSAP not loaded — static fallback: make cards visible
+      } catch {
         document.querySelectorAll('.feature-card').forEach(el => {
           (el as HTMLElement).style.opacity = '1';
         });
@@ -72,14 +123,13 @@ export function LandingPage() {
     }
 
     initGSAP();
-
-    return () => {
-      if (ScrollTrigger) ScrollTrigger.getAll().forEach((t: any) => t.kill());
-    };
+    return () => { if (ScrollTrigger) ScrollTrigger.getAll().forEach((t: any) => t.kill()); };
   }, []);
 
   return (
     <div className="landing-root">
+      <CursorOrb />
+
       {/* Nav */}
       <nav className="landing-nav">
         <a className="nav-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
@@ -104,10 +154,52 @@ export function LandingPage() {
           <span className="hero-eyebrow-dot" />
           Now live — swipe to find your internship
         </div>
+
         <h1 className="hero-headline">
           Find your<br />
-          <span className="hero-headline-dim">internship.</span>
+          {/* ── Hover word reveal: intern → match ── */}
+          <span className="hero-word-group">
+            <span
+              className={`hero-trigger-word${isInternHovered ? ' is-hovered' : ''}`}
+              onMouseEnter={() => setIsInternHovered(true)}
+              onMouseLeave={() => setIsInternHovered(false)}
+            >
+              intern
+              {/* Ghost glow ring on hover */}
+              {isInternHovered && (
+                <motion.span
+                  className="intern-glow-ring"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                />
+              )}
+            </span>
+
+            <AnimatePresence>
+              {isInternHovered && (
+                <motion.span
+                  className="hero-reveal-word"
+                  initial={{ opacity: 0, x: -24, filter: 'blur(12px)' }}
+                  animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, x: -16, filter: 'blur(8px)' }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {scrambledMatch || 'match'}
+                </motion.span>
+              )}
+            </AnimatePresence>
+
+            <motion.span
+              className="hero-suffix"
+              animate={{ opacity: isInternHovered ? 0.08 : 0.18, x: isInternHovered ? 6 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              ship.
+            </motion.span>
+          </span>
         </h1>
+
         <p className="hero-sub">
           The first swipe-based platform for internships. Browse curated roles, show genuine interest, and get matched with top companies.
         </p>
@@ -119,6 +211,11 @@ export function LandingPage() {
             See how it works
           </button>
         </div>
+
+        {/* Hint label */}
+        <p className="hero-hover-hint">
+          hover <span>intern</span> ↑
+        </p>
       </section>
 
       {/* Features */}
@@ -129,11 +226,7 @@ export function LandingPage() {
 
         <div className="features-grid">
           <div className="feature-card">
-            <img
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop"
-              alt="Browse"
-              className="feature-card-img"
-            />
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=800&auto=format&fit=crop" alt="Browse" className="feature-card-img" />
             <div className="feature-card-body">
               <div className="feature-card-icon"><Briefcase size={15} /></div>
               <h3 className="feature-card-title">Browse Opportunities</h3>
@@ -142,11 +235,7 @@ export function LandingPage() {
           </div>
 
           <div className="feature-card">
-            <img
-              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop"
-              alt="Message"
-              className="feature-card-img"
-            />
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800&auto=format&fit=crop" alt="Message" className="feature-card-img" />
             <div className="feature-card-body">
               <div className="feature-card-icon"><MessageSquare size={15} /></div>
               <h3 className="feature-card-title">Show Real Interest</h3>
@@ -155,11 +244,7 @@ export function LandingPage() {
           </div>
 
           <div className="feature-card">
-            <img
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop"
-              alt="Match"
-              className="feature-card-img"
-            />
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop" alt="Match" className="feature-card-img" />
             <div className="feature-card-body">
               <div className="feature-card-icon"><UserCheck size={15} /></div>
               <h3 className="feature-card-title">Match & Connect</h3>
@@ -198,7 +283,7 @@ export function LandingPage() {
           </div>
 
           <div className="market-quote-card">
-            <div className="flex items-start gap-3 mb-4" style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '1.5rem' }}>
               <AlertCircle size={18} style={{ color: '#555', flexShrink: 0, marginTop: '3px' }} />
               <div>
                 <p style={{ fontWeight: 700, fontSize: '0.85rem', color: '#CCCCCC', margin: '0 0 0.3rem' }}>The Readiness Gap</p>
@@ -254,10 +339,18 @@ export function LandingPage() {
       <div className="landing-footer-wrap">
         <div className="landing-footer">
           <span className="footer-copy">© 2026 InternMatch. All rights reserved.</span>
-          <button className="footer-refs-btn" onClick={() => setShowRefs(r => !r)}>
-            <FileSearch size={14} />
-            {showRefs ? 'Hide' : 'View'} cited studies
-          </button>
+          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+            <Link to="/admin" style={{ fontSize: '0.72rem', color: '#222', textDecoration: 'none', transition: 'color 0.2s' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#555')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#222')}
+            >
+              Admin
+            </Link>
+            <button className="footer-refs-btn" onClick={() => setShowRefs(r => !r)}>
+              <FileSearch size={14} />
+              {showRefs ? 'Hide' : 'View'} cited studies
+            </button>
+          </div>
         </div>
         {showRefs && (
           <div className="footer-refs-list">

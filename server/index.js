@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth');
 const internshipRoutes = require('./routes/internships');
 const applicationRoutes = require('./routes/applications');
 const profileRoutes = require('./routes/profile');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -17,6 +18,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/internships', internshipRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok' }));
 

@@ -118,6 +118,104 @@
 
 .hero-headline-dim { color: #2A2A2A; }
 
+/* ─── Cursor Orb ─────────────────────────────────────────────── */
+.cursor-orb {
+  pointer-events: none;
+  position: fixed;
+  z-index: 0;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255,255,255,0.032) 0%, transparent 70%);
+  mix-blend-mode: screen;
+  will-change: left, top;
+}
+
+/* ─── Intern → Match Hover Effect ────────────────────────────── */
+.hero-word-group {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.18em;
+  position: relative;
+}
+
+.hero-trigger-word {
+  position: relative;
+  cursor: crosshair;
+  color: #F2F2F2;
+  transition: color 0.3s ease, text-shadow 0.4s ease;
+  display: inline-block;
+}
+
+.hero-trigger-word.is-hovered {
+  color: #ffffff;
+  text-shadow:
+    0 0 40px rgba(255, 255, 255, 0.25),
+    0 0 80px rgba(180, 60, 60, 0.15),
+    0 0 120px rgba(120, 20, 20, 0.1);
+}
+
+/* Subtle underline on trigger word */
+.hero-trigger-word::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 1px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.hero-trigger-word:hover::after { transform: scaleX(1); }
+
+/* The ghost glow ring that pulses around "intern" on hover */
+.intern-glow-ring {
+  position: absolute;
+  inset: -12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 30px rgba(180, 30, 30, 0.08), inset 0 0 20px rgba(255,255,255,0.02);
+  pointer-events: none;
+}
+
+/* The revealed "match" word */
+.hero-reveal-word {
+  display: inline-block;
+  color: #c8c8c8;
+  font-style: italic;
+  letter-spacing: -0.03em;
+  text-shadow:
+    0 0 60px rgba(255, 255, 255, 0.3),
+    0 0 20px rgba(255, 255, 255, 0.15);
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+/* The suffix "ship." that fades */
+.hero-suffix {
+  display: inline-block;
+  color: #1c1c1c;
+}
+
+/* Hover hint text below hero */
+.hero-hover-hint {
+  margin-top: 2rem;
+  font-size: 0.7rem;
+  color: #333;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.hero-hover-hint span {
+  color: #555;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
 .hero-sub {
   font-size: clamp(0.95rem, 1.5vw, 1.15rem);
   color: #666666;
