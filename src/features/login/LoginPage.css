@@ -177,3 +177,41 @@
 }
 
 .back-home:hover { color: #888888; }
+
+/* ─── 3-tab role toggle ───────────────────────────────────────── */
+.role-toggle--3 { gap: 0.2rem; }
+.role-toggle--3 .role-btn { flex: 1; font-size: 0.78rem; padding: 0.42rem 0.5rem; }
+
+/* ─── School / select fields ──────────────────────────────────── */
+.optional-label {
+  font-size: 0.65rem;
+  color: #3a3a3a;
+  font-weight: 400;
+  margin-left: 0.4rem;
+}
+
+.select-wrap {
+  position: relative;
+}
+
+.select-input {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding-right: 2rem;
+}
+
+.select-icon {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #444;
+  pointer-events: none;
+}
+
+.field-hint {
+  font-size: 0.68rem;
+  color: #22C55E;
+  margin: 0.35rem 0 0;
+}

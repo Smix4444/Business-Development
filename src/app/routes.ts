@@ -8,6 +8,7 @@ import { SettingsPage } from "../features/settings/SettingsPage";
 import { TipsPage } from "../features/tips/TipsPage";
 import { PricingPage } from "../features/pricing/PricingPage";
 import { AdminDashboard } from "../features/admin/AdminDashboard";
+import { SchoolDashboard } from "../features/school/SchoolDashboard";
 
 export const router = createBrowserRouter([
   { path: "/",          Component: LandingPage },
@@ -19,4 +20,5 @@ export const router = createBrowserRouter([
   { path: "/tips",      Component: TipsPage },
   { path: "/pricing",   Component: PricingPage },
   { path: "/admin",     Component: AdminDashboard },
+  { path: "/school",    Component: SchoolDashboard },
 ]);

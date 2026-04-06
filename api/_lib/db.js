@@ -29,10 +29,10 @@ const db = {
     return data || null;
   },
 
-  async createUser({ email, passwordHash, role, name = '', companyName = '' }) {
+  async createUser({ email, passwordHash, role, name = '', companyName = '', schoolId = null }) {
     const { data, error } = await supabase
       .from('users')
-      .insert({ email, password_hash: passwordHash, role, name, bio: '', company_name: companyName })
+      .insert({ email, password_hash: passwordHash, role, name, bio: '', company_name: companyName, school_id: schoolId })
       .select()
       .single();
     if (error) throw new Error(error.message);
@@ -149,6 +149,46 @@ const db = {
 
   async updateApplicationStatus(id, status) {
     await supabase.from('applications').update({ status }).eq('id', id);
+  },
+
+  // ─── Schools ──────────────────────────────────────────────────────────────
+  async getAllSchools() {
+    const { data } = await supabase
+      .from('users')
+      .select('id, name, company_name, email')
+      .eq('role', 'school')
+      .order('name');
+    return (data || []).map(s => ({ id: s.id, name: s.name, domain: s.company_name, email: s.email }));
+  },
+
+  async getStudentsBySchool(schoolId) {
+    const { data: students } = await supabase
+      .from('users')
+      .select('id, name, email, bio, photo, created_at')
+      .eq('role', 'student')
+      .eq('school_id', schoolId)
+      .order('name');
+
+    if (!students || students.length === 0) return [];
+
+    const studentIds = students.map(s => s.id);
+
+    const { data: applications } = await supabase
+      .from('applications')
+      .select('id, student_id, status, applied_at, internship:internships(id, role, company, location)')
+      .in('student_id', studentIds)
+      .order('applied_at', { ascending: false });
+
+    const apps = applications || [];
+
+    return students.map(s => ({
+      ...s,
+      applications: apps
+        .filter(a => a.student_id === s.id)
+        .map(a => ({ id: a.id, status: a.status, applied_at: a.applied_at, internship: a.internship })),
+      isPlaced: apps.some(a => a.student_id === s.id && a.status === 'accepted'),
+      applicationCount: apps.filter(a => a.student_id === s.id).length,
+    }));
   },
 };
 

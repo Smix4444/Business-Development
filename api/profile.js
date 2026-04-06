@@ -25,6 +25,7 @@ module.exports = async (req, res) => {
         photo: user.photo,
         cvFile: user.cv_file,
         company: user.company_name,
+        schoolId: user.school_id || null,
       });
     }
 

@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { api } from '../../lib/api';
 import { getToken, setToken, removeToken } from '../../lib/auth';
 
-export type UserRole = 'student' | 'company' | null;
+export type UserRole = 'student' | 'company' | 'school' | null;
 
 export interface UserProfile {
   name: string;
@@ -11,6 +11,16 @@ export interface UserProfile {
   bio?: string;
   cvFile?: string;
   company?: string;
+  schoolId?: number | null;
+}
+
+interface RegisterOptions {
+  name?: string;
+  companyName?: string;
+  schoolName?: string;
+  schoolDomain?: string;
+  contactName?: string;
+  schoolId?: number | null;
 }
 
 interface AuthContextType {
@@ -18,7 +28,7 @@ interface AuthContextType {
   profile: UserProfile | null;
   loading: boolean;
   login: (email: string, password: string, role: UserRole) => Promise<void>;
-  register: (email: string, password: string, role: UserRole, name?: string, companyName?: string) => Promise<void>;
+  register: (email: string, password: string, role: UserRole, opts?: RegisterOptions) => Promise<void>;
   updateProfile: (profile: Partial<UserProfile>) => Promise<void>;
   logout: () => void;
 }
@@ -37,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
       return;
     }
-    api.get<{ id: number; email: string; role: string; name: string; bio: string; photo: string | null; cvFile: string | null; company: string }>('/profile')
+    api.get<{ id: number; email: string; role: string; name: string; bio: string; photo: string | null; cvFile: string | null; company: string; schoolId: number | null }>('/profile')
       .then(data => {
         setRole(data.role as UserRole);
         setProfile({
@@ -47,6 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           photo: data.photo ?? undefined,
           cvFile: data.cvFile ?? undefined,
           company: data.company,
+          schoolId: data.schoolId ?? null,
         });
       })
       .catch(() => removeToken())
@@ -60,17 +71,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setProfile(data.profile);
   };
 
-  const register = async (email: string, password: string, selectedRole: UserRole, name?: string, companyName?: string) => {
-    const data = await api.post<{ token: string; role: string }>('/auth/register', {
+  const register = async (email: string, password: string, selectedRole: UserRole, opts: RegisterOptions = {}) => {
+    const data = await api.post<{ token: string; role: string; schoolId?: number }>('/auth/register', {
       email,
       password,
       role: selectedRole,
-      name,
-      companyName,
+      name: opts.name,
+      companyName: opts.companyName,
+      schoolName: opts.schoolName,
+      schoolDomain: opts.schoolDomain,
+      contactName: opts.contactName,
+      schoolId: opts.schoolId,
     });
     setToken(data.token);
     setRole(data.role as UserRole);
-    setProfile({ name: name || '', email, company: companyName || '' });
+    setProfile({
+      name: opts.name || opts.contactName || '',
+      email,
+      company: opts.companyName || '',
+      schoolId: data.schoolId || opts.schoolId || null,
+    });
   };
 
   const updateProfile = async (updates: Partial<UserProfile>) => {
