@@ -1,0 +1,359 @@
+.pricing-page {
+  background: #060606;
+  min-height: 100vh;
+  color: #F2F2F2;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Header ── */
+.pricing-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(6, 6, 6, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 0.85rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pricing-header .app-title {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #F2F2F2;
+}
+
+.pricing-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pricing-nav-link {
+  color: #555;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  transition: color 0.2s;
+}
+
+.pricing-nav-link:hover { color: #F2F2F2; }
+
+.pricing-nav-cta {
+  background: #F2F2F2;
+  color: #060606;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  transition: opacity 0.2s;
+}
+
+.pricing-nav-cta:hover { opacity: 0.85; }
+
+/* ── Hero ── */
+.pricing-hero {
+  text-align: center;
+  padding: 5rem 2rem 3.5rem;
+}
+
+.pricing-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.pricing-title {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: #F2F2F2;
+  margin: 0 0 1rem;
+  line-height: 1.1;
+}
+
+.pricing-subtitle {
+  font-size: 1rem;
+  color: #555;
+  max-width: 460px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── Cards Grid ── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+
+@media (max-width: 680px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Card ── */
+.pricing-card {
+  background: #0F0F0F;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 1.5rem;
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+  transform-style: preserve-3d;
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 60%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.pricing-card:hover {
+  transform: translateY(-6px) rotateX(2deg);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+.pricing-card.featured {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: #111;
+}
+
+.pricing-card.featured:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* ── Badge ── */
+.pricing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  margin-bottom: 1.5rem;
+  width: fit-content;
+}
+
+.badge-school {
+  background: rgba(59, 130, 246, 0.1);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.badge-business {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22C55E;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+/* ── Plan name ── */
+.pricing-plan-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #F2F2F2;
+  margin: 0 0 0.35rem;
+}
+
+.pricing-plan-desc {
+  font-size: 0.82rem;
+  color: #555;
+  margin: 0 0 1.75rem;
+  line-height: 1.55;
+}
+
+/* ── Price ── */
+.pricing-price-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.pricing-amount {
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: #F2F2F2;
+  line-height: 1;
+}
+
+.pricing-currency {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #888;
+  padding-bottom: 0.3rem;
+}
+
+.pricing-period {
+  font-size: 0.82rem;
+  color: #444;
+  padding-bottom: 0.4rem;
+}
+
+.pricing-billing-note {
+  font-size: 0.75rem;
+  color: #333;
+  margin: 0 0 2rem;
+}
+
+/* ── Divider ── */
+.pricing-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin-bottom: 1.75rem;
+}
+
+/* ── Features list ── */
+.pricing-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.pricing-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.83rem;
+  color: #999;
+  line-height: 1.4;
+}
+
+.feature-check {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  font-size: 0.55rem;
+}
+
+.check-school {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60A5FA;
+}
+
+.check-business {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22C55E;
+}
+
+/* ── CTA button ── */
+.pricing-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem;
+  border-radius: 0.85rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s, transform 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.cta-school {
+  background: rgba(59, 130, 246, 0.12);
+  color: #60A5FA;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.cta-school:hover {
+  background: rgba(59, 130, 246, 0.2);
+  opacity: 1;
+}
+
+.cta-business {
+  background: #F2F2F2;
+  color: #060606;
+}
+
+.cta-business:hover { opacity: 0.88; }
+
+.pricing-cta:active { transform: scale(0.98); }
+
+/* ── FAQ ── */
+.pricing-faq {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 2rem 5rem;
+}
+
+.faq-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #CCCCCC;
+  margin: 0 0 1.5rem;
+  text-align: center;
+}
+
+.faq-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1.1rem 0;
+}
+
+.faq-q {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #CCCCCC;
+  margin: 0 0 0.4rem;
+}
+
+.faq-a {
+  font-size: 0.82rem;
+  color: #555;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Footer note ── */
+.pricing-footer-note {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.78rem;
+  color: #333;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}

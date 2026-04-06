@@ -92,6 +92,7 @@ export function LandingPage() {
           <button className="nav-link-btn" onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}>Features</button>
           <button className="nav-link-btn" onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}>Analysis</button>
           <button className="nav-link-btn" onClick={() => document.getElementById('privacy')?.scrollIntoView({ behavior: 'smooth' })}>Privacy</button>
+          <Link to="/pricing" className="nav-link-btn" style={{ textDecoration: 'none', background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}>Pricing</Link>
         </div>
 
         <Link to="/login" className="nav-cta">Get Started</Link>
