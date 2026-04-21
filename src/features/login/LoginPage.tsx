@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Briefcase, User, GraduationCap, ChevronDown, Mail, RefreshCw } from 'lucide-react';
+import { Briefcase, User, GraduationCap, ChevronDown } from 'lucide-react';
 import { useAuth } from '../../app/context/auth-context';
 import { OnboardingModal } from './OnboardingModal';
 import './LoginPage.css';
-import './VerifyEmailPage.css';
 
 type Role = 'student' | 'company' | 'school';
 type Mode = 'login' | 'register';
@@ -14,7 +13,7 @@ interface School { id: number; name: string; domain: string; }
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { login, register, needsVerification, pendingEmail, resendVerification, clearVerification } = useAuth();
+  const { login, register } = useAuth();
 
   const [role, setRole] = useState<Role>('student');
   const [mode, setMode] = useState<Mode>('login');
@@ -39,18 +38,6 @@ export function LoginPage() {
   const [error, setError]   = useState('');
   const [loading, setLoading] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
-
-  // Resend verification state
-  const [resendLoading, setResendLoading] = useState(false);
-  const [resendStatus, setResendStatus] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
-  const [resendCooldown, setResendCooldown] = useState(0);
-
-  // Cooldown timer
-  useEffect(() => {
-    if (resendCooldown <= 0) return;
-    const t = setInterval(() => setResendCooldown(c => c - 1), 1000);
-    return () => clearInterval(t);
-  }, [resendCooldown]);
 
   // Load schools list for student dropdown
   useEffect(() => {
@@ -79,123 +66,33 @@ export function LoginPage() {
     try {
       if (mode === 'login') {
         await login(email, password, role);
-        // If we get here, login succeeded (no verification needed)
-        if (role === 'company') navigate('/company');
-        else if (role === 'school') navigate('/school');
-        else navigate('/swipe');
       } else {
         await register(email, password, role, {
           name,
           companyName,
           schoolName,
-          schoolDomain: schoolDomain.replace(/^@/, ''),
+          schoolDomain: schoolDomain.replace(/^@/, ''), // strip leading @
           contactName,
           schoolId: selectedSchoolId,
         });
-        // If needsVerification was set by register, the UI will switch automatically
-        // If for some reason it landed here without verification (shouldn't happen), fallback:
-        // navigate based on role
+      }
+
+      if (role === 'company') navigate('/company');
+      else if (role === 'school') navigate('/school');
+      else {
+        if (mode === 'register') setShowOnboarding(true);
+        else navigate('/swipe');
       }
     } catch (err: any) {
-      // If error has "verify" message, needsVerification is already set in context
-      if (err.message?.includes('verify')) {
-        // The auth context already set needsVerification
-      } else {
-        setError(err.message || 'Something went wrong');
-      }
+      setError(err.message || 'Something went wrong');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleResend = async () => {
-    setResendLoading(true);
-    setResendStatus(null);
-    try {
-      const msg = await resendVerification();
-      setResendStatus({ type: 'success', msg });
-      setResendCooldown(60);
-    } catch (err: any) {
-      const msg = err.message || 'Failed to resend';
-      setResendStatus({ type: 'error', msg });
-      // Parse retryAfter from error
-      const match = msg.match(/wait (\d+)/);
-      if (match) setResendCooldown(parseInt(match[1]));
-    } finally {
-      setResendLoading(false);
-    }
-  };
-
-  const handleBackToLogin = () => {
-    clearVerification();
-    setError('');
-    setMode('login');
-  };
-
   const switchRole = (r: Role) => { setRole(r); setError(''); };
   const switchMode = () => { setMode(m => m === 'login' ? 'register' : 'login'); setError(''); };
 
-  // ─── Verification Pending Screen ───────────────────────────────────────
-  if (needsVerification) {
-    return (
-      <div className="login-page">
-        <motion.div
-          className="login-card"
-          initial={{ opacity: 0, y: 24, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.45, ease: 'easeOut' }}
-        >
-          <div className="verification-pending">
-            <motion.div
-              className="verification-icon-wrap"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 15 }}
-            >
-              <Mail size={32} />
-            </motion.div>
-
-            <h2>Check your email</h2>
-            <p className="verification-email">{pendingEmail}</p>
-            <p className="verification-desc">
-              We've sent you a verification link. Click the link in your email to activate your account.
-              <br />
-              <span style={{ color: '#666' }}>
-                Can't find it? Check your spam folder.
-              </span>
-            </p>
-
-            <motion.button
-              className="resend-btn"
-              onClick={handleResend}
-              disabled={resendLoading || resendCooldown > 0}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <RefreshCw size={14} className={resendLoading ? 'spin' : ''} />
-              {resendLoading
-                ? 'Sending…'
-                : resendCooldown > 0
-                  ? `Resend in ${resendCooldown}s`
-                  : 'Resend verification email'}
-            </motion.button>
-
-            {resendStatus && (
-              <p className={`resend-status resend-status--${resendStatus.type}`}>
-                {resendStatus.msg}
-              </p>
-            )}
-
-            <button className="back-to-login-btn" onClick={handleBackToLogin}>
-              ← Back to login
-            </button>
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
-
-  // ─── Normal Login/Register Form ────────────────────────────────────────
   return (
     <div className="login-page">
       <motion.div

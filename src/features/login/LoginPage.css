@@ -215,14 +215,3 @@
   color: #22C55E;
   margin: 0.35rem 0 0;
 }
-
-/* ─── Spin animation for loading icons ────────────────────────── */
-.spin {
-  animation: spinAnim 1s linear infinite;
-}
-
-@keyframes spinAnim {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-

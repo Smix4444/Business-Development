@@ -19,15 +19,6 @@ module.exports = async (req, res) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    // Block unverified users
-    if (!user.email_verified) {
-      return res.status(403).json({
-        error: 'Please verify your email before signing in. Check your inbox for a verification link.',
-        needsVerification: true,
-        email: user.email,
-      });
-    }
-
     const token = signToken(user.id, user.role);
     res.json({
       token,

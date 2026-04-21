@@ -2,7 +2,6 @@
  * Persistent database layer backed by Supabase (PostgreSQL).
  * Replaces the ephemeral in-memory store.js for Vercel deployments.
  */
-const crypto = require('crypto');
 const { createClient } = require('@supabase/supabase-js');
 
 const supabase = createClient(
@@ -30,17 +29,10 @@ const db = {
     return data || null;
   },
 
-  async createUser({ email, passwordHash, role, name = '', companyName = '', schoolId = null, emailVerified = false }) {
-    const verificationToken = crypto.randomBytes(32).toString('hex');
+  async createUser({ email, passwordHash, role, name = '', companyName = '', schoolId = null }) {
     const { data, error } = await supabase
       .from('users')
-      .insert({
-        email, password_hash: passwordHash, role, name, bio: '',
-        company_name: companyName, school_id: schoolId,
-        email_verified: emailVerified,
-        verification_token: emailVerified ? null : verificationToken,
-        verification_sent_at: emailVerified ? null : new Date().toISOString(),
-      })
+      .insert({ email, password_hash: passwordHash, role, name, bio: '', company_name: companyName, school_id: schoolId })
       .select()
       .single();
     if (error) throw new Error(error.message);
@@ -63,38 +55,6 @@ const db = {
       .from('users')
       .update(patch)
       .eq('id', id)
-      .select()
-      .single();
-    if (error) return null;
-    return data;
-  },
-
-  async findUserByVerificationToken(token) {
-    const { data } = await supabase
-      .from('users')
-      .select('*')
-      .eq('verification_token', token)
-      .maybeSingle();
-    return data || null;
-  },
-
-  async markEmailVerified(userId) {
-    const { data, error } = await supabase
-      .from('users')
-      .update({ email_verified: true, verification_token: null })
-      .eq('id', userId)
-      .select()
-      .single();
-    if (error) return null;
-    return data;
-  },
-
-  async updateVerificationToken(userId) {
-    const newToken = crypto.randomBytes(32).toString('hex');
-    const { data, error } = await supabase
-      .from('users')
-      .update({ verification_token: newToken, verification_sent_at: new Date().toISOString() })
-      .eq('id', userId)
       .select()
       .single();
     if (error) return null;

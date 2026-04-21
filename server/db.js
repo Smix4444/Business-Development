@@ -4,7 +4,6 @@
  */
 const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
 const DATA_FILE = path.join(__dirname, 'data.json');
@@ -43,9 +42,8 @@ const db = {
   findUserById(id) {
     return load().users.find(u => u.id === id) || null;
   },
-  createUser({ email, passwordHash, role, name = '', companyName = '', emailVerified = false }) {
+  createUser({ email, passwordHash, role, name = '', companyName = '' }) {
     const data = load();
-    const verificationToken = crypto.randomBytes(32).toString('hex');
     const user = {
       id: nextId(data, 'users'),
       email,
@@ -56,9 +54,6 @@ const db = {
       photo: null,
       cv_file: null,
       company_name: companyName,
-      email_verified: emailVerified,
-      verification_token: emailVerified ? null : verificationToken,
-      verification_sent_at: emailVerified ? null : new Date().toISOString(),
       created_at: new Date().toISOString(),
     };
     data.users.push(user);
@@ -75,31 +70,6 @@ const db = {
         data.users[idx][key] = updates[key];
       }
     });
-    save(data);
-    return data.users[idx];
-  },
-
-  findUserByVerificationToken(token) {
-    return load().users.find(u => u.verification_token === token) || null;
-  },
-
-  markEmailVerified(userId) {
-    const data = load();
-    const idx = data.users.findIndex(u => u.id === userId);
-    if (idx === -1) return null;
-    data.users[idx].email_verified = true;
-    data.users[idx].verification_token = null;
-    save(data);
-    return data.users[idx];
-  },
-
-  updateVerificationToken(userId) {
-    const data = load();
-    const idx = data.users.findIndex(u => u.id === userId);
-    if (idx === -1) return null;
-    const newToken = crypto.randomBytes(32).toString('hex');
-    data.users[idx].verification_token = newToken;
-    data.users[idx].verification_sent_at = new Date().toISOString();
     save(data);
     return data.users[idx];
   },
@@ -189,8 +159,8 @@ const db = {
 if (!fs.existsSync(DATA_FILE)) {
   const passwordHash = bcrypt.hashSync('password123', 10);
 
-  const student = db.createUser({ email: 'student@demo.com', passwordHash, role: 'student', name: 'Alex Johnson', emailVerified: true });
-  const company = db.createUser({ email: 'company@demo.com', passwordHash, role: 'company', name: 'Sarah Chen', companyName: 'TechCorp Solutions', emailVerified: true });
+  const student = db.createUser({ email: 'student@demo.com', passwordHash, role: 'student', name: 'Alex Johnson' });
+  const company = db.createUser({ email: 'company@demo.com', passwordHash, role: 'company', name: 'Sarah Chen', companyName: 'TechCorp Solutions' });
 
   const internshipSeed = [
     {
