@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const db = require('../_lib/db');
-const { signToken } = require('../_lib/authMiddleware');
+const { sendVerificationEmail } = require('../_lib/email');
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,13 +33,18 @@ module.exports = async (req, res) => {
         passwordHash,
         role: 'school',
         name: contactName || name || '',
-        companyName: schoolDomain || '', // reuse company_name field for domain
-        // school's display name stored in bio field
+        companyName: schoolDomain || '',
       });
-      // Store school display name in bio
       await db.updateUser(user.id, { bio: schoolName });
-      const token = signToken(user.id, 'school');
-      return res.status(201).json({ token, role: 'school', userId: user.id });
+
+      // Send verification email
+      try {
+        await sendVerificationEmail(email, contactName || name || '', user.verification_token);
+      } catch (emailErr) {
+        console.error('Failed to send verification email:', emailErr);
+      }
+
+      return res.status(201).json({ needsVerification: true, email });
     }
 
     // ── Student registration — auto-link school by domain or explicit pick ──
@@ -63,8 +68,15 @@ module.exports = async (req, res) => {
       schoolId: resolvedSchoolId,
     });
 
-    const token = signToken(user.id, role);
-    res.status(201).json({ token, role, userId: user.id, schoolId: resolvedSchoolId });
+    // Send verification email
+    try {
+      await sendVerificationEmail(email, name || companyName || '', user.verification_token);
+    } catch (emailErr) {
+      console.error('Failed to send verification email:', emailErr);
+    }
+
+    // Don't return a JWT — user needs to verify email first
+    res.status(201).json({ needsVerification: true, email });
   } catch (err) {
     console.error('register error:', err);
     res.status(500).json({ error: 'Internal server error' });
