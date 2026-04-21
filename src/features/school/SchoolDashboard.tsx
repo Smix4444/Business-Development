@@ -227,7 +227,7 @@ export function SchoolDashboard() {
             { icon: <Users size={16} />, label: 'Total Students', value: stats.total, color: '#F2F2F2' },
             { icon: <TrendingUp size={16} />, label: 'Active (applied)', value: stats.active, color: '#A3A3A3' },
             { icon: <UserCheck size={16} />, label: 'Placed', value: stats.placed, color: '#22C55E' },
-            { icon: <Clock3 size={16} />, label: 'Not yet active', value: stats.inactive, color: '#555' },
+            { icon: <Clock3 size={16} />, label: 'Not yet active', value: stats.inactive, color: '#AAAAAA' },
           ].map((s, i) => (
             <motion.div
               key={i}

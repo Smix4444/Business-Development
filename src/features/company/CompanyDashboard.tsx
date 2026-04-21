@@ -81,7 +81,7 @@ export function CompanyDashboard() {
 
           {applicants.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '4rem 2rem', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '1.25rem' }}>
-              <Briefcase size={40} style={{ color: '#2A2A2A', margin: '0 auto 1rem', display: 'block' }} />
+              <Briefcase size={40} style={{ color: '#888888', margin: '0 auto 1rem', display: 'block' }} />
               <p style={{ color: '#999999', fontSize: '0.88rem' }}>No applicants yet. Share your listing to get started.</p>
             </div>
           ) : (

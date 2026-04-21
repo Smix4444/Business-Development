@@ -170,7 +170,7 @@
 
 .stat-sub {
   font-size: 0.68rem;
-  color: #888888;
+  color: #C8C8C8;
   margin-top: 0.2rem;
 }
 
@@ -419,7 +419,7 @@
   align-items: center;
   justify-content: center;
   padding: 6rem 2rem;
-  color: #888888;
+  color: #C8C8C8;
   text-align: center;
   gap: 1rem;
 }

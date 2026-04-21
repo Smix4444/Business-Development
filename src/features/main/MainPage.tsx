@@ -184,10 +184,10 @@ export function MainPage() {
                   </Popover>
                 </div>
 
-                <div style={{ fontSize: '0.78rem', color: '#3A3A3A', marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <Info size={12} style={{ color: '#2A2A2A' }} />
+                <div style={{ fontSize: '0.78rem', color: '#999999', marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <Info size={12} style={{ color: '#888888' }} />
                   <span>tap card for details</span>
-                  <span style={{ color: '#222', margin: '0 0.25rem' }}>·</span>
+                  <span style={{ color: '#999999', margin: '0 0.25rem' }}>·</span>
                   {filteredInternships.length - currentIndex} remaining
                 </div>
               </div>
@@ -229,7 +229,7 @@ export function MainPage() {
             </>
           ) : (
             <div className="empty-state">
-              <Briefcase size={48} style={{ margin: '0 auto 1rem', color: '#2A2A2A', display: 'block' }} />
+              <Briefcase size={48} style={{ margin: '0 auto 1rem', color: '#888888', display: 'block' }} />
               <h2>All caught up</h2>
               <p style={{ marginBottom: '1.5rem' }}>You&apos;ve seen all available internships matching your filters.</p>
               <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>

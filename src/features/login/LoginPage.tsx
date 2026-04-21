@@ -229,11 +229,11 @@ export function LoginPage() {
         </div>
 
         <button type="button" onClick={switchMode} className="login-btn"
-          style={{ background: 'transparent', color: '#666666', border: '1px solid rgba(255,255,255,0.09)', marginTop: 0 }}>
+          style={{ background: 'transparent', color: '#BBBBBB', border: '1px solid rgba(255,255,255,0.09)', marginTop: 0 }}>
           {mode === 'login' ? 'Create a free account' : 'Sign in instead'}
         </button>
 
-        <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.72rem', color: '#2E2E2E' }}>
+        <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.72rem', color: '#888888' }}>
           Demo: student@demo.com / password123
         </div>
 

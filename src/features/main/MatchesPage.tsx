@@ -107,7 +107,7 @@ export function MatchesPage() {
 
         {applications.length === 0 ? (
           <div className="empty-state">
-            <Briefcase size={48} style={{ margin: '0 auto 1rem', color: '#2A2A2A', display: 'block' }} />
+            <Briefcase size={48} style={{ margin: '0 auto 1rem', color: '#888888', display: 'block' }} />
             <h2>No applications yet</h2>
             <p>Go back to swiping to find your dream internship.</p>
             <Link to="/swipe" className="login-btn" style={{ textDecoration: 'none', display: 'inline-flex', marginTop: '1.75rem' }}>
