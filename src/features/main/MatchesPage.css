@@ -26,7 +26,7 @@
 
 .matches-count {
   font-size: 0.88rem;
-  color: #444444;
+  color: #999999;
 }
 
 .apps-list {
@@ -92,7 +92,7 @@
 
 .app-company {
   font-size: 0.8rem;
-  color: #555555;
+  color: #AAAAAA;
   margin: 0 0 0.85rem;
 }
 
@@ -102,7 +102,7 @@
   border-radius: 0.75rem;
   padding: 0.85rem 1rem;
   font-size: 0.8rem;
-  color: #666666;
+  color: #BBBBBB;
   line-height: 1.55;
   font-style: italic;
 }
@@ -115,8 +115,8 @@
   border-radius: 1.5rem;
 }
 
-.empty-state h2 { color: #888888; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
-.empty-state p  { color: #3A3A3A; font-size: 0.85rem; }
+.empty-state h2 { color: #C8C8C8; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+.empty-state p  { color: #888888; font-size: 0.85rem; }
 
 /* ─── Header row ──────────────────────────────────────────────── */
 .matches-header {
@@ -145,7 +145,7 @@
   border-radius: 6px;
   border: none;
   background: transparent;
-  color: #444;
+  color: #999999;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -190,13 +190,13 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #666;
+  color: #BBBBBB;
   flex: 1;
 }
 
 .kanban-column-count {
   background: rgba(255,255,255,0.06);
-  color: #555;
+  color: #AAAAAA;
   font-size: 0.7rem;
   font-weight: 700;
   border-radius: 5px;
@@ -218,7 +218,7 @@
   border-radius: 0.85rem;
 }
 
-.kanban-empty p { font-size: 0.75rem; color: #2a2a2a; margin: 0; }
+.kanban-empty p { font-size: 0.75rem; color: #888888; margin: 0; }
 
 /* Kanban cards are compact */
 .kanban-board .app-card .app-card-img { height: 110px; }

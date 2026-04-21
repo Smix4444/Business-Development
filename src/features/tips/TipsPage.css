@@ -22,7 +22,7 @@
 .msg-header {
   font-weight: 700;
   font-size: 0.85rem;
-  color: #888888;
+  color: #C8C8C8;
   margin-bottom: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -62,7 +62,7 @@
 }
 
 [data-slot="tabs-trigger"] {
-  color: #555555 !important;
+  color: #AAAAAA !important;
 }
 
 [data-slot="tabs-trigger"][data-state="active"] {

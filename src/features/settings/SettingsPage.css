@@ -24,7 +24,7 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  color: #555555;
+  color: #AAAAAA;
   text-decoration: none;
   font-weight: 600;
   font-size: 0.83rem;
@@ -68,7 +68,7 @@
 .settings-label {
   font-size: 0.74rem;
   font-weight: 700;
-  color: #555555;
+  color: #AAAAAA;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -87,7 +87,7 @@
   box-sizing: border-box;
 }
 
-.settings-input::placeholder { color: #2E2E2E; }
+.settings-input::placeholder { color: #666666; }
 
 .settings-input:focus {
   border-color: rgba(255,255,255,0.22);
@@ -104,7 +104,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  color: #444444;
+  color: #999999;
   font-size: 0.82rem;
   transition: border-color 0.2s, background 0.2s, color 0.2s;
 }
@@ -112,7 +112,7 @@
 .photo-upload-area-settings:hover {
   border-color: rgba(255,255,255,0.2);
   background: rgba(255,255,255,0.03);
-  color: #888888;
+  color: #C8C8C8;
 }
 
 .photo-preview-settings {
@@ -129,7 +129,7 @@
   padding: 1.2rem;
   text-align: center;
   cursor: pointer;
-  color: #444444;
+  color: #999999;
   font-size: 0.82rem;
   transition: border-color 0.2s, background 0.2s;
 }

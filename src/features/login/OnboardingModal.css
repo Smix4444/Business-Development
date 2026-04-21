@@ -34,7 +34,7 @@
 
 .onboarding-subtitle {
   font-size: 0.85rem;
-  color: #555555;
+  color: #AAAAAA;
   margin: 0 0 2rem;
 }
 
@@ -48,7 +48,7 @@
   display: block;
   font-size: 0.76rem;
   font-weight: 600;
-  color: #555555;
+  color: #AAAAAA;
   margin-bottom: 0.45rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -57,7 +57,7 @@
 .optional-badge {
   font-size: 0.68rem;
   font-weight: 500;
-  color: #333333;
+  color: #999999;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.07);
   padding: 0.1rem 0.45rem;
@@ -80,7 +80,7 @@
   box-sizing: border-box;
 }
 
-.onboarding-input::placeholder { color: #333333; }
+.onboarding-input::placeholder { color: #666666; }
 
 .onboarding-input:focus {
   border-color: rgba(255,255,255,0.22);
@@ -97,7 +97,7 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  color: #444444;
+  color: #999999;
   font-size: 0.82rem;
   transition: border-color 0.2s, background 0.2s;
 }
@@ -105,7 +105,7 @@
 .photo-upload-area:hover {
   border-color: rgba(255,255,255,0.2);
   background: rgba(255,255,255,0.03);
-  color: #888888;
+  color: #C8C8C8;
 }
 
 .photo-preview {
@@ -122,7 +122,7 @@
   padding: 1.25rem;
   text-align: center;
   cursor: pointer;
-  color: #444444;
+  color: #999999;
   font-size: 0.82rem;
   transition: border-color 0.2s, background 0.2s;
 }
@@ -162,9 +162,9 @@
   display: block;
   text-align: center;
   font-size: 0.8rem;
-  color: #3A3A3A;
+  color: #888888;
   cursor: pointer;
   transition: color 0.2s;
 }
 
-.skip-link:hover { color: #666666; }
+.skip-link:hover { color: #BBBBBB; }

@@ -54,6 +54,33 @@ const INTERNSHIPS = [
   },
 ];
 
+const DUMMY_STUDENTS = [
+  { email: 'emma.verhoeven@demo.com', name: 'Emma Verhoeven', bio: 'Computer Science student passionate about frontend development', school_name: 'Demo School' },
+  { email: 'liam.patel@demo.com', name: 'Liam Patel', bio: 'Business student with interest in fintech', school_name: 'Demo School' },
+  { email: 'sofia.martinez@demo.com', name: 'Sofia Martinez', bio: 'Marketing student with creative skills', school_name: 'Demo School' },
+  { email: 'noah.kim@demo.com', name: 'Noah Kim', bio: 'Data Science student with Python expertise', school_name: 'Demo School' },
+  { email: 'aisha.osei@demo.com', name: 'Aisha Osei', bio: 'Design student exploring UX research', school_name: 'Demo School' },
+];
+
+const STUDENT_APPLICATIONS = [
+  // Emma: 3 applications
+  { studentEmail: 'emma.verhoeven@demo.com', internshipId: 1, status: 'accepted', message: 'I am passionate about React and TypeScript and would love to contribute to your engineering team.' },
+  { studentEmail: 'emma.verhoeven@demo.com', internshipId: 2, status: 'pending', message: 'My frontend skills translate well into UX/UI and I am eager to learn design thinking.' },
+  { studentEmail: 'emma.verhoeven@demo.com', internshipId: 3, status: 'rejected', message: 'I have been learning Python and pandas and want to apply my skills in a real data environment.' },
+  // Liam: 2 applications
+  { studentEmail: 'liam.patel@demo.com', internshipId: 4, status: 'pending', message: 'Sustainability and business strategy are my core interests. I would love to contribute to ESG reporting.' },
+  { studentEmail: 'liam.patel@demo.com', internshipId: 5, status: 'pending', message: 'As a finance student I am excited about fintech and financial modelling opportunities.' },
+  // Sofia: 2 applications
+  { studentEmail: 'sofia.martinez@demo.com', internshipId: 6, status: 'rejected', message: 'I run my own social media accounts and want to apply my creative skills professionally.' },
+  { studentEmail: 'sofia.martinez@demo.com', internshipId: 7, status: 'pending', message: 'Product management fascinates me and I want to learn how user research drives decisions.' },
+  // Noah: 4 applications
+  { studentEmail: 'noah.kim@demo.com', internshipId: 1, status: 'pending', message: 'I have strong experience with Node.js and React from personal projects and hackathons.' },
+  { studentEmail: 'noah.kim@demo.com', internshipId: 3, status: 'accepted', message: 'Python is my primary language and I have built multiple ML models in academic projects.' },
+  { studentEmail: 'noah.kim@demo.com', internshipId: 5, status: 'rejected', message: 'I am interested in quantitative finance and have built financial models in Python.' },
+  { studentEmail: 'noah.kim@demo.com', internshipId: 8, status: 'pending', message: 'I enjoy writing technical content and have a personal blog about data science topics.' },
+  // Aisha: 0 applications (inactive)
+];
+
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method === 'OPTIONS') return res.status(200).end();
@@ -75,6 +102,24 @@ module.exports = async (req, res) => {
       .select()
       .single();
 
+    // Upsert school demo account
+    await supabase
+      .from('users')
+      .upsert({ email: 'school@demo.com', password_hash: passwordHash, role: 'school', name: 'Demo School', bio: 'Demo School', company_name: '' }, { onConflict: 'email', ignoreDuplicates: false })
+      .select()
+      .single();
+
+    // Upsert dummy students
+    const studentRecords = [];
+    for (const s of DUMMY_STUDENTS) {
+      const { data: rec } = await supabase
+        .from('users')
+        .upsert({ email: s.email, password_hash: passwordHash, role: 'student', name: s.name, bio: s.bio, company_name: '', school_name: s.school_name }, { onConflict: 'email', ignoreDuplicates: false })
+        .select()
+        .single();
+      if (rec) studentRecords.push(rec);
+    }
+
     // Only seed internships if none exist
     const { count } = await supabase
       .from('internships')
@@ -87,10 +132,40 @@ module.exports = async (req, res) => {
       internshipsSeeded = rows.length;
     }
 
+    // Seed applications for dummy students (skip if already exist)
+    let applicationsSeeded = 0;
+    for (const app of STUDENT_APPLICATIONS) {
+      const studentRec = studentRecords.find(s => s.email === app.studentEmail);
+      if (!studentRec) continue;
+
+      // Check if this application already exists
+      const { count: existingCount } = await supabase
+        .from('applications')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', studentRec.id)
+        .eq('internship_id', app.internshipId);
+
+      if (existingCount === 0) {
+        await supabase.from('applications').insert({
+          user_id: studentRec.id,
+          internship_id: app.internshipId,
+          status: app.status,
+          message: app.message,
+          applied_at: new Date().toISOString(),
+        });
+        applicationsSeeded++;
+      }
+    }
+
     res.json({
       success: true,
-      message: `Demo accounts upserted. ${internshipsSeeded > 0 ? `${internshipsSeeded} internships seeded.` : 'Internships already exist, skipped.'}`,
-      accounts: ['student@demo.com / password123', 'company@demo.com / password123'],
+      message: `Demo accounts upserted. ${internshipsSeeded > 0 ? `${internshipsSeeded} internships seeded.` : 'Internships already exist, skipped.'} ${applicationsSeeded} applications seeded.`,
+      accounts: [
+        'student@demo.com / password123',
+        'company@demo.com / password123',
+        'school@demo.com / password123',
+        ...DUMMY_STUDENTS.map(s => `${s.email} / password123`),
+      ],
     });
   } catch (err) {
     console.error('seed error:', err);

@@ -49,7 +49,7 @@
 
 .school-header-sub {
   font-size: 0.72rem;
-  color: #444;
+  color: #999999;
   margin: 0;
 }
 
@@ -65,7 +65,7 @@
   padding: 0.45rem 0.9rem;
   font-size: 0.78rem;
   font-weight: 500;
-  color: #666;
+  color: #BBBBBB;
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 8px;
@@ -102,7 +102,7 @@
 
 .school-stat-icon { opacity: 0.7; }
 .school-stat-num  { font-size: 2rem; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
-.school-stat-label { font-size: 0.72rem; color: #444; font-weight: 500; }
+.school-stat-label { font-size: 0.72rem; color: #999999; font-weight: 500; }
 
 /* ─── Roster header ──────────────────────────────────────────────────────── */
 .school-roster-header {
@@ -129,7 +129,7 @@
 .school-search-icon {
   position: absolute;
   left: 0.75rem;
-  color: #444;
+  color: #999999;
   pointer-events: none;
 }
 
@@ -144,7 +144,7 @@
   width: 220px;
   transition: border-color 0.2s;
 }
-.school-search-input::placeholder { color: #333; }
+.school-search-input::placeholder { color: #666; }
 .school-search-input:focus { border-color: rgba(255,255,255,0.18); }
 
 /* ─── Roster list ────────────────────────────────────────────────────────── */
@@ -205,12 +205,12 @@
   align-items: center;
   gap: 0.5rem;
 }
-.student-row-email { font-size: 0.75rem; color: #444; margin-top: 0.1rem; }
+.student-row-email { font-size: 0.75rem; color: #999999; margin-top: 0.1rem; }
 
 /* Apps count */
 .student-row-apps { display: flex; flex-direction: column; align-items: center; min-width: 40px; }
 .apps-count { font-size: 1.1rem; font-weight: 800; color: #F2F2F2; letter-spacing: -0.03em; line-height: 1; }
-.apps-label { font-size: 0.62rem; color: #3a3a3a; text-transform: uppercase; letter-spacing: 0.06em; }
+.apps-label { font-size: 0.62rem; color: #888888; text-transform: uppercase; letter-spacing: 0.06em; }
 
 /* Status tags */
 .student-row-statuses { min-width: 70px; }
@@ -229,8 +229,8 @@
 .student-status-tag.placed   { color: #F2F2F2; background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.18); }
 .student-status-tag.inactive { color: #444;    background: transparent;             border-color: rgba(255,255,255,0.07); }
 
-.student-row-arrow { color: #2a2a2a; flex-shrink: 0; transition: color 0.2s; }
-.school-student-row:hover .student-row-arrow { color: #666; }
+.student-row-arrow { color: #888888; flex-shrink: 0; transition: color 0.2s; }
+.school-student-row:hover .student-row-arrow { color: #BBBBBB; }
 
 /* Placed chip */
 .placed-chip {
@@ -254,9 +254,9 @@
   align-items: center;
   gap: 1rem;
   padding: 5rem 2rem;
-  color: #333;
+  color: #999999;
 }
-.school-loading p { font-size: 0.85rem; color: #333; margin: 0; }
+.school-loading p { font-size: 0.85rem; color: #999999; margin: 0; }
 
 .school-empty {
   display: flex;
@@ -264,12 +264,12 @@
   align-items: center;
   padding: 5rem 2rem;
   text-align: center;
-  color: #2a2a2a;
+  color: #888888;
   border: 1px solid rgba(255,255,255,0.05);
   border-radius: 14px;
 }
-.school-empty h3 { font-size: 1rem; color: #444; margin: 1rem 0 0.4rem; }
-.school-empty p  { font-size: 0.82rem; color: #2a2a2a; margin: 0; max-width: 360px; }
+.school-empty h3 { font-size: 1rem; color: #999999; margin: 1rem 0 0.4rem; }
+.school-empty p  { font-size: 0.82rem; color: #888888; margin: 0; max-width: 360px; }
 
 .school-error {
   background: rgba(239,68,68,0.07);
@@ -318,7 +318,7 @@
   border-radius: 8px;
   border: 1px solid rgba(255,255,255,0.08);
   background: transparent;
-  color: #555;
+  color: #AAAAAA;
   cursor: pointer;
   margin-bottom: 1.25rem;
   transition: color 0.2s, background 0.2s;
@@ -358,11 +358,11 @@
 }
 
 .panel-student-name  { font-size: 1.05rem; font-weight: 700; margin: 0 0 0.15rem; color: #F2F2F2; }
-.panel-student-email { font-size: 0.75rem; color: #444; margin: 0; }
+.panel-student-email { font-size: 0.75rem; color: #999999; margin: 0; }
 
 .panel-bio {
   font-size: 0.8rem;
-  color: #555;
+  color: #AAAAAA;
   font-style: italic;
   line-height: 1.55;
   margin: 0 0 1rem;
@@ -391,7 +391,7 @@
 .panel-stat:last-child { border-right: none; }
 
 .panel-stat-num   { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.04em; color: #F2F2F2; line-height: 1; }
-.panel-stat-label { font-size: 0.65rem; color: #444; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.2rem; }
+.panel-stat-label { font-size: 0.65rem; color: #999999; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.2rem; }
 
 /* Panel body */
 .panel-body { padding: 1.5rem; flex: 1; }
@@ -401,7 +401,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #444;
+  color: #999999;
   margin: 0 0 1rem;
 }
 
@@ -423,13 +423,13 @@
 }
 
 .panel-app-role    { font-size: 0.85rem; font-weight: 600; color: #F2F2F2; margin: 0 0 0.15rem; }
-.panel-app-company { font-size: 0.75rem; color: #555; margin: 0 0 0.15rem; }
+.panel-app-company { font-size: 0.75rem; color: #AAAAAA; margin: 0 0 0.15rem; }
 .panel-app-location {
   display: flex;
   align-items: center;
   gap: 0.25rem;
   font-size: 0.7rem;
-  color: #3a3a3a;
+  color: #888888;
   margin: 0;
 }
 
@@ -446,7 +446,7 @@
   flex-shrink: 0;
 }
 
-.panel-app-date { font-size: 0.68rem; color: #2a2a2a; margin: 0; }
+.panel-app-date { font-size: 0.68rem; color: #888888; margin: 0; }
 
 .panel-empty {
   display: flex;
@@ -454,10 +454,10 @@
   align-items: center;
   gap: 0.75rem;
   padding: 3rem 1rem;
-  color: #2a2a2a;
+  color: #888888;
   text-align: center;
 }
-.panel-empty p { font-size: 0.82rem; color: #333; margin: 0; }
+.panel-empty p { font-size: 0.82rem; color: #999999; margin: 0; }
 
 /* ─── Spin ───────────────────────────────────────────────────────────────── */
 @keyframes spin { to { transform: rotate(360deg); } }

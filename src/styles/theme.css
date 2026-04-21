@@ -12,8 +12,8 @@
 
   /* Text */
   --text-primary:   #F2F2F2;
-  --text-secondary: #888888;
-  --text-muted:     #444444;
+  --text-secondary: #C8C8C8;
+  --text-muted:     #909090;
 
   /* Glass */
   --glass-bg:    rgba(255, 255, 255, 0.03);
@@ -40,7 +40,7 @@
   --secondary:              #171717;
   --secondary-foreground:   #F2F2F2;
   --muted:                  #171717;
-  --muted-foreground:       #888888;
+  --muted-foreground:       #C8C8C8;
   --accent:                 #1E1E1E;
   --accent-foreground:      #F2F2F2;
   --destructive:            #EF4444;

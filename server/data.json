@@ -10,6 +10,7 @@
       "photo": null,
       "cv_file": null,
       "company_name": "",
+      "school_name": "",
       "created_at": "2026-04-05T23:23:34.457Z"
     },
     {
@@ -22,7 +23,86 @@
       "photo": null,
       "cv_file": null,
       "company_name": "TechCorp Solutions",
+      "school_name": "",
       "created_at": "2026-04-05T23:23:34.459Z"
+    },
+    {
+      "id": 3,
+      "email": "school@demo.com",
+      "password_hash": "$2a$10$iU3JVfx6.vBjUFp43JvfeeGHqoywvyQY8MWyqwfAdGUtfG81yisfS",
+      "role": "school",
+      "name": "Demo School",
+      "bio": "Demo School",
+      "photo": null,
+      "cv_file": null,
+      "company_name": "",
+      "school_name": "",
+      "created_at": "2026-04-05T23:23:34.460Z"
+    },
+    {
+      "id": 4,
+      "email": "emma.verhoeven@demo.com",
+      "password_hash": "$2a$10$iU3JVfx6.vBjUFp43JvfeeGHqoywvyQY8MWyqwfAdGUtfG81yisfS",
+      "role": "student",
+      "name": "Emma Verhoeven",
+      "bio": "Computer Science student passionate about frontend development",
+      "photo": null,
+      "cv_file": null,
+      "company_name": "",
+      "school_name": "Demo School",
+      "created_at": "2026-04-10T10:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "email": "liam.patel@demo.com",
+      "password_hash": "$2a$10$iU3JVfx6.vBjUFp43JvfeeGHqoywvyQY8MWyqwfAdGUtfG81yisfS",
+      "role": "student",
+      "name": "Liam Patel",
+      "bio": "Business student with interest in fintech",
+      "photo": null,
+      "cv_file": null,
+      "company_name": "",
+      "school_name": "Demo School",
+      "created_at": "2026-04-10T10:01:00.000Z"
+    },
+    {
+      "id": 6,
+      "email": "sofia.martinez@demo.com",
+      "password_hash": "$2a$10$iU3JVfx6.vBjUFp43JvfeeGHqoywvyQY8MWyqwfAdGUtfG81yisfS",
+      "role": "student",
+      "name": "Sofia Martinez",
+      "bio": "Marketing student with creative skills",
+      "photo": null,
+      "cv_file": null,
+      "company_name": "",
+      "school_name": "Demo School",
+      "created_at": "2026-04-10T10:02:00.000Z"
+    },
+    {
+      "id": 7,
+      "email": "noah.kim@demo.com",
+      "password_hash": "$2a$10$iU3JVfx6.vBjUFp43JvfeeGHqoywvyQY8MWyqwfAdGUtfG81yisfS",
+      "role": "student",
+      "name": "Noah Kim",
+      "bio": "Data Science student with Python expertise",
+      "photo": null,
+      "cv_file": null,
+      "company_name": "",
+      "school_name": "Demo School",
+      "created_at": "2026-04-10T10:03:00.000Z"
+    },
+    {
+      "id": 8,
+      "email": "aisha.osei@demo.com",
+      "password_hash": "$2a$10$iU3JVfx6.vBjUFp43JvfeeGHqoywvyQY8MWyqwfAdGUtfG81yisfS",
+      "role": "student",
+      "name": "Aisha Osei",
+      "bio": "Design student exploring UX research",
+      "photo": null,
+      "cv_file": null,
+      "company_name": "",
+      "school_name": "Demo School",
+      "created_at": "2026-04-10T10:04:00.000Z"
     }
   ],
   "internships": [
@@ -195,10 +275,99 @@
       "created_at": "2026-04-05T23:23:34.463Z"
     }
   ],
-  "applications": [],
+  "applications": [
+    {
+      "id": 1,
+      "user_id": 4,
+      "internship_id": 1,
+      "status": "accepted",
+      "message": "I am passionate about React and TypeScript and would love to contribute to your engineering team.",
+      "applied_at": "2026-04-12T09:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "user_id": 4,
+      "internship_id": 2,
+      "status": "pending",
+      "message": "My frontend skills translate well into UX/UI and I am eager to learn design thinking.",
+      "applied_at": "2026-04-12T09:05:00.000Z"
+    },
+    {
+      "id": 3,
+      "user_id": 4,
+      "internship_id": 3,
+      "status": "rejected",
+      "message": "I have been learning Python and pandas and want to apply my skills in a real data environment.",
+      "applied_at": "2026-04-12T09:10:00.000Z"
+    },
+    {
+      "id": 4,
+      "user_id": 5,
+      "internship_id": 4,
+      "status": "pending",
+      "message": "Sustainability and business strategy are my core interests. I would love to contribute to ESG reporting.",
+      "applied_at": "2026-04-13T10:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "user_id": 5,
+      "internship_id": 5,
+      "status": "pending",
+      "message": "As a finance student I am excited about fintech and financial modelling opportunities.",
+      "applied_at": "2026-04-13T10:05:00.000Z"
+    },
+    {
+      "id": 6,
+      "user_id": 6,
+      "internship_id": 6,
+      "status": "rejected",
+      "message": "I run my own social media accounts and want to apply my creative skills professionally.",
+      "applied_at": "2026-04-14T11:00:00.000Z"
+    },
+    {
+      "id": 7,
+      "user_id": 6,
+      "internship_id": 7,
+      "status": "pending",
+      "message": "Product management fascinates me and I want to learn how user research drives decisions.",
+      "applied_at": "2026-04-14T11:05:00.000Z"
+    },
+    {
+      "id": 8,
+      "user_id": 7,
+      "internship_id": 1,
+      "status": "pending",
+      "message": "I have strong experience with Node.js and React from personal projects and hackathons.",
+      "applied_at": "2026-04-15T12:00:00.000Z"
+    },
+    {
+      "id": 9,
+      "user_id": 7,
+      "internship_id": 3,
+      "status": "accepted",
+      "message": "Python is my primary language and I have built multiple ML models in academic projects.",
+      "applied_at": "2026-04-15T12:05:00.000Z"
+    },
+    {
+      "id": 10,
+      "user_id": 7,
+      "internship_id": 5,
+      "status": "rejected",
+      "message": "I am interested in quantitative finance and have built financial models in Python.",
+      "applied_at": "2026-04-15T12:10:00.000Z"
+    },
+    {
+      "id": 11,
+      "user_id": 7,
+      "internship_id": 8,
+      "status": "pending",
+      "message": "I enjoy writing technical content and have a personal blog about data science topics.",
+      "applied_at": "2026-04-15T12:15:00.000Z"
+    }
+  ],
   "_seq": {
-    "users": 2,
+    "users": 8,
     "internships": 8,
-    "applications": 0
+    "applications": 11
   }
 }

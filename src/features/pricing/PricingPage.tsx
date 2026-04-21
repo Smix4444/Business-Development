@@ -195,7 +195,7 @@ export function PricingPage() {
       </section>
 
       <p className="pricing-footer-note">
-        All prices exclude VAT where applicable. · <a href="mailto:hello@internmatch.io" style={{ color: '#555' }}>hello@internmatch.io</a>
+        All prices exclude VAT where applicable. · <a href="mailto:hello@internmatch.io" style={{ color: '#AAAAAA' }}>hello@internmatch.io</a>
       </p>
     </div>
   );

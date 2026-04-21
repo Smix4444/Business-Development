@@ -41,7 +41,7 @@
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 4px;
   padding: 0.15rem 0.4rem;
-  color: #888;
+  color: #C8C8C8;
   margin-left: auto;
 }
 
@@ -60,7 +60,7 @@
   border-radius: 8px;
   font-size: 0.83rem;
   font-weight: 500;
-  color: #555;
+  color: #AAAAAA;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -105,7 +105,7 @@
 
 .admin-page-sub {
   font-size: 0.8rem;
-  color: #444;
+  color: #999999;
   margin: 0;
 }
 
@@ -114,7 +114,7 @@
   align-items: center;
   gap: 0.4rem;
   font-size: 0.75rem;
-  color: #555;
+  color: #AAAAAA;
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 999px;
   padding: 0.3rem 0.8rem;
@@ -164,13 +164,13 @@
 
 .stat-label {
   font-size: 0.75rem;
-  color: #555;
+  color: #AAAAAA;
   font-weight: 500;
 }
 
 .stat-sub {
   font-size: 0.68rem;
-  color: #3a3a3a;
+  color: #888888;
   margin-top: 0.2rem;
 }
 
@@ -195,14 +195,14 @@
 .chart-title {
   font-size: 0.78rem;
   font-weight: 600;
-  color: #555;
+  color: #AAAAAA;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin: 0 0 1rem;
 }
 
 .pie-legend { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.75rem; }
-.pie-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: #888; }
+.pie-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: #C8C8C8; }
 .pie-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .pie-val { margin-left: auto; font-weight: 700; color: #F2F2F2; }
 
@@ -250,7 +250,7 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #444;
+  color: #999999;
   border-bottom: 1px solid rgba(255,255,255,0.06);
   background: rgba(255,255,255,0.01);
 }
@@ -265,7 +265,7 @@
 .admin-table tr:last-child td { border-bottom: none; }
 .admin-table tr:hover td { background: rgba(255,255,255,0.02); }
 
-.dim { color: #444 !important; }
+.dim { color: #999999 !important; }
 
 .message-cell {
   max-width: 200px;
@@ -286,7 +286,7 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-.role-badge--student { background: rgba(255,255,255,0.07); color: #888; }
+.role-badge--student { background: rgba(255,255,255,0.07); color: #C8C8C8; }
 .role-badge--company { background: rgba(163,163,163,0.1); color: #aaa; }
 
 .status-chip {
@@ -325,7 +325,7 @@
   border: 1px solid rgba(255,255,255,0.08);
   background: transparent;
   cursor: pointer;
-  color: #555;
+  color: #AAAAAA;
   transition: all 0.2s;
 }
 .act-btn.accept:hover { background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); color: #22C55E; }
@@ -361,11 +361,11 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto 1.5rem;
-  color: #888;
+  color: #C8C8C8;
 }
 
 .admin-login-card h1 { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; margin: 0 0 0.5rem; }
-.admin-login-card p { font-size: 0.82rem; color: #444; margin: 0 0 1.5rem; }
+.admin-login-card p { font-size: 0.82rem; color: #999999; margin: 0 0 1.5rem; }
 
 .admin-input {
   width: 100%;
@@ -406,11 +406,11 @@
   display: inline-block;
   margin-top: 1.25rem;
   font-size: 0.78rem;
-  color: #333;
+  color: #999999;
   text-decoration: none;
   transition: color 0.2s;
 }
-.admin-back-link:hover { color: #888; }
+.admin-back-link:hover { color: #C8C8C8; }
 
 /* ─── Empty state ────────────────────────────────────────────────────────── */
 .admin-empty {
@@ -419,11 +419,11 @@
   align-items: center;
   justify-content: center;
   padding: 6rem 2rem;
-  color: #2a2a2a;
+  color: #888888;
   text-align: center;
   gap: 1rem;
 }
-.admin-empty p { font-size: 0.85rem; color: #333; margin: 0; }
+.admin-empty p { font-size: 0.85rem; color: #999999; margin: 0; }
 
 /* ─── Spin animation ─────────────────────────────────────────────────────── */
 @keyframes spin { to { transform: rotate(360deg); } }

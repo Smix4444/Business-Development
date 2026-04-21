@@ -27,8 +27,8 @@ export function TipsPage() {
       <header className="main-header" style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(6,6,6,0.85)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.07)', padding: '0.85rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div className="app-title">InternMatch</div>
         <nav className="header-nav" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Link to="/" className="nav-link" style={{ color: '#555', textDecoration: 'none', fontSize: '0.82rem', fontWeight: 500, padding: '0.4rem 0.8rem', borderRadius: '999px' }}>Home</Link>
-          <Link to="/swipe" className="nav-link" style={{ color: '#555', textDecoration: 'none', fontSize: '0.82rem', fontWeight: 500, padding: '0.4rem 0.8rem', borderRadius: '999px' }}>Find Matches</Link>
+          <Link to="/" className="nav-link" style={{ color: '#AAAAAA', textDecoration: 'none', fontSize: '0.82rem', fontWeight: 500, padding: '0.4rem 0.8rem', borderRadius: '999px' }}>Home</Link>
+          <Link to="/swipe" className="nav-link" style={{ color: '#AAAAAA', textDecoration: 'none', fontSize: '0.82rem', fontWeight: 500, padding: '0.4rem 0.8rem', borderRadius: '999px' }}>Find Matches</Link>
 
           <Popover>
             <PopoverTrigger asChild>
@@ -38,7 +38,7 @@ export function TipsPage() {
               </button>
             </PopoverTrigger>
             <PopoverContent style={{ width: '180px', padding: '0.5rem', background: '#111', border: '1px solid rgba(255,255,255,0.09)', borderRadius: '0.85rem' }} align="end">
-              <Link to="/settings" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: '#888', textDecoration: 'none', borderRadius: '0.5rem' }}>
+              <Link to="/settings" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: '#C8C8C8', textDecoration: 'none', borderRadius: '0.5rem' }}>
                 <Settings size={14} /> Settings
               </Link>
               <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: '#EF4444', background: 'transparent', border: 'none', cursor: 'pointer', borderRadius: '0.5rem', width: '100%', fontFamily: 'inherit' }}>
@@ -51,15 +51,15 @@ export function TipsPage() {
 
       <main className="tips-main-layout" style={{ padding: '2.5rem', background: '#060606', minHeight: 'calc(100vh - 64px)' }}>
         <div style={{ maxWidth: '860px', margin: '0 auto' }}>
-          <Link to="/swipe" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', color: '#555', textDecoration: 'none', marginBottom: '2rem' }}>
+          <Link to="/swipe" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.82rem', color: '#AAAAAA', textDecoration: 'none', marginBottom: '2rem' }}>
             <ChevronLeft size={16} /> Back to Swiping
           </Link>
 
           <div style={{ marginBottom: '2.5rem' }}>
             <h1 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.4rem)', fontWeight: 800, letterSpacing: '-0.03em', color: '#F2F2F2', margin: '0 0 0.4rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              <Lightbulb size={26} style={{ color: '#888' }} /> Success Guide
+              <Lightbulb size={26} style={{ color: '#C8C8C8' }} /> Success Guide
             </h1>
-            <p style={{ color: '#444', fontSize: '0.9rem' }}>Level up your internship applications with these communication tips.</p>
+            <p style={{ color: '#999999', fontSize: '0.9rem' }}>Level up your internship applications with these communication tips.</p>
           </div>
 
           <Tabs defaultValue="examples" className="w-full">
@@ -131,7 +131,7 @@ export function TipsPage() {
                     ].map((t, i) => (
                       <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                         <span style={{ color: '#22C55E', fontSize: '0.7rem', marginTop: '3px' }}>✅</span>
-                        <p style={{ fontSize: '0.82rem', color: '#666', margin: 0, lineHeight: 1.55 }}>{t}</p>
+                        <p style={{ fontSize: '0.82rem', color: '#BBBBBB', margin: 0, lineHeight: 1.55 }}>{t}</p>
                       </div>
                     ))}
                   </CardContent>
@@ -152,7 +152,7 @@ export function TipsPage() {
                     ].map((t, i) => (
                       <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                         <span style={{ color: '#EF4444', fontSize: '0.7rem', marginTop: '3px' }}>❌</span>
-                        <p style={{ fontSize: '0.82rem', color: '#666', margin: 0, lineHeight: 1.55 }}>{t}</p>
+                        <p style={{ fontSize: '0.82rem', color: '#BBBBBB', margin: 0, lineHeight: 1.55 }}>{t}</p>
                       </div>
                     ))}
                   </CardContent>
@@ -168,7 +168,7 @@ export function TipsPage() {
                   <CardTitle style={{ color: '#F97316', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <AlertTriangle size={16} /> Stay Safe Out There
                   </CardTitle>
-                  <CardDescription style={{ color: '#555', fontSize: '0.83rem' }}>Not every internship is genuine. Keep an eye out for these warning signs.</CardDescription>
+                  <CardDescription style={{ color: '#AAAAAA', fontSize: '0.83rem' }}>Not every internship is genuine. Keep an eye out for these warning signs.</CardDescription>
                 </CardHeader>
                 <CardContent style={{ padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                   {[
@@ -180,7 +180,7 @@ export function TipsPage() {
                       <div style={{ background: 'rgba(249,115,22,0.08)', padding: '0.5rem', borderRadius: '0.5rem', color: '#F97316', flexShrink: 0 }}>{item.icon}</div>
                       <div>
                         <p style={{ fontWeight: 700, fontSize: '0.85rem', color: '#CCCCCC', margin: '0 0 0.25rem' }}>{item.title}</p>
-                        <p style={{ fontSize: '0.78rem', color: '#555', margin: 0, lineHeight: 1.55 }}>{item.desc}</p>
+                        <p style={{ fontSize: '0.78rem', color: '#AAAAAA', margin: 0, lineHeight: 1.55 }}>{item.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -193,7 +193,7 @@ export function TipsPage() {
               <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#CCCCCC', marginBottom: '1.25rem' }}>Pre-Send Checklist</h2>
               <Card style={{ background: '#0F0F0F', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '1.1rem' }}>
                 <CardHeader style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid rgba(255,255,255,0.06)', borderRadius: '1.1rem 1.1rem 0 0', padding: '1rem 1.25rem' }}>
-                  <CardDescription style={{ color: '#555', fontSize: '0.83rem' }}>Run through this before you hit send on your application message.</CardDescription>
+                  <CardDescription style={{ color: '#AAAAAA', fontSize: '0.83rem' }}>Run through this before you hit send on your application message.</CardDescription>
                 </CardHeader>
                 <CardContent style={{ padding: '1.25rem' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>

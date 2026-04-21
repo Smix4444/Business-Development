@@ -284,17 +284,17 @@ export function LandingPage() {
 
           <div className="market-quote-card">
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '1.5rem' }}>
-              <AlertCircle size={18} style={{ color: '#555', flexShrink: 0, marginTop: '3px' }} />
+              <AlertCircle size={18} style={{ color: '#AAAAAA', flexShrink: 0, marginTop: '3px' }} />
               <div>
                 <p style={{ fontWeight: 700, fontSize: '0.85rem', color: '#CCCCCC', margin: '0 0 0.3rem' }}>The Readiness Gap</p>
-                <p style={{ fontSize: '0.8rem', color: '#505050', lineHeight: '1.55', margin: 0 }}>Students often feel "not good enough" and struggle with technical interviews, even when they have the skills.</p>
+                <p style={{ fontSize: '0.8rem', color: '#AAAAAA', lineHeight: '1.55', margin: 0 }}>Students often feel "not good enough" and struggle with technical interviews, even when they have the skills.</p>
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '2rem' }}>
-              <TrendingUp size={18} style={{ color: '#555', flexShrink: 0, marginTop: '3px' }} />
+              <TrendingUp size={18} style={{ color: '#AAAAAA', flexShrink: 0, marginTop: '3px' }} />
               <div>
                 <p style={{ fontWeight: 700, fontSize: '0.85rem', color: '#CCCCCC', margin: '0 0 0.3rem' }}>Manual Outreach Fatigue</p>
-                <p style={{ fontSize: '0.8rem', color: '#505050', lineHeight: '1.55', margin: 0 }}>Cold-emailing and fragmented applications are the #1 pain point cited by student job-seekers.</p>
+                <p style={{ fontSize: '0.8rem', color: '#AAAAAA', lineHeight: '1.55', margin: 0 }}>Cold-emailing and fragmented applications are the #1 pain point cited by student job-seekers.</p>
               </div>
             </div>
             <p className="market-quote-text">
@@ -340,7 +340,7 @@ export function LandingPage() {
         <div className="landing-footer">
           <span className="footer-copy">© 2026 InternMatch. All rights reserved.</span>
           <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-            <Link to="/admin" style={{ fontSize: '0.72rem', color: '#222', textDecoration: 'none', transition: 'color 0.2s' }}
+            <Link to="/admin" style={{ fontSize: '0.72rem', color: '#888888', textDecoration: 'none', transition: 'color 0.2s' }}
               onMouseEnter={e => (e.currentTarget.style.color = '#555')}
               onMouseLeave={e => (e.currentTarget.style.color = '#222')}
             >

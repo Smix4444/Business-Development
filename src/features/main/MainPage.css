@@ -34,7 +34,7 @@
 }
 
 .nav-link {
-  color: #555555;
+  color: #AAAAAA;
   text-decoration: none;
   font-weight: 500;
   font-size: 0.82rem;
@@ -227,7 +227,7 @@
 
 .tag {
   background: rgba(255,255,255,0.06);
-  color: #666666;
+  color: #BBBBBB;
   padding: 0.18rem 0.6rem;
   border-radius: 999px;
   font-size: 0.7rem;
@@ -239,7 +239,7 @@
 }
 
 .card-description {
-  color: #4A4A4A;
+  color: #AAAAAA;
   line-height: 1.55;
   font-size: 0.8rem;
 }
@@ -247,7 +247,7 @@
 .requirements h4 {
   font-size: 0.68rem;
   font-weight: 700;
-  color: #3A3A3A;
+  color: #888888;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin: 0 0 0.35rem;
@@ -322,7 +322,7 @@
 }
 
 .modal-description {
-  color: #4A4A4A;
+  color: #AAAAAA;
   font-size: 0.84rem;
   line-height: 1.6;
   margin: 0 0 1.25rem;
@@ -344,7 +344,7 @@
   box-sizing: border-box;
 }
 
-.message-area::placeholder { color: #2E2E2E; }
+.message-area::placeholder { color: #666666; }
 .message-area:focus { border-color: rgba(255,255,255,0.2); }
 
 .submit-app-btn {
@@ -372,7 +372,7 @@
 }
 
 .empty-state h2 { color: #AAAAAA; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
-.empty-state p { color: #3A3A3A; font-size: 0.83rem; }
+.empty-state p { color: #888888; font-size: 0.83rem; }
 
 .login-btn {
   display: inline-flex;
@@ -414,7 +414,7 @@
 
 .card-match-badge--empty {
   background: rgba(255,255,255,0.04);
-  color: #444;
+  color: #999999;
   border: 1px solid rgba(255,255,255,0.07);
 }
 
@@ -441,7 +441,7 @@
   width: 2.8rem;
   height: 2.8rem;
   background: rgba(255,255,255,0.04);
-  color: #888;
+  color: #C8C8C8;
   border: 1px solid rgba(255,255,255,0.09);
   box-shadow: 0 4px 16px rgba(0,0,0,0.4);
 }
@@ -505,7 +505,7 @@
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #444;
+  color: #999999;
   margin: 0 0 0.2rem;
 }
 
@@ -568,7 +568,7 @@
 
 .drawer-match-hint {
   font-size: 0.75rem;
-  color: #555;
+  color: #AAAAAA;
   margin: 0;
   line-height: 1.55;
 }
@@ -581,7 +581,7 @@
 .drawer-section-title {
   font-size: 0.72rem;
   font-weight: 700;
-  color: #555;
+  color: #AAAAAA;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin: 0 0 0.6rem;
@@ -589,14 +589,14 @@
 
 .drawer-description {
   font-size: 0.85rem;
-  color: #888;
+  color: #C8C8C8;
   line-height: 1.7;
   margin: 0;
 }
 
 .drawer-req-tag {
   background: rgba(255,255,255,0.05);
-  color: #888;
+  color: #C8C8C8;
   border: 1px solid rgba(255,255,255,0.08);
   padding: 0.3rem 0.7rem;
   border-radius: 999px;
@@ -625,7 +625,7 @@
   padding: 0.85rem;
   background: transparent;
   border: 1px solid rgba(255,255,255,0.09);
-  color: #666;
+  color: #BBBBBB;
   border-radius: 0.85rem;
   font-weight: 700;
   font-size: 0.88rem;
@@ -634,7 +634,7 @@
   transition: background 0.2s, color 0.2s;
 }
 
-.drawer-btn-pass:hover { background: rgba(255,255,255,0.03); color: #888; }
+.drawer-btn-pass:hover { background: rgba(255,255,255,0.03); color: #C8C8C8; }
 
 .drawer-btn-apply {
   flex: 2;
