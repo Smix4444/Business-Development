@@ -37,3 +37,6 @@ build/
 
 # Vite
 *.timestamp-*
+
+# Git worktrees
+.worktrees
