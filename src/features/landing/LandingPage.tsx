@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import { Briefcase, CheckCircle2, Shield, FileSearch, Zap, MessageSquare, UserCheck, TrendingUp, AlertCircle } from 'lucide-react';
+import { Briefcase, CheckCircle2, FileSearch, Zap, MessageSquare, UserCheck, TrendingUp, AlertCircle } from 'lucide-react';
 import { useApplications } from '../../app/context/application-context';
 import './LandingPage.css';
 

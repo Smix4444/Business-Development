@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs grep *)",
+      "Bash(xargs wc *)",
+      "Bash(npm run *)",
+      "Bash(npm install *)",
+      "Bash(GIT_EDITOR=true git revert *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(grep -E \"\\\\.\\(tsx?|jsx?\\)$\")",
+      "Bash(git check-ignore *)",
+      "Bash(git worktree *)",
+      "Bash(git -C \"C:/Users/bench/Desktop/InternMatch/.worktrees/feat-dashboard-light-mobile\" log --oneline -3)",
+      "Bash(git -C \"C:/Users/bench/Desktop/InternMatch\" push origin main)",
+      "Bash(git -C \"C:/Users/bench/Desktop/InternMatch/.worktrees/feat-dashboard-light-mobile\" push origin feat/dashboard-light-mobile)",
+      "Bash(grep *)"
+    ]
+  }
+}

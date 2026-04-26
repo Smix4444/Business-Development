@@ -6,9 +6,8 @@ import {
   Users, BarChart3, ShieldCheck, Mail, BookOpen, Star,
   Briefcase, Globe, Zap, FileText, Bell, Lock,
 } from 'lucide-react';
+import { validatePromoCode, VALID_PROMO_CODE } from '../../lib/promo';
 import './PricingPage.css';
-
-const VALID_PROMO_CODE = 'WELCOME20';
 
 const schoolFeatures = [
   { icon: <Users size={10} />, text: 'Up to 500 student accounts per school' },
@@ -76,7 +75,7 @@ export function PricingPage() {
   const [promoError, setPromoError] = useState('');
 
   function applyPromo() {
-    if (promoInput.trim().toUpperCase() === VALID_PROMO_CODE) {
+    if (validatePromoCode(promoInput)) {
       setPromoApplied(true);
       setPromoError('');
     } else {

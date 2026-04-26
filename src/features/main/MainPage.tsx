@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { X, Briefcase, MapPin, Clock, RotateCcw, CheckCircle2, Filter, UserCircle2,
          Settings, LogOut, Lightbulb, ChevronRight, Sparkles, Info, Bookmark, BookmarkCheck } from 'lucide-react';
@@ -31,7 +31,7 @@ export function MainPage() {
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
 
   useEffect(() => {
-    api.get<Internship[]>('/internships').then(setInternships).catch(() => {});
+    api.get<Internship[]>('/internships').then(setInternships).catch(() => toast.error('Failed to load internships'));
     refreshApplications();
   }, [refreshApplications]);
 
@@ -53,7 +53,7 @@ export function MainPage() {
     if (direction === 'right') { setShowModal(true); return; }
     setExitDirection(-1);
     setTimeout(() => { setCurrentIndex(p => p + 1); setExitDirection(null); }, 200);
-    toast.info('Passed', { style: { background: '#111', border: '1px solid rgba(255,255,255,0.1)', color: '#C8C8C8' } });
+    toast.info('Passed', { style: { background: 'var(--toast-bg)', border: '1px solid var(--toast-border)', color: 'var(--toast-text)' } });
   };
 
   const handleLogout = () => { logout(); navigate('/'); };
@@ -85,17 +85,17 @@ export function MainPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <h3 style={{ margin: 0 }}>Filters</h3>
         {activeFilterCount > 0 && (
-          <button onClick={clearFilters} style={{ fontSize: '0.75rem', color: '#C8C8C8', background: 'transparent', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Clear all</button>
+          <button onClick={clearFilters} style={{ fontSize: '0.75rem', color: 'var(--filter-text)', background: 'transparent', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Clear all</button>
         )}
       </div>
 
       <div style={{ marginBottom: '1rem' }}>
-        <Label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.72rem', color: '#AAAAAA', textTransform: 'uppercase', letterSpacing: '0.05em' }}>City</Label>
+        <Label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.72rem', color: 'var(--filter-label)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>City</Label>
         <div className="space-y-2 max-h-40 overflow-y-auto custom-scrollbar">
           {locations.map(loc => (
             <div key={loc} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
               <Checkbox checked={selectedLocations.includes(loc)} onCheckedChange={() => toggleFilter(loc, selectedLocations, setSelectedLocations)} />
-              <Label style={{ fontSize: '0.8rem', color: '#BBBBBB', cursor: 'pointer' }}>{loc}</Label>
+              <Label style={{ fontSize: '0.8rem', color: 'var(--filter-text)', cursor: 'pointer' }}>{loc}</Label>
             </div>
           ))}
         </div>
@@ -104,25 +104,25 @@ export function MainPage() {
       <Separator style={{ background: 'rgba(255,255,255,0.06)', margin: '0.75rem 0' }} />
 
       <div style={{ marginBottom: '1rem' }}>
-        <Label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.72rem', color: '#AAAAAA', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Type</Label>
+        <Label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.72rem', color: 'var(--filter-label)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Type</Label>
         <div className="space-y-2 max-h-40 overflow-y-auto custom-scrollbar">
           {tags.map(tag => (
             <div key={tag} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
               <Checkbox checked={selectedTags.includes(tag)} onCheckedChange={() => toggleFilter(tag, selectedTags, setSelectedTags)} />
-              <Label style={{ fontSize: '0.8rem', color: '#BBBBBB', cursor: 'pointer' }}>{tag}</Label>
+              <Label style={{ fontSize: '0.8rem', color: 'var(--filter-text)', cursor: 'pointer' }}>{tag}</Label>
             </div>
           ))}
         </div>
       </div>
 
-      <Separator style={{ background: 'rgba(255,255,255,0.06)', margin: '0.75rem 0' }} />
+      <Separator style={{ background: 'var(--separator-color)', margin: '0.75rem 0' }} />
 
       <div>
-        <Label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.72rem', color: '#AAAAAA', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Duration</Label>
+        <Label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.72rem', color: 'var(--filter-label)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Duration</Label>
         {durations.map(dur => (
           <div key={dur} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
             <Checkbox checked={selectedDurations.includes(dur)} onCheckedChange={() => toggleFilter(dur, selectedDurations, setSelectedDurations)} />
-            <Label style={{ fontSize: '0.8rem', color: '#BBBBBB', cursor: 'pointer' }}>{dur}</Label>
+            <Label style={{ fontSize: '0.8rem', color: 'var(--filter-text)', cursor: 'pointer' }}>{dur}</Label>
           </div>
         ))}
       </div>
@@ -140,20 +140,20 @@ export function MainPage() {
 
           <Popover>
             <PopoverTrigger asChild>
-              <button style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', color: '#AAAAAA', padding: '0.35rem 0.8rem', borderRadius: '999px', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600 }}>
+              <button style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'var(--btn-ghost-bg)', border: '1px solid var(--btn-ghost-border)', color: 'var(--btn-ghost-text)', padding: '0.35rem 0.8rem', borderRadius: '999px', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600 }}>
                 {profile?.photo ? <img src={profile.photo} alt="Profile" style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover' }} /> : <UserCircle2 size={16} />}
                 <span>{profile?.name || 'Account'}</span>
               </button>
             </PopoverTrigger>
-            <PopoverContent style={{ width: '200px', padding: '0.5rem', background: '#111', border: '1px solid rgba(255,255,255,0.09)', borderRadius: '0.85rem' }} align="end">
-              <div style={{ padding: '0.5rem 0.75rem 0.6rem', borderBottom: '1px solid rgba(255,255,255,0.07)', marginBottom: '0.35rem' }}>
-                <p style={{ fontWeight: 700, fontSize: '0.82rem', color: '#DDD', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{profile?.name || 'Student'}</p>
-                <p style={{ fontSize: '0.72rem', color: '#999999', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{profile?.email}</p>
+            <PopoverContent style={{ width: '200px', padding: '0.5rem', background: 'var(--popover-bg)', border: '1px solid var(--popover-border)', borderRadius: '0.85rem' }} align="end">
+              <div style={{ padding: '0.5rem 0.75rem 0.6rem', borderBottom: '1px solid var(--header-border)', marginBottom: '0.35rem' }}>
+                <p style={{ fontWeight: 700, fontSize: '0.82rem', color: 'var(--text-primary)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{profile?.name || 'Student'}</p>
+                <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{profile?.email}</p>
               </div>
-              <Link to="/settings" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: '#C8C8C8', textDecoration: 'none', borderRadius: '0.5rem' }}>
+              <Link to="/settings" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: 'var(--text-secondary)', textDecoration: 'none', borderRadius: '0.5rem' }}>
                 <Settings size={14} /> Settings
               </Link>
-              <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: '#EF4444', background: 'transparent', border: 'none', cursor: 'pointer', borderRadius: '0.5rem', width: '100%', fontFamily: 'inherit' }}>
+              <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: 'var(--error-color)', background: 'transparent', border: 'none', cursor: 'pointer', borderRadius: '0.5rem', width: '100%', fontFamily: 'inherit' }}>
                 <LogOut size={14} /> Logout
               </button>
             </PopoverContent>
@@ -173,21 +173,21 @@ export function MainPage() {
                 <div className="mobile-filter-btn">
                   <Popover>
                     <PopoverTrigger asChild>
-                      <button style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: '#111', border: '1px solid rgba(255,255,255,0.09)', color: '#C8C8C8', padding: '0.45rem 0.9rem', borderRadius: '999px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}>
+                      <button style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'var(--btn-ghost-bg)', border: '1px solid var(--btn-ghost-border)', color: 'var(--btn-ghost-text)', padding: '0.45rem 0.9rem', borderRadius: '999px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}>
                         <Filter size={14} /> Filters
-                        {activeFilterCount > 0 && <span style={{ background: '#F2F2F2', color: '#060606', borderRadius: '999px', padding: '0 0.4rem', fontSize: '0.7rem', fontWeight: 700 }}>{activeFilterCount}</span>}
+                        {activeFilterCount > 0 && <span style={{ background: 'var(--text-primary)', color: 'var(--bg-base)', borderRadius: '999px', padding: '0 0.4rem', fontSize: '0.7rem', fontWeight: 700 }}>{activeFilterCount}</span>}
                       </button>
                     </PopoverTrigger>
-                    <PopoverContent style={{ width: '280px', padding: '1.25rem', background: '#111', border: '1px solid rgba(255,255,255,0.09)', borderRadius: '1rem' }} align="start">
+                    <PopoverContent style={{ width: '280px', padding: '1.25rem', background: 'var(--popover-bg)', border: '1px solid var(--popover-border)', borderRadius: '1rem' }} align="start">
                       {filterContent}
                     </PopoverContent>
                   </Popover>
                 </div>
 
-                <div style={{ fontSize: '0.78rem', color: '#999999', marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <Info size={12} style={{ color: '#888888' }} />
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <Info size={12} style={{ color: 'var(--text-muted)' }} />
                   <span>tap card for details</span>
-                  <span style={{ color: '#999999', margin: '0 0.25rem' }}>·</span>
+                  <span style={{ color: 'var(--text-muted)', margin: '0 0.25rem' }}>·</span>
                   {filteredInternships.length - currentIndex} remaining
                 </div>
               </div>
@@ -234,7 +234,7 @@ export function MainPage() {
               <p style={{ marginBottom: '1.5rem' }}>You&apos;ve seen all available internships matching your filters.</p>
               <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                 {activeFilterCount > 0 && <button className="login-btn" onClick={clearFilters}>Clear Filters</button>}
-                <button className="login-btn" onClick={resetDeck} style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: '#BBBBBB' }}>
+                <button className="login-btn" onClick={resetDeck} style={{ background: 'transparent', border: '1px solid var(--btn-ghost-border)', color: 'var(--btn-ghost-text)' }}>
                   <RotateCcw size={15} /> Reset Deck
                 </button>
               </div>
@@ -279,7 +279,7 @@ export function MainPage() {
               </Link>
             </div>
             <div style={{ display: 'flex', gap: '0.75rem' }}>
-              <button onClick={() => setShowModal(false)} style={{ flex: 1, padding: '0.82rem', background: 'transparent', border: '1px solid rgba(255,255,255,0.09)', color: '#BBBBBB', borderRadius: '0.75rem', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600, fontSize: '0.88rem' }}>
+              <button onClick={() => setShowModal(false)} style={{ flex: 1, padding: '0.82rem', background: 'transparent', border: '1px solid var(--btn-ghost-border)', color: 'var(--btn-ghost-text)', borderRadius: '0.75rem', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600, fontSize: '0.88rem' }}>
                 Cancel
               </button>
               <button className="submit-app-btn" style={{ flex: 2 }} onClick={submitApplication} disabled={message.length < 20}>
@@ -433,7 +433,7 @@ function InternCard({ internship, onSwipe, onTap, exitDirection, profile }: {
           {meta && score !== null && (
             <div className="card-match-bar-wrap">
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.3rem' }}>
-                <span style={{ fontSize: '0.67rem', color: '#999999', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                <span style={{ fontSize: '0.67rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
                   <Sparkles size={9} /> AI Match
                 </span>
                 <span style={{ fontSize: '0.67rem', fontWeight: 700, color: meta.color }}>{meta.label}</span>
@@ -454,7 +454,7 @@ function InternCard({ internship, onSwipe, onTap, exitDirection, profile }: {
             <h4>Requirements</h4>
             <div className="card-tags">
               {internship.requirements.map(req => (
-                <span key={req} className="tag" style={{ background: 'rgba(255,255,255,0.04)', color: '#AAAAAA' }}>{req}</span>
+                <span key={req} className="tag" style={{ background: 'var(--surface-subtle)', color: 'var(--text-muted)' }}>{req}</span>
               ))}
             </div>
           </div>

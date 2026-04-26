@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { api } from '../../lib/api';
 import { getToken, setToken, removeToken } from '../../lib/auth';
 
-export type UserRole = 'student' | 'company' | 'school' | null;
+export type UserRole = 'student' | 'company' | 'school' | 'admin' | null;
 
 export interface UserProfile {
   name: string;
@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           schoolId: data.schoolId ?? null,
         });
       })
-      .catch(() => removeToken())
+      .catch((err: unknown) => { console.warn('Session restore failed:', err); removeToken(); })
       .finally(() => setLoading(false));
   }, []);
 

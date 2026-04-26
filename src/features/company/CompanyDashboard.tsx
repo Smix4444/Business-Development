@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Briefcase, LogOut, Plus, Settings } from 'lucide-react';
 import { useAuth } from '../../app/context/auth-context';
 import { api } from '../../lib/api';
+import { toast } from 'sonner';
 import './CompanyDashboard.css';
 
 interface Applicant {
@@ -21,7 +22,7 @@ export function CompanyDashboard() {
   const [applicants, setApplicants] = useState<Applicant[]>([]);
 
   useEffect(() => {
-    api.get<Applicant[]>('/applications').then(setApplicants).catch(() => {});
+    api.get<Applicant[]>('/applications').then(setApplicants).catch(() => toast.error('Failed to load applicants'));
   }, []);
 
   const handleLogout = () => { logout(); navigate('/'); };

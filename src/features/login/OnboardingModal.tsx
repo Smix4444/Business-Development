@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Camera, FileText, Check } from 'lucide-react';
 import { useAuth } from '../../app/context/auth-context';
+import { toast } from 'sonner';
 import './OnboardingModal.css';
 
 interface Props {
@@ -28,7 +29,18 @@ export function OnboardingModal({ onComplete }: Props) {
 
   const handleCvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setCvName(file.name);
+    if (!file) return;
+    const MAX_SIZE = 5 * 1024 * 1024;
+    const ALLOWED_TYPES = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (file.size > MAX_SIZE) {
+      toast.error('File too large — maximum 5MB');
+      return;
+    }
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      toast.error('Only PDF and Word documents are accepted');
+      return;
+    }
+    setCvName(file.name);
   };
 
   const handleAccept = async () => {

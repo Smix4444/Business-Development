@@ -5,11 +5,13 @@ import {
   PieChart, Pie, Cell, LineChart, Line, CartesianGrid,
 } from 'recharts';
 import {
-  Users, Briefcase, FileText, TrendingUp, Shield,
+  Users, Briefcase, FileText, TrendingUp,
   RefreshCw, Trash2, CheckCircle, XCircle, Clock,
   ChevronRight, Activity, LogOut,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
+import { useAuth } from '../../app/context/auth-context';
+import { getToken } from '../../lib/auth';
 import './AdminDashboard.css';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -43,18 +45,32 @@ interface AdminStats {
   applicationStatus: StatusSlice[];
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-const ADMIN_SECRET = 'internmatch-admin-2026';
+// ─── Chart theme for light mode ───────────────────────────────────────────────
+const CHART_THEME = {
+  gridStroke: 'rgba(0, 0, 0, 0.06)',
+  axisText: '#6B7280',
+  tooltipBg: '#FFFFFF',
+  tooltipBorder: 'rgba(0, 0, 0, 0.1)',
+  linePrimary: '#2563EB',
+  lineSecondary: '#94A3B8',
+  barFill: 'rgba(37, 99, 235, 0.2)',
+};
 
 // ─── Tiny helpers ─────────────────────────────────────────────────────────────
 function adminFetch(action: string, opts: RequestInit = {}) {
+  const token = getToken();
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+
   return fetch(`/api/admin?action=${action}`, {
     ...opts,
-    headers: { 'Content-Type': 'application/json', 'x-admin-secret': ADMIN_SECRET, ...opts.headers },
+    headers: { ...headers, ...opts.headers },
   });
 }
 
-function StatCard({ icon, label, value, sub, color = '#F2F2F2' }: {
+function StatCard({ icon, label, value, sub, color = 'var(--text-primary)' }: {
   icon: React.ReactNode; label: string; value: string | number; sub?: string; color?: string;
 }) {
   return (
@@ -62,7 +78,7 @@ function StatCard({ icon, label, value, sub, color = '#F2F2F2' }: {
       className="admin-stat-card"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -2, borderColor: 'rgba(255,255,255,0.12)' }}
+      whileHover={{ y: -2, borderColor: 'rgba(0,0,0,0.12)' }}
       transition={{ duration: 0.3 }}
     >
       <div className="stat-icon" style={{ color }}>{icon}</div>
@@ -81,56 +97,21 @@ const STATUS_META: Record<string, { label: string; color: string; icon: React.Re
   rejected: { label: 'Rejected', color: '#EF4444', icon: <XCircle size={11} /> },
 };
 
-// ─── Login Gate ───────────────────────────────────────────────────────────────
-function AdminLogin({ onLogin }: { onLogin: () => void }) {
-  const [pw, setPw] = useState('');
-  const [err, setErr] = useState('');
-
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (pw === ADMIN_SECRET) { onLogin(); }
-    else { setErr('Invalid admin secret'); }
-  };
-
-  return (
-    <div className="admin-login-wrap">
-      <motion.div
-        className="admin-login-card"
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="admin-login-icon"><Shield size={28} /></div>
-        <h1>Admin Access</h1>
-        <p>Enter the admin secret to continue.</p>
-        <form onSubmit={submit}>
-          <input
-            type="password"
-            placeholder="Admin secret"
-            value={pw}
-            onChange={e => { setPw(e.target.value); setErr(''); }}
-            className="admin-input"
-            autoFocus
-          />
-          {err && <p className="admin-err">{err}</p>}
-          <button type="submit" className="admin-submit-btn">
-            Enter Dashboard <ChevronRight size={15} />
-          </button>
-        </form>
-        <Link to="/" className="admin-back-link">← Back to InternMatch</Link>
-      </motion.div>
-    </div>
-  );
-}
-
 // ─── Dashboard ────────────────────────────────────────────────────────────────
 export function AdminDashboard() {
-  const [authed, setAuthed] = useState(false);
+  const { role, loading: authLoading } = useAuth();
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'applications' | 'internships'>('overview');
   const navigate = useNavigate();
+
+  // Redirect non-admin users
+  useEffect(() => {
+    if (!authLoading && role !== 'admin') {
+      navigate('/login');
+    }
+  }, [authLoading, role, navigate]);
 
   const fetchStats = useCallback(async () => {
     setLoading(true);
@@ -147,8 +128,8 @@ export function AdminDashboard() {
   }, []);
 
   useEffect(() => {
-    if (authed) fetchStats();
-  }, [authed, fetchStats]);
+    if (role === 'admin') fetchStats();
+  }, [role, fetchStats]);
 
   const handleStatusChange = async (appId: number, status: string) => {
     await adminFetch('app-status', {
@@ -164,7 +145,9 @@ export function AdminDashboard() {
     fetchStats();
   };
 
-  if (!authed) return <AdminLogin onLogin={() => setAuthed(true)} />;
+  // Show nothing while auth is loading or user is not admin
+  if (authLoading) return <div className="admin-login-wrap"><div className="admin-loading-pill"><RefreshCw size={14} className="spin" /> Checking access…</div></div>;
+  if (role !== 'admin') return null;
 
   const o = stats?.overview;
 
@@ -241,8 +224,8 @@ export function AdminDashboard() {
                   {/* Stat grid */}
                   <div className="admin-stat-grid">
                     <StatCard icon={<Users size={18} />} label="Total Users" value={o.totalUsers} sub={`${o.totalStudents} students · ${o.totalCompanies} companies`} />
-                    <StatCard icon={<Briefcase size={18} />} label="Internships" value={o.totalInternships} color="#A3A3A3" />
-                    <StatCard icon={<FileText size={18} />} label="Applications" value={o.totalApplications} color="#A3A3A3" />
+                    <StatCard icon={<Briefcase size={18} />} label="Internships" value={o.totalInternships} color="var(--text-muted)" />
+                    <StatCard icon={<FileText size={18} />} label="Applications" value={o.totalApplications} color="var(--text-muted)" />
                     <StatCard icon={<TrendingUp size={18} />} label="Response Rate"
                       value={o.totalApplications ? `${Math.round(((o.acceptedApplications + o.rejectedApplications) / o.totalApplications) * 100)}%` : '—'}
                       color="#22C55E"
@@ -255,12 +238,12 @@ export function AdminDashboard() {
                       <h3 className="chart-title">Activity — last 14 days</h3>
                       <ResponsiveContainer width="100%" height={200}>
                         <LineChart data={stats.activityByDay} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                          <XAxis dataKey="date" tick={{ fill: '#444', fontSize: 10 }} interval={2} />
-                          <YAxis tick={{ fill: '#444', fontSize: 10 }} allowDecimals={false} />
-                          <Tooltip contentStyle={{ background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }} />
-                          <Line type="monotone" dataKey="applications" stroke="#F2F2F2" strokeWidth={2} dot={false} name="Applications" />
-                          <Line type="monotone" dataKey="signups" stroke="#555" strokeWidth={1.5} dot={false} name="Signups" strokeDasharray="4 2" />
+                          <CartesianGrid strokeDasharray="3 3" stroke={CHART_THEME.gridStroke} />
+                          <XAxis dataKey="date" tick={{ fill: CHART_THEME.axisText, fontSize: 10 }} interval={2} />
+                          <YAxis tick={{ fill: CHART_THEME.axisText, fontSize: 10 }} allowDecimals={false} />
+                          <Tooltip contentStyle={{ background: CHART_THEME.tooltipBg, border: `1px solid ${CHART_THEME.tooltipBorder}`, borderRadius: 8, fontSize: 12 }} />
+                          <Line type="monotone" dataKey="applications" stroke={CHART_THEME.linePrimary} strokeWidth={2} dot={false} name="Applications" />
+                          <Line type="monotone" dataKey="signups" stroke={CHART_THEME.lineSecondary} strokeWidth={1.5} dot={false} name="Signups" strokeDasharray="4 2" />
                         </LineChart>
                       </ResponsiveContainer>
                     </div>
@@ -283,7 +266,7 @@ export function AdminDashboard() {
                               <Cell key={i} fill={entry.color} opacity={0.9} />
                             ))}
                           </Pie>
-                          <Tooltip contentStyle={{ background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }} />
+                          <Tooltip contentStyle={{ background: CHART_THEME.tooltipBg, border: `1px solid ${CHART_THEME.tooltipBorder}`, borderRadius: 8, fontSize: 12 }} />
                         </PieChart>
                       </ResponsiveContainer>
                       <div className="pie-legend">
@@ -303,11 +286,11 @@ export function AdminDashboard() {
                     <h3 className="chart-title">Top Listings by Applications</h3>
                     <ResponsiveContainer width="100%" height={180}>
                       <BarChart data={stats.topInternships} margin={{ top: 4, right: 8, bottom: 0, left: -20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                        <XAxis dataKey="company" tick={{ fill: '#444', fontSize: 10 }} />
-                        <YAxis tick={{ fill: '#444', fontSize: 10 }} allowDecimals={false} />
-                        <Tooltip contentStyle={{ background: '#0f0f0f', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }} />
-                        <Bar dataKey="applications" fill="rgba(255,255,255,0.12)" radius={[4, 4, 0, 0]} name="Applications" />
+                        <CartesianGrid strokeDasharray="3 3" stroke={CHART_THEME.gridStroke} />
+                        <XAxis dataKey="company" tick={{ fill: CHART_THEME.axisText, fontSize: 10 }} />
+                        <YAxis tick={{ fill: CHART_THEME.axisText, fontSize: 10 }} allowDecimals={false} />
+                        <Tooltip contentStyle={{ background: CHART_THEME.tooltipBg, border: `1px solid ${CHART_THEME.tooltipBorder}`, borderRadius: 8, fontSize: 12 }} />
+                        <Bar dataKey="applications" fill={CHART_THEME.barFill} radius={[4, 4, 0, 0]} name="Applications" />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>

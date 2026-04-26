@@ -28,6 +28,26 @@
   --color-primary-light: #EFF6FF;
   --color-accent-blue:   #3B82F6;
 
+  /* UI Component tokens (replaces inline dark-mode colors) */
+  --toast-bg:          var(--bg-elevated);
+  --toast-text:        var(--text-secondary);
+  --toast-border:      var(--border);
+  --popover-bg:        #FFFFFF;
+  --popover-border:    rgba(0, 0, 0, 0.08);
+  --filter-heading:    var(--text-primary);
+  --filter-label:      var(--text-muted);
+  --filter-text:       var(--text-secondary);
+  --surface-subtle:    rgba(0, 0, 0, 0.03);
+  --header-bg:         rgba(255, 255, 255, 0.85);
+  --header-border:     rgba(0, 0, 0, 0.06);
+  --separator-color:   rgba(0, 0, 0, 0.06);
+  --btn-ghost-bg:      rgba(0, 0, 0, 0.04);
+  --btn-ghost-border:  rgba(0, 0, 0, 0.08);
+  --btn-ghost-text:    var(--text-secondary);
+  --error-color:       #EF4444;
+  --link-muted:        var(--text-muted);
+  --dim-text:          #999999;
+
   /* Shadows */
   --shadow-sm:    0 1px 3px rgba(0, 0, 0, 0.08);
   --shadow-md:    0 8px 32px rgba(0, 0, 0, 0.10);

@@ -24,7 +24,7 @@ export function TipsPage() {
 
   return (
     <div className="tips-page">
-      <header className="main-header" style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(6,6,6,0.85)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.07)', padding: '0.85rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <header className="main-header" style={{ position: 'sticky', top: 0, zIndex: 50, background: 'var(--header-bg)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--header-border)', padding: '0.85rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div className="app-title">InternMatch</div>
         <nav className="header-nav" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Link to="/" className="nav-link" style={{ color: '#AAAAAA', textDecoration: 'none', fontSize: '0.82rem', fontWeight: 500, padding: '0.4rem 0.8rem', borderRadius: '999px' }}>Home</Link>

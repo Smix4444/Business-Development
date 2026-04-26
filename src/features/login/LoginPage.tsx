@@ -5,6 +5,7 @@ import { Briefcase, User, GraduationCap, ChevronDown } from 'lucide-react';
 import { useAuth } from '../../app/context/auth-context';
 import { OnboardingModal } from './OnboardingModal';
 import { validatePromoCode, VALID_PROMO_CODE } from '../../lib/promo';
+import { toast } from 'sonner';
 import './LoginPage.css';
 
 type Role = 'student' | 'company' | 'school';
@@ -51,7 +52,7 @@ export function LoginPage() {
       fetch('/api/schools')
         .then(r => r.json())
         .then(d => setSchools(d.schools || []))
-        .catch(() => {});
+        .catch(() => toast.error('Failed to load schools'));
     }
   }, [role, mode]);
 
@@ -269,10 +270,6 @@ export function LoginPage() {
         <button type="button" onClick={switchMode} className="login-btn-secondary">
           {mode === 'login' ? 'Create a free account' : 'Sign in instead'}
         </button>
-
-        <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.72rem', color: '#9CA3AF' }}>
-          Demo: student@demo.com / password123
-        </div>
 
         <Link to="/" className="back-home">← Back to home</Link>
       </motion.div>

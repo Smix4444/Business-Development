@@ -13,6 +13,7 @@ export function SettingsPage() {
   const [name, setName] = useState(profile?.name || '');
   const [bio, setBio] = useState(profile?.bio || '');
   const [photoPreview, setPhotoPreview] = useState<string | null>(profile?.photo || null);
+  const [cvFile, setCvFile] = useState<File | null>(null);
   const [cvName, setCvName] = useState<string | null>(profile?.cvFile || null);
   const [companyName, setCompanyName] = useState(profile?.company || '');
 
@@ -30,7 +31,19 @@ export function SettingsPage() {
 
   const handleCvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) setCvName(file.name);
+    if (!file) return;
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+    const ALLOWED_TYPES = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (file.size > MAX_SIZE) {
+      toast.error('File too large — maximum 5MB');
+      return;
+    }
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      toast.error('Only PDF and Word documents are accepted');
+      return;
+    }
+    setCvFile(file);
+    setCvName(file.name);
   };
 
   const handleSave = async (e: React.FormEvent) => {
