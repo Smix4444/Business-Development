@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Briefcase, User, GraduationCap, ChevronDown } from 'lucide-react';
 import { useAuth } from '../../app/context/auth-context';
 import { OnboardingModal } from './OnboardingModal';
+import { validatePromoCode, VALID_PROMO_CODE } from '../../lib/promo';
 import './LoginPage.css';
 
 type Role = 'student' | 'company' | 'school';
@@ -34,6 +35,11 @@ export function LoginPage() {
   const [schoolName, setSchoolName]     = useState('');
   const [schoolDomain, setSchoolDomain] = useState('');
   const [contactName, setContactName]   = useState('');
+
+  // Promo code (company registration only)
+  const [promoInput, setPromoInput]   = useState('');
+  const [promoApplied, setPromoApplied] = useState(false);
+  const [promoError, setPromoError]   = useState('');
 
   const [error, setError]   = useState('');
   const [loading, setLoading] = useState(false);
@@ -90,8 +96,18 @@ export function LoginPage() {
     }
   };
 
-  const switchRole = (r: Role) => { setRole(r); setError(''); };
-  const switchMode = () => { setMode(m => m === 'login' ? 'register' : 'login'); setError(''); };
+  function applyPromo() {
+    if (validatePromoCode(promoInput)) {
+      setPromoApplied(true);
+      setPromoError('');
+    } else {
+      setPromoError('Invalid promo code.');
+      setPromoApplied(false);
+    }
+  }
+
+  const switchRole = (r: Role) => { setRole(r); setError(''); setPromoApplied(false); setPromoError(''); setPromoInput(''); };
+  const switchMode = () => { setMode(m => m === 'login' ? 'register' : 'login'); setError(''); setPromoApplied(false); setPromoError(''); setPromoInput(''); };
 
   return (
     <div className="login-page">
@@ -162,10 +178,32 @@ export function LoginPage() {
 
             {/* ── Company register fields ── */}
             {mode === 'register' && role === 'company' && (
-              <div className="form-group">
-                <label className="label">Company Name</label>
-                <input type="text" className="input" placeholder="e.g. Acme Corp" value={companyName} onChange={e => setCompanyName(e.target.value)} required />
-              </div>
+              <>
+                <div className="form-group">
+                  <label className="label">Company Name</label>
+                  <input type="text" className="input" placeholder="e.g. Acme Corp" value={companyName} onChange={e => setCompanyName(e.target.value)} required />
+                </div>
+                <div className="promo-field-group">
+                  <label className="label">Promo Code <span className="optional-label">optional</span></label>
+                  <div className="promo-field-row">
+                    <input
+                      type="text"
+                      className="input"
+                      placeholder="e.g. WELCOME20"
+                      value={promoInput}
+                      onChange={e => { setPromoInput(e.target.value); setPromoError(''); }}
+                      onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), applyPromo())}
+                    />
+                    <button type="button" className="promo-field-apply" onClick={applyPromo}>Apply</button>
+                  </div>
+                  {promoApplied && (
+                    <p className="promo-field-success">✓ {VALID_PROMO_CODE} applied — 20% discount will be applied to your plan.</p>
+                  )}
+                  {promoError && (
+                    <p className="promo-field-error">{promoError}</p>
+                  )}
+                </div>
+              </>
             )}
 
             {/* ── School register fields ── */}
@@ -228,12 +266,11 @@ export function LoginPage() {
           <div className="login-divider-line" />
         </div>
 
-        <button type="button" onClick={switchMode} className="login-btn"
-          style={{ background: 'transparent', color: '#BBBBBB', border: '1px solid rgba(255,255,255,0.09)', marginTop: 0 }}>
+        <button type="button" onClick={switchMode} className="login-btn-secondary">
           {mode === 'login' ? 'Create a free account' : 'Sign in instead'}
         </button>
 
-        <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.72rem', color: '#888888' }}>
+        <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.72rem', color: '#9CA3AF' }}>
           Demo: student@demo.com / password123
         </div>
 

@@ -1,11 +1,14 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router';
 import {
-  GraduationCap, Building2, Check, ArrowRight, Sparkles,
+  GraduationCap, Building2, Check, ArrowRight, Sparkles, Tag,
   Users, BarChart3, ShieldCheck, Mail, BookOpen, Star,
   Briefcase, Globe, Zap, FileText, Bell, Lock,
 } from 'lucide-react';
 import './PricingPage.css';
+
+const VALID_PROMO_CODE = 'WELCOME20';
 
 const schoolFeatures = [
   { icon: <Users size={10} />, text: 'Up to 500 student accounts per school' },
@@ -48,7 +51,7 @@ const faqs = [
   },
   {
     q: 'Is there a discount for annual billing on the Business plan?',
-    a: 'Yes — paying annually saves you 2 months (effectively 166€/year instead of 239.88€). Contact us to switch to annual billing.',
+    a: 'Yes — paying annually saves you 2 months (effectively €166/year instead of €240). Contact us to switch to annual billing.',
   },
   {
     q: 'Do you offer a free tier for individual students?',
@@ -57,15 +60,34 @@ const faqs = [
 ];
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i: number) => ({
+  hidden: { opacity: 0, y: 30 },
+  visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: i * 0.12 },
-  }),
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: { opacity: 0, y: -20, transition: { duration: 0.25 } },
 };
 
 export function PricingPage() {
+  const [audience, setAudience] = useState<'businesses' | 'schools'>('businesses');
+  const [promoInput, setPromoInput] = useState('');
+  const [promoApplied, setPromoApplied] = useState(false);
+  const [promoError, setPromoError] = useState('');
+
+  function applyPromo() {
+    if (promoInput.trim().toUpperCase() === VALID_PROMO_CODE) {
+      setPromoApplied(true);
+      setPromoError('');
+    } else {
+      setPromoError('Invalid promo code. Please try again.');
+      setPromoApplied(false);
+    }
+  }
+
+  const businessPrice = promoApplied ? '16' : '20';
+  const schoolPrice = promoApplied ? '200' : '250';
+
   return (
     <div className="pricing-page">
       {/* Header */}
@@ -96,85 +118,145 @@ export function PricingPage() {
         </motion.div>
       </section>
 
-      {/* Cards */}
-      <div className="pricing-grid">
-        {/* School */}
-        <motion.div
-          className="pricing-card"
-          custom={0}
-          initial="hidden"
-          animate="visible"
-          variants={cardVariants}
+      {/* Audience Switcher */}
+      <div className="audience-switcher">
+        <button
+          className={`audience-card${audience === 'businesses' ? ' audience-card--active' : ''}`}
+          onClick={() => setAudience('businesses')}
         >
-          <span className="pricing-badge badge-school">
-            <GraduationCap size={11} /> School Plan
-          </span>
-          <h2 className="pricing-plan-name">Academic Institution</h2>
-          <p className="pricing-plan-desc">
-            Give your students a head start. Manage every placement from one dashboard with full visibility for advisors.
-          </p>
-
-          <div className="pricing-price-row">
-            <span className="pricing-currency">€</span>
-            <span className="pricing-amount">2,999</span>
-          </div>
-          <p className="pricing-period" style={{ marginBottom: '0.35rem' }}>per year</p>
-          <p className="pricing-billing-note">Billed annually · one invoice for your institution</p>
-
-          <div className="pricing-divider" />
-
-          <ul className="pricing-features">
-            {schoolFeatures.map((f, i) => (
-              <li key={i} className="pricing-feature">
-                <span className="feature-check check-school">{f.icon}</span>
-                {f.text}
-              </li>
-            ))}
-          </ul>
-
-          <a href="mailto:schools@internmatch.io" className="pricing-cta cta-school">
-            Contact for Schools <ArrowRight size={14} />
-          </a>
-        </motion.div>
-
-        {/* Business */}
-        <motion.div
-          className="pricing-card featured"
-          custom={1}
-          initial="hidden"
-          animate="visible"
-          variants={cardVariants}
+          <Building2 size={22} />
+          <span className="audience-card-label">For Businesses</span>
+          {audience === 'businesses' && <Check size={14} className="audience-card-check" />}
+        </button>
+        <button
+          className={`audience-card${audience === 'schools' ? ' audience-card--active' : ''}`}
+          onClick={() => setAudience('schools')}
         >
-          <span className="pricing-badge badge-business">
-            <Building2 size={11} /> Business Plan
-          </span>
-          <h2 className="pricing-plan-name">Company</h2>
-          <p className="pricing-plan-desc">
-            Source top early-career talent at scale. Post unlimited roles, manage applicants and build your employer brand.
-          </p>
+          <GraduationCap size={22} />
+          <span className="audience-card-label">For Schools</span>
+          {audience === 'schools' && <Check size={14} className="audience-card-check" />}
+        </button>
+      </div>
 
-          <div className="pricing-price-row">
-            <span className="pricing-currency">€</span>
-            <span className="pricing-amount">19.99</span>
-          </div>
-          <p className="pricing-period" style={{ marginBottom: '0.35rem' }}>per month</p>
-          <p className="pricing-billing-note">No lock-in · cancel anytime</p>
+      {/* Promo Code */}
+      <div className="promo-section">
+        <p className="promo-label">
+          <Tag size={13} /> Have a promo code?
+        </p>
+        <div className="promo-input-row">
+          <input
+            type="text"
+            className="promo-input"
+            placeholder="e.g. WELCOME20"
+            value={promoInput}
+            onChange={e => { setPromoInput(e.target.value); setPromoError(''); }}
+            onKeyDown={e => e.key === 'Enter' && applyPromo()}
+          />
+          <button className="promo-apply-btn" onClick={applyPromo}>Apply</button>
+        </div>
+        {promoApplied && (
+          <p className="promo-success">✓ {VALID_PROMO_CODE} applied — 20% discount!</p>
+        )}
+        {promoError && (
+          <p className="promo-error">{promoError}</p>
+        )}
+      </div>
 
-          <div className="pricing-divider" />
+      {/* Plan Card */}
+      <div className="pricing-single">
+        <AnimatePresence mode="wait">
+          {audience === 'businesses' ? (
+            <motion.div
+              key="business"
+              className="pricing-card featured"
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              {/* Promo ribbon */}
+              <div className="promo-ribbon">🎉 Special Offer: Get 20% Off!</div>
 
-          <ul className="pricing-features">
-            {businessFeatures.map((f, i) => (
-              <li key={i} className="pricing-feature">
-                <span className="feature-check check-business">{f.icon}</span>
-                {f.text}
-              </li>
-            ))}
-          </ul>
+              <span className="pricing-badge badge-business">
+                <Building2 size={11} /> Business Plan
+              </span>
+              <h2 className="pricing-plan-name">Company</h2>
+              <p className="pricing-plan-desc">
+                Source top early-career talent at scale. Post unlimited roles, manage applicants and build your employer brand.
+              </p>
 
-          <Link to="/login" className="pricing-cta cta-business">
-            Start Free Trial <ArrowRight size={14} />
-          </Link>
-        </motion.div>
+              <div className="pricing-price-row">
+                {promoApplied && (
+                  <span className="pricing-original-price">€20</span>
+                )}
+                <span className="pricing-currency">€</span>
+                <span className="pricing-amount">{businessPrice}</span>
+              </div>
+              <p className="pricing-period" style={{ marginBottom: '0.35rem' }}>per month</p>
+              <p className="pricing-billing-note">No lock-in · cancel anytime</p>
+
+              <div className="pricing-divider" />
+
+              <ul className="pricing-features">
+                {businessFeatures.map((f, i) => (
+                  <li key={i} className="pricing-feature">
+                    <span className="feature-check check-business">{f.icon}</span>
+                    {f.text}
+                  </li>
+                ))}
+              </ul>
+
+              <Link to="/login" className="pricing-cta cta-business">
+                Start Free Trial <ArrowRight size={14} />
+              </Link>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="school"
+              className="pricing-card"
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              {/* Promo ribbon */}
+              <div className="promo-ribbon">🎉 Special Offer: Get 20% Off!</div>
+
+              <span className="pricing-badge badge-school">
+                <GraduationCap size={11} /> School Plan
+              </span>
+              <h2 className="pricing-plan-name">Academic Institution</h2>
+              <p className="pricing-plan-desc">
+                Give your students a head start. Manage every placement from one dashboard with full visibility for advisors.
+              </p>
+
+              <div className="pricing-price-row">
+                {promoApplied && (
+                  <span className="pricing-original-price">€250</span>
+                )}
+                <span className="pricing-currency">€</span>
+                <span className="pricing-amount">{schoolPrice}</span>
+              </div>
+              <p className="pricing-period" style={{ marginBottom: '0.35rem' }}>per month</p>
+              <p className="pricing-billing-note">Billed annually (€3,000/year). 1-year contract commitment required.</p>
+
+              <div className="pricing-divider" />
+
+              <ul className="pricing-features">
+                {schoolFeatures.map((f, i) => (
+                  <li key={i} className="pricing-feature">
+                    <span className="feature-check check-school">{f.icon}</span>
+                    {f.text}
+                  </li>
+                ))}
+              </ul>
+
+              <a href="mailto:schools@internmatch.io" className="pricing-cta cta-school">
+                Contact for Schools <ArrowRight size={14} />
+              </a>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* FAQ */}
@@ -195,7 +277,8 @@ export function PricingPage() {
       </section>
 
       <p className="pricing-footer-note">
-        All prices exclude VAT where applicable. · <a href="mailto:hello@internmatch.io" style={{ color: '#AAAAAA' }}>hello@internmatch.io</a>
+        All prices exclude VAT where applicable. ·{' '}
+        <a href="mailto:hello@internmatch.io" style={{ color: '#2563EB' }}>hello@internmatch.io</a>
       </p>
     </div>
   );

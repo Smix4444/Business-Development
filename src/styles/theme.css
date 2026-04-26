@@ -1,57 +1,63 @@
 @custom-variant dark (&:is(.dark *));
 
-/* ─── InternMatch Dark Design System ─────────────────────────────── */
+/* ─── InternMatch Light Design System ────────────────────────────── */
 :root {
   --font-size: 16px;
 
   /* Surfaces */
-  --bg-base:     #060606;
-  --bg-surface:  #0F0F0F;
-  --bg-elevated: #171717;
-  --bg-hover:    #1E1E1E;
+  --bg-base:     #FFFFFF;
+  --bg-surface:  #F8FAFC;
+  --bg-elevated: #F1F5F9;
+  --bg-hover:    #E2E8F0;
 
   /* Text */
-  --text-primary:   #F2F2F2;
-  --text-secondary: #C8C8C8;
-  --text-muted:     #909090;
+  --text-primary:   #111827;
+  --text-secondary: #374151;
+  --text-muted:     #6B7280;
 
   /* Glass */
-  --glass-bg:    rgba(255, 255, 255, 0.03);
-  --glass-hover: rgba(255, 255, 255, 0.06);
+  --glass-bg:    rgba(0, 0, 0, 0.03);
+  --glass-hover: rgba(0, 0, 0, 0.05);
 
   /* Accent */
   --accent-green: #22C55E;
 
+  /* Primary Blue */
+  --color-primary:       #2563EB;
+  --color-primary-hover: #1D4ED8;
+  --color-primary-light: #EFF6FF;
+  --color-accent-blue:   #3B82F6;
+
   /* Shadows */
-  --shadow-sm:    0 1px 3px rgba(0, 0, 0, 0.6);
-  --shadow-md:    0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-lg:    0 24px 64px rgba(0, 0, 0, 0.7);
-  --shadow-float: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-sm:    0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md:    0 8px 32px rgba(0, 0, 0, 0.10);
+  --shadow-lg:    0 24px 64px rgba(0, 0, 0, 0.12);
+  --shadow-float: 0 30px 60px rgba(0, 0, 0, 0.10), 0 0 0 1px rgba(0, 0, 0, 0.04);
 
   /* shadcn/ui token overrides */
-  --background:             #060606;
-  --foreground:             #F2F2F2;
-  --card:                   #0F0F0F;
-  --card-foreground:        #F2F2F2;
-  --popover:                #171717;
-  --popover-foreground:     #F2F2F2;
-  --primary:                #F2F2F2;
-  --primary-foreground:     #060606;
-  --secondary:              #171717;
-  --secondary-foreground:   #F2F2F2;
-  --muted:                  #171717;
-  --muted-foreground:       #C8C8C8;
-  --accent:                 #1E1E1E;
-  --accent-foreground:      #F2F2F2;
+  --background:             #FFFFFF;
+  --foreground:             #111827;
+  --card:                   #FFFFFF;
+  --card-foreground:        #111827;
+  --popover:                #FFFFFF;
+  --popover-foreground:     #111827;
+  --primary:                #2563EB;
+  --primary-foreground:     #FFFFFF;
+  --secondary:              #F1F5F9;
+  --secondary-foreground:   #374151;
+  --muted:                  #F8FAFC;
+  --muted-foreground:       #6B7280;
+  --accent:                 #EFF6FF;
+  --accent-foreground:      #2563EB;
   --destructive:            #EF4444;
-  --destructive-foreground: #F2F2F2;
-  --border:                 rgba(255, 255, 255, 0.07);
-  --input:                  #171717;
-  --input-background:       #171717;
-  --switch-background:      #333333;
+  --destructive-foreground: #FFFFFF;
+  --border:                 rgba(0, 0, 0, 0.08);
+  --input:                  #F8FAFC;
+  --input-background:       #F8FAFC;
+  --switch-background:      #CBD5E1;
   --font-weight-medium:     500;
   --font-weight-normal:     400;
-  --ring:                   rgba(255, 255, 255, 0.25);
+  --ring:                   rgba(37, 99, 235, 0.25);
   --radius:                 0.75rem;
 
   /* Chart colors */
@@ -62,14 +68,14 @@
   --chart-5: oklch(0.769 0.188 70.08);
 
   /* Sidebar */
-  --sidebar:                    #0F0F0F;
-  --sidebar-foreground:         #F2F2F2;
-  --sidebar-primary:            #F2F2F2;
-  --sidebar-primary-foreground: #060606;
-  --sidebar-accent:             #1E1E1E;
-  --sidebar-accent-foreground:  #F2F2F2;
-  --sidebar-border:             rgba(255, 255, 255, 0.07);
-  --sidebar-ring:               rgba(255, 255, 255, 0.25);
+  --sidebar:                    #F8FAFC;
+  --sidebar-foreground:         #111827;
+  --sidebar-primary:            #2563EB;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent:             #EFF6FF;
+  --sidebar-accent-foreground:  #2563EB;
+  --sidebar-border:             rgba(0, 0, 0, 0.08);
+  --sidebar-ring:               rgba(37, 99, 235, 0.25);
 }
 
 @theme inline {
@@ -120,7 +126,7 @@
 
   html {
     font-size: var(--font-size);
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   body {
