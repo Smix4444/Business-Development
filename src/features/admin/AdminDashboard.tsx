@@ -7,7 +7,7 @@ import {
 import {
   Users, Briefcase, FileText, TrendingUp, Shield,
   RefreshCw, Trash2, CheckCircle, XCircle, Clock,
-  ChevronRight, Activity, LogOut,
+  ChevronRight, Activity, LogOut, Menu, X,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import './AdminDashboard.css';
@@ -130,6 +130,7 @@ export function AdminDashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'applications' | 'internships'>('overview');
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
   const fetchStats = useCallback(async () => {
@@ -168,40 +169,84 @@ export function AdminDashboard() {
 
   const o = stats?.overview;
 
+  const navItems = (['overview', 'users', 'applications', 'internships'] as const);
+
+  const sidebarContent = (onItemClick?: () => void) => (
+    <>
+      <div className="admin-brand">
+        <Briefcase size={16} />
+        <span>InternMatch</span>
+        <span className="admin-badge">Admin</span>
+      </div>
+      <nav className="admin-nav">
+        {navItems.map(tab => (
+          <button
+            key={tab}
+            className={`admin-nav-item${activeTab === tab ? ' active' : ''}`}
+            onClick={() => { setActiveTab(tab); onItemClick?.(); }}
+          >
+            {tab === 'overview'     && <Activity size={15} />}
+            {tab === 'users'        && <Users size={15} />}
+            {tab === 'applications' && <FileText size={15} />}
+            {tab === 'internships'  && <Briefcase size={15} />}
+            <span style={{ textTransform: 'capitalize' }}>{tab}</span>
+          </button>
+        ))}
+      </nav>
+      <div className="admin-sidebar-bottom">
+        <button className="admin-nav-item" onClick={fetchStats} disabled={loading}>
+          <RefreshCw size={15} className={loading ? 'spin' : ''} /> Refresh
+        </button>
+        <Link to="/" className="admin-nav-item" style={{ textDecoration: 'none' }}>
+          <LogOut size={15} /> Exit
+        </Link>
+      </div>
+    </>
+  );
+
   return (
     <div className="admin-root">
-      {/* Sidebar */}
-      <aside className="admin-sidebar">
-        <div className="admin-brand">
-          <Briefcase size={16} />
-          <span>InternMatch</span>
-          <span className="admin-badge">Admin</span>
-        </div>
+      {/* Mobile topbar */}
+      <div className="admin-mobile-topbar">
+        <span className="admin-mobile-brand">InternMatch Admin</span>
+        <button className="admin-hamburger" onClick={() => setMobileSidebarOpen(true)} aria-label="Open menu">
+          <Menu size={20} />
+        </button>
+      </div>
 
-        <nav className="admin-nav">
-          {(['overview', 'users', 'applications', 'internships'] as const).map(tab => (
-            <button
-              key={tab}
-              className={`admin-nav-item${activeTab === tab ? ' active' : ''}`}
-              onClick={() => setActiveTab(tab)}
+      {/* Mobile sidebar drawer */}
+      <AnimatePresence>
+        {mobileSidebarOpen && (
+          <>
+            <motion.div
+              className="admin-sidebar-overlay"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMobileSidebarOpen(false)}
+            />
+            <motion.aside
+              className="admin-sidebar-mobile"
+              initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
-              {tab === 'overview'     && <Activity size={15} />}
-              {tab === 'users'        && <Users size={15} />}
-              {tab === 'applications' && <FileText size={15} />}
-              {tab === 'internships'  && <Briefcase size={15} />}
-              <span style={{ textTransform: 'capitalize' }}>{tab}</span>
-            </button>
-          ))}
-        </nav>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
+                <button
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, borderRadius: 8, border: '1px solid var(--dash-border)', background: 'transparent', color: 'var(--text-muted)', cursor: 'pointer' }}
+                  onClick={() => setMobileSidebarOpen(false)}
+                  aria-label="Close menu"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+              {sidebarContent(() => setMobileSidebarOpen(false))}
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
 
-        <div className="admin-sidebar-bottom">
-          <button className="admin-nav-item" onClick={fetchStats} disabled={loading}>
-            <RefreshCw size={15} className={loading ? 'spin' : ''} /> Refresh
-          </button>
-          <Link to="/" className="admin-nav-item" style={{ textDecoration: 'none' }}>
-            <LogOut size={15} /> Exit
-          </Link>
-        </div>
+      {/* Desktop sidebar */}
+      <aside className="admin-sidebar">
+        {sidebarContent()}
       </aside>
 
       {/* Main */}

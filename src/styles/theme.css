@@ -76,6 +76,58 @@
   --sidebar-accent-foreground:  #2563EB;
   --sidebar-border:             rgba(0, 0, 0, 0.08);
   --sidebar-ring:               rgba(37, 99, 235, 0.25);
+
+  /* ── Dashboard / Post-login Light System ─────────────────────── */
+  /* Surfaces */
+  --dash-bg:           #F8FAFC;
+  --dash-surface:      #FFFFFF;
+  --dash-elevated:     #F1F5F9;
+  --dash-hover:        rgba(0, 0, 0, 0.03);
+  --dash-active:       rgba(37, 99, 235, 0.07);
+
+  /* Header */
+  --dash-header-bg:    rgba(255, 255, 255, 0.92);
+  --dash-header-border: rgba(0, 0, 0, 0.07);
+
+  /* Borders */
+  --dash-border:       rgba(0, 0, 0, 0.08);
+  --dash-border-hover: rgba(0, 0, 0, 0.14);
+  --dash-border-strong: rgba(0, 0, 0, 0.18);
+
+  /* Glass */
+  --dash-glass:        rgba(255, 255, 255, 0.7);
+  --dash-overlay:      rgba(0, 0, 0, 0.45);
+
+  /* Scrollbar */
+  --dash-scrollbar:    rgba(0, 0, 0, 0.12);
+
+  /* Input */
+  --dash-input-bg:     #F8FAFC;
+  --dash-input-focus:  #FFFFFF;
+
+  /* Status — success green */
+  --status-green:        #16A34A;
+  --status-green-text:   #15803D;
+  --status-green-bg:     rgba(22, 163, 74, 0.08);
+  --status-green-border: rgba(22, 163, 74, 0.22);
+
+  /* Status — error red */
+  --status-red:          #DC2626;
+  --status-red-bg:       rgba(220, 38, 38, 0.07);
+  --status-red-border:   rgba(220, 38, 38, 0.2);
+
+  /* Status — warning amber */
+  --status-amber:        #D97706;
+  --status-amber-bg:     rgba(217, 119, 6, 0.07);
+  --status-amber-border: rgba(217, 119, 6, 0.22);
+
+  /* Status — info blue */
+  --status-blue:         #2563EB;
+  --status-blue-bg:      rgba(37, 99, 235, 0.07);
+  --status-blue-border:  rgba(37, 99, 235, 0.2);
+
+  /* Breakpoints (for JS/docs reference — use media queries in CSS) */
+  /* mobile: 768px  |  tablet: 1024px */
 }
 
 @theme inline {

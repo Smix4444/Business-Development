@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import { X, Briefcase, MapPin, Clock, RotateCcw, CheckCircle2, Filter, UserCircle2,
-         Settings, LogOut, Lightbulb, ChevronRight, Sparkles, Info, Bookmark, BookmarkCheck } from 'lucide-react';
+         Settings, LogOut, Lightbulb, ChevronRight, Sparkles, Info, Bookmark, BookmarkCheck, Menu } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import { api } from '../../lib/api';
@@ -29,6 +29,7 @@ export function MainPage() {
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => {
     api.get<Internship[]>('/internships').then(setInternships).catch(() => {});
@@ -133,6 +134,8 @@ export function MainPage() {
     <div className="main-page">
       <header className="main-header">
         <div className="app-title">InternMatch</div>
+
+        {/* Desktop nav */}
         <nav className="header-nav">
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/tips" className="nav-link"><Lightbulb size={15} /><span>Tips</span></Link>
@@ -140,26 +143,78 @@ export function MainPage() {
 
           <Popover>
             <PopoverTrigger asChild>
-              <button style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)', color: '#AAAAAA', padding: '0.35rem 0.8rem', borderRadius: '999px', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600 }}>
+              <button style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: 'var(--dash-elevated)', border: '1px solid var(--dash-border)', color: 'var(--text-secondary)', padding: '0.35rem 0.8rem', borderRadius: '999px', cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600, minHeight: '44px' }}>
                 {profile?.photo ? <img src={profile.photo} alt="Profile" style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover' }} /> : <UserCircle2 size={16} />}
                 <span>{profile?.name || 'Account'}</span>
               </button>
             </PopoverTrigger>
-            <PopoverContent style={{ width: '200px', padding: '0.5rem', background: '#111', border: '1px solid rgba(255,255,255,0.09)', borderRadius: '0.85rem' }} align="end">
-              <div style={{ padding: '0.5rem 0.75rem 0.6rem', borderBottom: '1px solid rgba(255,255,255,0.07)', marginBottom: '0.35rem' }}>
-                <p style={{ fontWeight: 700, fontSize: '0.82rem', color: '#DDD', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{profile?.name || 'Student'}</p>
-                <p style={{ fontSize: '0.72rem', color: '#999999', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{profile?.email}</p>
+            <PopoverContent style={{ width: '200px', padding: '0.5rem', background: 'var(--dash-surface)', border: '1px solid var(--dash-border)', borderRadius: '0.85rem', boxShadow: 'var(--shadow-md)' }} align="end">
+              <div style={{ padding: '0.5rem 0.75rem 0.6rem', borderBottom: '1px solid var(--dash-border)', marginBottom: '0.35rem' }}>
+                <p style={{ fontWeight: 700, fontSize: '0.82rem', color: 'var(--text-primary)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{profile?.name || 'Student'}</p>
+                <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{profile?.email}</p>
               </div>
-              <Link to="/settings" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: '#C8C8C8', textDecoration: 'none', borderRadius: '0.5rem' }}>
+              <Link to="/settings" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: 'var(--text-secondary)', textDecoration: 'none', borderRadius: '0.5rem' }}>
                 <Settings size={14} /> Settings
               </Link>
-              <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: '#EF4444', background: 'transparent', border: 'none', cursor: 'pointer', borderRadius: '0.5rem', width: '100%', fontFamily: 'inherit' }}>
+              <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', fontSize: '0.82rem', color: 'var(--status-red)', background: 'transparent', border: 'none', cursor: 'pointer', borderRadius: '0.5rem', width: '100%', fontFamily: 'inherit' }}>
                 <LogOut size={14} /> Logout
               </button>
             </PopoverContent>
           </Popover>
         </nav>
+
+        {/* Mobile hamburger */}
+        <button className="hamburger-btn" onClick={() => setMobileNavOpen(true)} aria-label="Open menu">
+          <Menu size={20} />
+        </button>
       </header>
+
+      {/* Mobile nav drawer */}
+      <AnimatePresence>
+        {mobileNavOpen && (
+          <>
+            <motion.div
+              className="mobile-nav-overlay"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMobileNavOpen(false)}
+            />
+            <motion.div
+              className="mobile-nav-drawer"
+              initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            >
+              <div className="mobile-nav-header">
+                <span className="mobile-nav-title">InternMatch</span>
+                <button className="mobile-nav-close" onClick={() => setMobileNavOpen(false)} aria-label="Close menu">
+                  <X size={16} />
+                </button>
+              </div>
+              <div className="mobile-nav-links">
+                <Link to="/" className="mobile-nav-link" onClick={() => setMobileNavOpen(false)}>
+                  <Lightbulb size={18} /> Home
+                </Link>
+                <Link to="/tips" className="mobile-nav-link" onClick={() => setMobileNavOpen(false)}>
+                  <Lightbulb size={18} /> Tips
+                </Link>
+                <Link to="/matches" className="mobile-nav-link" onClick={() => setMobileNavOpen(false)}>
+                  <CheckCircle2 size={18} /> {applications.length} Applied
+                </Link>
+                <Link to="/settings" className="mobile-nav-link" onClick={() => setMobileNavOpen(false)}>
+                  <Settings size={18} /> Settings
+                </Link>
+                <button className="mobile-nav-link danger" onClick={() => { setMobileNavOpen(false); handleLogout(); }}>
+                  <LogOut size={18} /> Logout
+                </button>
+              </div>
+              <div className="mobile-nav-user">
+                <p className="mobile-nav-user-name">{profile?.name || 'Student'}</p>
+                <p className="mobile-nav-user-email">{profile?.email}</p>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       <main className="main-layout">
         <aside className="sidebar-filters">
