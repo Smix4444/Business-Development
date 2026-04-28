@@ -355,6 +355,12 @@
   margin: 0;
 }
 
+.pricing-annual-note {
+  font-size: 0.72rem;
+  color: #9CA3AF;
+  margin: 0 0 0.35rem;
+}
+
 .pricing-billing-note {
   font-size: 0.75rem;
   color: #9CA3AF;

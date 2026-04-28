@@ -71,10 +71,13 @@ export function LoginPage() {
     setLoading(true);
 
     try {
+      let confirmedRole: string;
+
       if (mode === 'login') {
-        await login(email, password, role);
+        const result = await login(email, password, role);
+        confirmedRole = result.role;
       } else {
-        await register(email, password, role, {
+        const result = await register(email, password, role, {
           name,
           companyName,
           schoolName,
@@ -82,10 +85,12 @@ export function LoginPage() {
           contactName,
           schoolId: selectedSchoolId,
         });
+        confirmedRole = result.role;
       }
 
-      if (role === 'company') navigate('/company');
-      else if (role === 'school') navigate('/school');
+      if (confirmedRole === 'company') navigate('/company');
+      else if (confirmedRole === 'school') navigate('/school');
+      else if (confirmedRole === 'admin') navigate('/admin');
       else {
         if (mode === 'register') setShowOnboarding(true);
         else navigate('/swipe');

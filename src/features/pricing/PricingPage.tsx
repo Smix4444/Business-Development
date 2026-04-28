@@ -50,7 +50,7 @@ const faqs = [
   },
   {
     q: 'Is there a discount for annual billing on the Business plan?',
-    a: 'Yes — paying annually saves you 2 months (effectively €166/year instead of €240). Contact us to switch to annual billing.',
+    a: 'Yes — paying annually saves you 2 months (effectively €499.90/year instead of €599.88). Contact us to switch to annual billing.',
   },
   {
     q: 'Do you offer a free tier for individual students?',
@@ -84,8 +84,8 @@ export function PricingPage() {
     }
   }
 
-  const businessPrice = promoApplied ? '16' : '20';
-  const schoolPrice = promoApplied ? '200' : '250';
+  const businessPrice = promoApplied ? '39.99' : '49.99';
+  const schoolPrice = promoApplied ? '333.60' : '417';
 
   return (
     <div className="pricing-page">
@@ -186,7 +186,7 @@ export function PricingPage() {
 
               <div className="pricing-price-row">
                 {promoApplied && (
-                  <span className="pricing-original-price">€20</span>
+                  <span className="pricing-original-price">€49.99</span>
                 )}
                 <span className="pricing-currency">€</span>
                 <span className="pricing-amount">{businessPrice}</span>
@@ -231,13 +231,14 @@ export function PricingPage() {
 
               <div className="pricing-price-row">
                 {promoApplied && (
-                  <span className="pricing-original-price">€250</span>
+                  <span className="pricing-original-price">€417</span>
                 )}
                 <span className="pricing-currency">€</span>
                 <span className="pricing-amount">{schoolPrice}</span>
               </div>
-              <p className="pricing-period" style={{ marginBottom: '0.35rem' }}>per month</p>
-              <p className="pricing-billing-note">Billed annually (€3,000/year). 1-year contract commitment required.</p>
+              <p className="pricing-period" style={{ marginBottom: '0.2rem' }}>per month</p>
+              <p className="pricing-annual-note">(5,000€ per year)</p>
+              <p className="pricing-billing-note">Billed annually. 1-year contract commitment required.</p>
 
               <div className="pricing-divider" />
 
