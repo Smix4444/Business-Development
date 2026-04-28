@@ -28,25 +28,25 @@
   --color-primary-light: #EFF6FF;
   --color-accent-blue:   #3B82F6;
 
-  /* UI Component tokens (dark-themed pages: swipe, tips, etc.) */
-  --toast-bg:          #111111;
-  --toast-text:        #C8C8C8;
-  --toast-border:      rgba(255, 255, 255, 0.1);
-  --popover-bg:        #111111;
-  --popover-border:    rgba(255, 255, 255, 0.09);
-  --filter-heading:    #F2F2F2;
-  --filter-label:      #AAAAAA;
-  --filter-text:       #BBBBBB;
-  --surface-subtle:    rgba(255, 255, 255, 0.04);
-  --header-bg:         rgba(6, 6, 6, 0.85);
-  --header-border:     rgba(255, 255, 255, 0.07);
-  --separator-color:   rgba(255, 255, 255, 0.06);
-  --btn-ghost-bg:      rgba(255, 255, 255, 0.05);
-  --btn-ghost-border:  rgba(255, 255, 255, 0.09);
-  --btn-ghost-text:    #C8C8C8;
+  /* UI Component tokens */
+  --toast-bg:          #FFFFFF;
+  --toast-text:        #111827;
+  --toast-border:      rgba(0, 0, 0, 0.1);
+  --popover-bg:        #FFFFFF;
+  --popover-border:    rgba(0, 0, 0, 0.08);
+  --filter-heading:    #111827;
+  --filter-label:      #6B7280;
+  --filter-text:       #374151;
+  --surface-subtle:    rgba(0, 0, 0, 0.04);
+  --header-bg:         rgba(255, 255, 255, 0.9);
+  --header-border:     rgba(0, 0, 0, 0.07);
+  --separator-color:   rgba(0, 0, 0, 0.08);
+  --btn-ghost-bg:      rgba(0, 0, 0, 0.04);
+  --btn-ghost-border:  rgba(0, 0, 0, 0.1);
+  --btn-ghost-text:    #374151;
   --error-color:       #EF4444;
-  --link-muted:        #AAAAAA;
-  --dim-text:          #999999;
+  --link-muted:        #6B7280;
+  --dim-text:          #9CA3AF;
 
   /* Shadows */
   --shadow-sm:    0 1px 3px rgba(0, 0, 0, 0.08);
