@@ -203,7 +203,7 @@ export function LoginPage() {
                     <button type="button" className="promo-field-apply" onClick={applyPromo}>Apply</button>
                   </div>
                   {promoApplied && (
-                    <p className="promo-field-success">✓ {VALID_PROMO_CODE} applied — 20% discount will be applied to your plan.</p>
+                    <p className="promo-field-success">✓ {VALID_PROMO_CODE} applied — 10% discount will be applied to your plan.</p>
                   )}
                   {promoError && (
                     <p className="promo-field-error">{promoError}</p>

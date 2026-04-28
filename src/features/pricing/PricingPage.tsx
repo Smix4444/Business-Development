@@ -84,8 +84,8 @@ export function PricingPage() {
     }
   }
 
-  const businessPrice = promoApplied ? '39.99' : '49.99';
-  const schoolPrice = promoApplied ? '333.60' : '417';
+  const businessPrice = promoApplied ? '44.99' : '49.99';
+  const schoolPrice = promoApplied ? '375.30' : '417';
 
   return (
     <div className="pricing-page">
@@ -154,7 +154,7 @@ export function PricingPage() {
           <button className="promo-apply-btn" onClick={applyPromo}>Apply</button>
         </div>
         {promoApplied && (
-          <p className="promo-success">✓ {VALID_PROMO_CODE} applied — 20% discount!</p>
+          <p className="promo-success">✓ {VALID_PROMO_CODE} applied — 10% discount!</p>
         )}
         {promoError && (
           <p className="promo-error">{promoError}</p>
@@ -174,7 +174,7 @@ export function PricingPage() {
               exit="exit"
             >
               {/* Promo ribbon */}
-              <div className="promo-ribbon">🎉 Special Offer: Get 20% Off!</div>
+              <div className="promo-ribbon">🎉 Special Offer: Get 10% Off!</div>
 
               <span className="pricing-badge badge-business">
                 <Building2 size={11} /> Business Plan
@@ -219,7 +219,7 @@ export function PricingPage() {
               exit="exit"
             >
               {/* Promo ribbon */}
-              <div className="promo-ribbon">🎉 Special Offer: Get 20% Off!</div>
+              <div className="promo-ribbon">🎉 Special Offer: Get 10% Off!</div>
 
               <span className="pricing-badge badge-school">
                 <GraduationCap size={11} /> School Plan
