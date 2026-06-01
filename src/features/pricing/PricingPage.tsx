@@ -50,7 +50,7 @@ const faqs = [
   },
   {
     q: 'Is there a discount for annual billing on the Business plan?',
-    a: 'Yes — paying annually saves you 2 months (effectively €166/year instead of €240). Contact us to switch to annual billing.',
+    a: 'Yes — paying annually saves you 2 months (effectively €590/year instead of €708). Contact us to switch to annual billing.',
   },
   {
     q: 'Do you offer a free tier for individual students?',
@@ -84,8 +84,8 @@ export function PricingPage() {
     }
   }
 
-  const businessPrice = promoApplied ? '16' : '20';
-  const schoolPrice = promoApplied ? '200' : '250';
+  const businessPrice = promoApplied ? '47' : '59';
+  const schoolPrice = promoApplied ? '534' : '667';
 
   return (
     <div className="pricing-page">
@@ -186,7 +186,7 @@ export function PricingPage() {
 
               <div className="pricing-price-row">
                 {promoApplied && (
-                  <span className="pricing-original-price">€20</span>
+                  <span className="pricing-original-price">€59</span>
                 )}
                 <span className="pricing-currency">€</span>
                 <span className="pricing-amount">{businessPrice}</span>
@@ -231,13 +231,13 @@ export function PricingPage() {
 
               <div className="pricing-price-row">
                 {promoApplied && (
-                  <span className="pricing-original-price">€250</span>
+                  <span className="pricing-original-price">€667</span>
                 )}
                 <span className="pricing-currency">€</span>
                 <span className="pricing-amount">{schoolPrice}</span>
               </div>
               <p className="pricing-period" style={{ marginBottom: '0.35rem' }}>per month</p>
-              <p className="pricing-billing-note">Billed annually (€3,000/year). 1-year contract commitment required.</p>
+              <p className="pricing-billing-note">Billed annually (€8,000/year). 1-year contract commitment required.</p>
 
               <div className="pricing-divider" />
 
