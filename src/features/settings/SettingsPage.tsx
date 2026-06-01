@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { motion } from 'framer-motion';
 import { Camera, Check, FileText, ArrowLeft, Save } from 'lucide-react';
@@ -10,12 +10,25 @@ export function SettingsPage() {
   const { profile, role, updateProfile } = useAuth();
   const navigate = useNavigate();
 
-  const [name, setName] = useState(profile?.name || '');
-  const [bio, setBio] = useState(profile?.bio || '');
-  const [photoPreview, setPhotoPreview] = useState<string | null>(profile?.photo || null);
+  const [name, setName] = useState('');
+  const [bio, setBio] = useState('');
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [cvFile, setCvFile] = useState<File | null>(null);
-  const [cvName, setCvName] = useState<string | null>(profile?.cvFile || null);
-  const [companyName, setCompanyName] = useState(profile?.company || '');
+  const [cvName, setCvName] = useState<string | null>(null);
+  const [companyName, setCompanyName] = useState('');
+
+  // Seed form once profile is available (handles async session restore on page refresh)
+  const seeded = useRef(false);
+  useEffect(() => {
+    if (profile && !seeded.current) {
+      seeded.current = true;
+      setName(profile.name || '');
+      setBio(profile.bio || '');
+      setPhotoPreview(profile.photo || null);
+      setCvName(profile.cvFile || null);
+      setCompanyName(profile.company || '');
+    }
+  }, [profile]);
 
   const photoRef = useRef<HTMLInputElement>(null);
   const cvRef = useRef<HTMLInputElement>(null);

@@ -84,8 +84,8 @@ export function PricingPage() {
     }
   }
 
-  const businessPrice = promoApplied ? '47' : '59';
-  const schoolPrice = promoApplied ? '534' : '667';
+  const businessPrice = promoApplied ? '53' : '59';
+  const schoolPrice = promoApplied ? '600' : '667';
 
   return (
     <div className="pricing-page">
@@ -154,7 +154,7 @@ export function PricingPage() {
           <button className="promo-apply-btn" onClick={applyPromo}>Apply</button>
         </div>
         {promoApplied && (
-          <p className="promo-success">✓ {VALID_PROMO_CODE} applied — 20% discount!</p>
+          <p className="promo-success">✓ {VALID_PROMO_CODE} applied — 10% discount!</p>
         )}
         {promoError && (
           <p className="promo-error">{promoError}</p>
@@ -174,7 +174,7 @@ export function PricingPage() {
               exit="exit"
             >
               {/* Promo ribbon */}
-              <div className="promo-ribbon">🎉 Special Offer: Get 20% Off!</div>
+              <div className="promo-ribbon">🎉 Special Offer: Get 10% Off!</div>
 
               <span className="pricing-badge badge-business">
                 <Building2 size={11} /> Business Plan
@@ -219,7 +219,7 @@ export function PricingPage() {
               exit="exit"
             >
               {/* Promo ribbon */}
-              <div className="promo-ribbon">🎉 Special Offer: Get 20% Off!</div>
+              <div className="promo-ribbon">🎉 Special Offer: Get 10% Off!</div>
 
               <span className="pricing-badge badge-school">
                 <GraduationCap size={11} /> School Plan
@@ -236,8 +236,9 @@ export function PricingPage() {
                 <span className="pricing-currency">€</span>
                 <span className="pricing-amount">{schoolPrice}</span>
               </div>
-              <p className="pricing-period" style={{ marginBottom: '0.35rem' }}>per month</p>
-              <p className="pricing-billing-note">Billed annually (€8,000/year). 1-year contract commitment required.</p>
+              <p className="pricing-period" style={{ marginBottom: '0.2rem' }}>per month</p>
+              <p className="pricing-annual-note">(8,000€ per year)</p>
+              <p className="pricing-billing-note">Billed annually. 1-year contract commitment required.</p>
 
               <div className="pricing-divider" />
 

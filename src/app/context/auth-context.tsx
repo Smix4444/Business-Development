@@ -27,8 +27,8 @@ interface AuthContextType {
   role: UserRole;
   profile: UserProfile | null;
   loading: boolean;
-  login: (email: string, password: string, role: UserRole) => Promise<void>;
-  register: (email: string, password: string, role: UserRole, opts?: RegisterOptions) => Promise<void>;
+  login: (email: string, password: string, role: UserRole) => Promise<{ role: string }>;
+  register: (email: string, password: string, role: UserRole, opts?: RegisterOptions) => Promise<{ role: string }>;
   updateProfile: (profile: Partial<UserProfile>) => Promise<void>;
   logout: () => void;
 }
@@ -64,14 +64,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .finally(() => setLoading(false));
   }, []);
 
-  const login = async (email: string, password: string, selectedRole: UserRole) => {
+  const login = async (email: string, password: string, selectedRole: UserRole): Promise<{ role: string }> => {
     const data = await api.post<{ token: string; role: string; profile: UserProfile }>('/auth/login', { email, password });
     setToken(data.token);
     setRole(data.role as UserRole);
     setProfile(data.profile);
+    return { role: data.role };
   };
 
-  const register = async (email: string, password: string, selectedRole: UserRole, opts: RegisterOptions = {}) => {
+  const register = async (email: string, password: string, selectedRole: UserRole, opts: RegisterOptions = {}): Promise<{ role: string }> => {
     const data = await api.post<{ token: string; role: string; schoolId?: number }>('/auth/register', {
       email,
       password,
@@ -91,6 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       company: opts.companyName || '',
       schoolId: data.schoolId || opts.schoolId || null,
     });
+    return { role: data.role };
   };
 
   const updateProfile = async (updates: Partial<UserProfile>) => {
