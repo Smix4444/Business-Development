@@ -193,6 +193,28 @@
 
 .back-home:hover { color: #374151; }
 
+/* ─── Demo hint ───────────────────────────────────────────────── */
+.demo-hint {
+  margin: 0.6rem 0 0;
+  font-size: 0.75rem;
+  color: #9CA3AF;
+  text-align: center;
+}
+
+.demo-link {
+  background: none;
+  border: none;
+  color: #2563EB;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 0;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  transition: color 0.2s;
+}
+.demo-link:hover { color: #1D4ED8; }
+
 /* ─── 3-tab role toggle ───────────────────────────────────────── */
 .role-toggle--3 { gap: 0.2rem; }
 .role-toggle--3 .role-btn { flex: 1; font-size: 0.78rem; padding: 0.42rem 0.5rem; }

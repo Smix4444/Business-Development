@@ -98,6 +98,47 @@ internshipSeed.forEach(i => {
   });
 });
 
+// ─── Company demo applicants ──────────────────────────────────────────────────
+const COMPANY_DEMO_STUDENTS = [
+  { name: 'Maya Garcia',    email: 'maya.garcia@kdg.be',   bio: 'Computer Science senior with strong interest in full-stack development' },
+  { name: 'James Okafor',   email: 'james.okafor@ap.be',   bio: 'Software engineering student with React and Node.js experience from multiple freelance projects' },
+  { name: 'Priya Nair',     email: 'priya.nair@ugent.be',  bio: 'UX design student with a portfolio of mobile-first Figma prototypes' },
+  { name: 'Oliver Schmidt', email: 'oliver.schmidt@vub.be', bio: 'Data science student specialising in Python and machine learning pipelines' },
+];
+
+const companyDemoUsers = COMPANY_DEMO_STUDENTS.map(s => {
+  const u = {
+    id: nextId('users'),
+    email: s.email,
+    password_hash: passwordHash,
+    role: 'student',
+    name: s.name,
+    bio: s.bio,
+    photo: null,
+    cv_file: null,
+    company_name: '',
+    created_at: new Date().toISOString(),
+  };
+  users.push(u);
+  return u;
+});
+
+[
+  { studentIdx: 0, internshipIdx: 0, status: 'pending',  message: 'I have been building React and Node.js projects for two years and would love to contribute to your engineering team full-time.' },
+  { studentIdx: 1, internshipIdx: 0, status: 'accepted', message: 'Full-stack development is my passion — I have shipped three freelance TypeScript projects and I am ready for a professional challenge.' },
+  { studentIdx: 2, internshipIdx: 1, status: 'rejected', message: 'My Figma prototypes have gone through multiple rounds of user testing and I would love to apply those design skills to your challenges.' },
+  { studentIdx: 3, internshipIdx: 2, status: 'pending',  message: 'I have built predictive models using scikit-learn and would love to apply my Python skills to real business intelligence problems.' },
+].forEach(({ studentIdx, internshipIdx, status, message }) => {
+  applications.push({
+    id: nextId('applications'),
+    student_id: companyDemoUsers[studentIdx].id,
+    internship_id: internships[internshipIdx].id,
+    message,
+    status,
+    applied_at: new Date().toISOString(),
+  });
+});
+
 // ─── Public API ───────────────────────────────────────────────────────────────
 const store = {
   // Users

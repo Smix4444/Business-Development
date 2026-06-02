@@ -103,6 +103,58 @@
       "company_name": "",
       "school_name": "Demo School",
       "created_at": "2026-04-10T10:04:00.000Z"
+    },
+    {
+      "id": 9,
+      "email": "maya.garcia@kdg.be",
+      "password_hash": "$2a$10$iU3JVfx6.vBjUFp43JvfeeGHqoywvyQY8MWyqwfAdGUtfG81yisfS",
+      "role": "student",
+      "name": "Maya Garcia",
+      "bio": "Computer Science senior with strong interest in full-stack development",
+      "photo": null,
+      "cv_file": null,
+      "company_name": "",
+      "school_name": "",
+      "created_at": "2026-04-16T09:00:00.000Z"
+    },
+    {
+      "id": 10,
+      "email": "james.okafor@ap.be",
+      "password_hash": "$2a$10$iU3JVfx6.vBjUFp43JvfeeGHqoywvyQY8MWyqwfAdGUtfG81yisfS",
+      "role": "student",
+      "name": "James Okafor",
+      "bio": "Software engineering student with React and Node.js experience from multiple freelance projects",
+      "photo": null,
+      "cv_file": null,
+      "company_name": "",
+      "school_name": "",
+      "created_at": "2026-04-16T09:30:00.000Z"
+    },
+    {
+      "id": 11,
+      "email": "priya.nair@ugent.be",
+      "password_hash": "$2a$10$iU3JVfx6.vBjUFp43JvfeeGHqoywvyQY8MWyqwfAdGUtfG81yisfS",
+      "role": "student",
+      "name": "Priya Nair",
+      "bio": "UX design student with a portfolio of mobile-first Figma prototypes",
+      "photo": null,
+      "cv_file": null,
+      "company_name": "",
+      "school_name": "",
+      "created_at": "2026-04-16T10:00:00.000Z"
+    },
+    {
+      "id": 12,
+      "email": "oliver.schmidt@vub.be",
+      "password_hash": "$2a$10$iU3JVfx6.vBjUFp43JvfeeGHqoywvyQY8MWyqwfAdGUtfG81yisfS",
+      "role": "student",
+      "name": "Oliver Schmidt",
+      "bio": "Data science student specialising in Python and machine learning pipelines",
+      "photo": null,
+      "cv_file": null,
+      "company_name": "",
+      "school_name": "",
+      "created_at": "2026-04-16T10:30:00.000Z"
     }
   ],
   "internships": [
@@ -278,7 +330,7 @@
   "applications": [
     {
       "id": 1,
-      "user_id": 4,
+      "student_id": 4,
       "internship_id": 1,
       "status": "accepted",
       "message": "I am passionate about React and TypeScript and would love to contribute to your engineering team.",
@@ -286,7 +338,7 @@
     },
     {
       "id": 2,
-      "user_id": 4,
+      "student_id": 4,
       "internship_id": 2,
       "status": "pending",
       "message": "My frontend skills translate well into UX/UI and I am eager to learn design thinking.",
@@ -294,7 +346,7 @@
     },
     {
       "id": 3,
-      "user_id": 4,
+      "student_id": 4,
       "internship_id": 3,
       "status": "rejected",
       "message": "I have been learning Python and pandas and want to apply my skills in a real data environment.",
@@ -302,7 +354,7 @@
     },
     {
       "id": 4,
-      "user_id": 5,
+      "student_id": 5,
       "internship_id": 4,
       "status": "pending",
       "message": "Sustainability and business strategy are my core interests. I would love to contribute to ESG reporting.",
@@ -310,7 +362,7 @@
     },
     {
       "id": 5,
-      "user_id": 5,
+      "student_id": 5,
       "internship_id": 5,
       "status": "pending",
       "message": "As a finance student I am excited about fintech and financial modelling opportunities.",
@@ -318,7 +370,7 @@
     },
     {
       "id": 6,
-      "user_id": 6,
+      "student_id": 6,
       "internship_id": 6,
       "status": "rejected",
       "message": "I run my own social media accounts and want to apply my creative skills professionally.",
@@ -326,7 +378,7 @@
     },
     {
       "id": 7,
-      "user_id": 6,
+      "student_id": 6,
       "internship_id": 7,
       "status": "pending",
       "message": "Product management fascinates me and I want to learn how user research drives decisions.",
@@ -334,7 +386,7 @@
     },
     {
       "id": 8,
-      "user_id": 7,
+      "student_id": 7,
       "internship_id": 1,
       "status": "pending",
       "message": "I have strong experience with Node.js and React from personal projects and hackathons.",
@@ -342,7 +394,7 @@
     },
     {
       "id": 9,
-      "user_id": 7,
+      "student_id": 7,
       "internship_id": 3,
       "status": "accepted",
       "message": "Python is my primary language and I have built multiple ML models in academic projects.",
@@ -350,7 +402,7 @@
     },
     {
       "id": 10,
-      "user_id": 7,
+      "student_id": 7,
       "internship_id": 5,
       "status": "rejected",
       "message": "I am interested in quantitative finance and have built financial models in Python.",
@@ -358,16 +410,48 @@
     },
     {
       "id": 11,
-      "user_id": 7,
+      "student_id": 7,
       "internship_id": 8,
       "status": "pending",
       "message": "I enjoy writing technical content and have a personal blog about data science topics.",
       "applied_at": "2026-04-15T12:15:00.000Z"
+    },
+    {
+      "id": 12,
+      "student_id": 9,
+      "internship_id": 1,
+      "status": "pending",
+      "message": "I have been building React and Node.js projects for two years and would love to contribute to your engineering team full-time.",
+      "applied_at": "2026-04-16T11:00:00.000Z"
+    },
+    {
+      "id": 13,
+      "student_id": 10,
+      "internship_id": 1,
+      "status": "accepted",
+      "message": "Full-stack development is my passion — I have shipped three freelance TypeScript projects and I am ready for a professional challenge.",
+      "applied_at": "2026-04-16T11:30:00.000Z"
+    },
+    {
+      "id": 14,
+      "student_id": 11,
+      "internship_id": 2,
+      "status": "rejected",
+      "message": "My Figma prototypes have gone through multiple rounds of user testing and I would love to apply those design skills to your challenges.",
+      "applied_at": "2026-04-16T12:00:00.000Z"
+    },
+    {
+      "id": 15,
+      "student_id": 12,
+      "internship_id": 3,
+      "status": "pending",
+      "message": "I have built predictive models using scikit-learn and would love to apply my Python skills to real business intelligence problems.",
+      "applied_at": "2026-04-16T12:30:00.000Z"
     }
   ],
   "_seq": {
-    "users": 8,
+    "users": 12,
     "internships": 8,
-    "applications": 11
+    "applications": 15
   }
 }

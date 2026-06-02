@@ -252,6 +252,19 @@ export function LoginPage() {
               <input type="password" className="input" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} required />
             </div>
 
+            {mode === 'login' && (
+              <p className="demo-hint">
+                Try the demo:{' '}
+                <button
+                  type="button"
+                  className="demo-link"
+                  onClick={() => { setEmail(`${role}@demo.com`); setPassword('password123'); }}
+                >
+                  {role}@demo.com / password123
+                </button>
+              </p>
+            )}
+
             {error && (
               <p style={{ color: '#EF4444', fontSize: '0.82rem', margin: '0.5rem 0', textAlign: 'center' }}>{error}</p>
             )}

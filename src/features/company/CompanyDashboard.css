@@ -1,16 +1,16 @@
 /* ─── Company Dashboard ──────────────────────────────────────────── */
 .company-page {
   min-height: 100vh;
-  background: #060606;
-  color: #F2F2F2;
+  background: #F8FAFC;
+  color: #111827;
   font-family: 'Inter', system-ui, sans-serif;
 }
 
 .company-header {
-  background: rgba(6, 6, 6, 0.85);
+  background: rgba(248, 250, 252, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   padding: 0.85rem 2.5rem;
   display: flex;
   justify-content: space-between;
@@ -24,13 +24,13 @@
   font-size: 1.1rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: #F2F2F2;
+  color: #111827;
 }
 
 .company-header-title span {
   font-size: 0.8rem;
   font-weight: 400;
-  color: #C8C8C8;
+  color: #6B7280;
   margin-left: 0.4rem;
 }
 
@@ -45,14 +45,14 @@
   font-weight: 800;
   letter-spacing: -0.035em;
   margin: 0 0 0.4rem;
-  color: #F2F2F2;
+  color: #111827;
 }
 
-.company-welcome span { color: #C8C8C8; }
+.company-welcome span { color: #6B7280; }
 
 .company-subtext {
   font-size: 0.88rem;
-  color: #C8C8C8;
+  color: #6B7280;
   margin: 0 0 2.5rem;
 }
 
@@ -65,8 +65,8 @@
 }
 
 .stat-card {
-  background: rgba(255,255,255,0.025);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 1.25rem;
   padding: 1.75rem;
   text-align: center;
@@ -76,8 +76,8 @@
 }
 
 .stat-card:hover {
-  border-color: rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.04);
+  border-color: rgba(37, 99, 235, 0.25);
+  background: #F8FAFC;
   transform: rotateX(6deg) rotateY(-4deg) translateY(-4px);
 }
 
@@ -86,14 +86,14 @@
   font-weight: 900;
   letter-spacing: -0.05em;
   display: block;
-  color: #F2F2F2;
+  color: #111827;
   line-height: 1;
   margin-bottom: 0.4rem;
 }
 
 .stat-label {
   font-size: 0.72rem;
-  color: #999999;
+  color: #6B7280;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.07em;
@@ -104,7 +104,7 @@
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.01em;
-  color: #CCCCCC;
+  color: #374151;
   margin-bottom: 1.5rem;
 }
 
@@ -116,16 +116,16 @@
 }
 
 .applicant-card {
-  background: rgba(255,255,255,0.025);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 1.25rem;
   padding: 1.5rem;
   transition: border-color 0.2s, background 0.2s, transform 0.2s;
 }
 
 .applicant-card:hover {
-  background: rgba(255,255,255,0.04);
-  border-color: rgba(255,255,255,0.12);
+  background: #F8FAFC;
+  border-color: rgba(37, 99, 235, 0.25);
   transform: translateY(-3px);
 }
 
@@ -133,33 +133,33 @@
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: #EFF6FF;
+  border: 1px solid rgba(37, 99, 235, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 0.75rem;
   font-size: 1rem;
   font-weight: 700;
-  color: #CCCCCC;
+  color: #2563EB;
 }
 
 .applicant-name {
   font-weight: 700;
   font-size: 0.9rem;
-  color: #EEEEEE;
+  color: #111827;
   margin-bottom: 0.2rem;
 }
 
 .applicant-role {
   font-size: 0.75rem;
-  color: #999999;
+  color: #6B7280;
   margin-bottom: 0.85rem;
 }
 
 .applicant-message {
   font-size: 0.78rem;
-  color: #AAAAAA;
+  color: #6B7280;
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -173,26 +173,26 @@
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  background: rgba(255,255,255,0.05);
-  color: #C0C0C0;
+  background: rgba(0, 0, 0, 0.04);
+  color: #4B5563;
   padding: 0.22rem 0.7rem;
   border-radius: 999px;
   font-size: 0.7rem;
   font-weight: 700;
-  border: 1px solid rgba(255,255,255,0.07);
+  border: 1px solid rgba(0, 0, 0, 0.09);
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
 }
 
-.status-pill:hover { background: rgba(255,255,255,0.09); color: #CCCCCC; }
+.status-pill:hover { background: rgba(0, 0, 0, 0.07); color: #111827; }
 
 /* Action button */
 .company-action-btn {
-  background: rgba(255,255,255,0.07);
-  color: #CCCCCC;
+  background: #EFF6FF;
+  color: #2563EB;
   padding: 0.6rem 1.25rem;
   border-radius: 0.65rem;
-  border: 1px solid rgba(255,255,255,0.09);
+  border: 1px solid rgba(37, 99, 235, 0.2);
   font-weight: 600;
   font-size: 0.82rem;
   cursor: pointer;
@@ -201,7 +201,7 @@
 }
 
 .company-action-btn:hover {
-  background: rgba(255,255,255,0.11);
-  color: #F2F2F2;
+  background: #DBEAFE;
+  color: #1D4ED8;
   transform: translateY(-1px);
 }

@@ -81,9 +81,9 @@ export function CompanyDashboard() {
           </div>
 
           {applicants.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '4rem 2rem', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: '1.25rem' }}>
-              <Briefcase size={40} style={{ color: '#888888', margin: '0 auto 1rem', display: 'block' }} />
-              <p style={{ color: '#999999', fontSize: '0.88rem' }}>No applicants yet. Share your listing to get started.</p>
+            <div style={{ textAlign: 'center', padding: '4rem 2rem', background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)', borderRadius: '1.25rem' }}>
+              <Briefcase size={40} style={{ color: '#9CA3AF', margin: '0 auto 1rem', display: 'block' }} />
+              <p style={{ color: '#6B7280', fontSize: '0.88rem' }}>No applicants yet. Share your listing to get started.</p>
             </div>
           ) : (
             <div className="applicants-grid">
@@ -96,7 +96,7 @@ export function CompanyDashboard() {
                   transition={{ delay: i * 0.06 }}
                 >
                   {a.student.photo ? (
-                    <img src={a.student.photo} alt={a.student.name} style={{ width: '3rem', height: '3rem', borderRadius: '50%', objectFit: 'cover', marginBottom: '0.75rem', border: '1px solid rgba(255,255,255,0.1)' }} />
+                    <img src={a.student.photo} alt={a.student.name} style={{ width: '3rem', height: '3rem', borderRadius: '50%', objectFit: 'cover', marginBottom: '0.75rem', border: '1px solid rgba(0,0,0,0.1)' }} />
                   ) : (
                     <div className="applicant-avatar">{initials(a.student.name || 'AN')}</div>
                   )}
